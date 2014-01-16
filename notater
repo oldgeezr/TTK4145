@@ -1,0 +1,13 @@
+HER SKRIVER VI GJERNE LITT NOTATER OM DE ULIKE MODULENE I VÅRT 
+DESIGN SAMT HVILKE ALGORITMER VI ØNSKER OG BRUKE
+
+KODE FOR Å LOGGFØRE HVOR EN HEIS ER
+Her kan vi bassere oss på at en heis er i en gitt etg når
+den er i ro. Dette må lagres, eller sendes på en kanal hvor
+noe kan lese. Dersom en heis er i bevegelse så bestemmer man
+lokasjon og retning ved å loggføre hvilken etg heisen var i 
+sist og hvor den er på vei. Det er sensorer i hver etg som
+man kan hente input fra om hvor heisen befinner seg.
+
+KODE FOR Å KJØRE HEIS:
+
