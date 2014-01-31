@@ -14,18 +14,17 @@ func send_message(conn Conn) {
         _ = err
 }
 
-func udp_listen(ch chan bool) {
+func udp_listen() {
 
         saddr, _ := ResolveUDPAddr("udp", ":10020")        
         ln, _ := ListenUDP("udp", saddr)
-        
+
         for {
                 b := make([]byte,16)
                 _, _, err := ln.ReadFromUDP(b)
 		remoteIP := string(b[0:15]) 
                 if err == nil {
-                        time.Sleep(100*time.Millisecond)
-                        ch<- true
+                        time.Sleep(50*time.Millisecond)
                 }
                
                 if remoteIP != GetMyIP() {
@@ -34,18 +33,14 @@ func udp_listen(ch chan bool) {
         }
 }
 
-func udp_send(ch chan bool) {
+func udp_send() {
 
         saddr, _ := ResolveUDPAddr("udp","129.241.187.255:10020")
         conn, _ := DialUDP("udp", nil, saddr)
         
         for {
-                if <-ch == true {
-                    	send_message(conn)
-                } else {
-                    	time.Sleep(100*time.Millisecond)
-                    	send_message(conn)
-                }
+		send_message(conn)
+            	time.Sleep(100*time.Millisecond)		
         }        
 }
 
@@ -69,11 +64,9 @@ func GetMyIP() string {
 }
 
 func network_modul() {	
-	
-	ch := make(chan bool)
 
-	go udp_listen(ch)
-	go udp_send(ch)
+	go udp_listen()
+	go udp_send()
 
 	ch<- true
 }
