@@ -14,10 +14,36 @@ func send_message(conn Conn) {
         _ = err
 }
 
-func udp_listen() {
+func tcp_connect(address, port string, ch chan bool) {
+
+	Println("but hei222")
+
+        conn, err := Dial("tcp", address+":"+port)
+	if err != nil {
+		Println("but hei")
+		ch<- false
+	}        
+		
+        go tcp_read(conn)
+        go send_message(conn)
+
+	ch<- true
+}
+
+func tcp_read(conn Conn) {
+        
+        b := make([]byte, 1024)
+        for {
+                conn.Read(b)
+                Println(string(b))
+        }
+}
+
+func udp_listen(ch chan bool) {
 
         saddr, _ := ResolveUDPAddr("udp", ":10020")        
         ln, _ := ListenUDP("udp", saddr)
+	IPaddrses := make([]string,2)
 
         for {
                 b := make([]byte,16)
@@ -26,9 +52,22 @@ func udp_listen() {
                 if err == nil {
                         time.Sleep(50*time.Millisecond)
                 }
-               
+                
                 if remoteIP != GetMyIP() {
-                	Println(remoteIP)
+			if IPaddrses[0] == "" {
+				IPaddrses[0] = remoteIP
+				go tcp_connect(remoteIP, "10021", ch)
+			} else {
+				for i := 1; i < len(IPaddrses); i++ {
+					if remoteIP != IPaddrses[i-1] && IPaddrses[i] == "" {
+						IPaddrses[i] = remoteIP
+						// go tcp_connect(remoteIP, "10021", ch)
+						break
+					}
+				}
+			}
+			// Brukes til å sjekke om man mottar IP
+                	// Println(remoteIP)
                 }
         }
 }
@@ -63,12 +102,13 @@ func GetMyIP() string {
         return myIP
 }
 
-func network_modul() {	
+func network_modul() {
 
-	go udp_listen()
+	ch := make(chan bool)	
+
+	go udp_listen(ch)
 	go udp_send()
 
-	ch<- true
 }
 
 func main() {
