@@ -1,112 +1,95 @@
-package main
+package main 
 
-import (
-	. "fmt"
-	. "net"
-	"os/exec"
-	. "strconv"
-	"time"
+import(
+    ."fmt"
+    "time"
+    ."net"
+    ."strconv"
+    "os/exec"
 )
 
-var state string = "default"
+var state string
+var i int
 
-func udp_send(ch <-chan int) {
+func udp_send() {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
-	conn, _ := DialUDP("udp", nil, saddr)
-	temp := <-ch
-	msg := Itoa(temp)
-	first := true
-
-	for {
-		select {
-		case temp = <-ch:
-			msg = Itoa(temp)
-		default:
-			if first {
-				msg = msg + "!"
-				first = false
-			}
-		}
-		_, err := conn.Write([]byte(msg))
-		_ = err
-		time.Sleep(100 * time.Millisecond)
-	}
+    saddr, _ := ResolveUDPAddr("udp","localhost:40000")
+    conn, _ := DialUDP("udp", nil, saddr)
+	msg := Itoa(i)
+    
+    for {
+        msg = Itoa(i)
+    	_, err := conn.Write([]byte(msg))
+    	_ = err
+    	time.Sleep(100*time.Millisecond)
+    }        
 }
 
-func udp_listen(ch chan int) {
+func udp_listen() {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
-	ln, _ := ListenUDP("udp", saddr)
+    saddr, _ := ResolveUDPAddr("udp", "localhost:40000")        
+    ln, err := ListenUDP("udp", saddr)
+    msg := 0
 
-	for {
+    for {
 
-		ln.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
-		b := make([]byte, 1024)
-		_, _, err := ln.ReadFromUDP(b)
-		msg, _ := Atoi(string(b[0]))
+		ln.SetReadDeadline(time.Now().Add(300*time.Millisecond))
 		if err != nil {
-			state = "master"
-			ch <- msg
-			break
-		}
-	}
+        	state = "master"
+        	ln.Close()
+        	i = 2
+        	Println("start from this value: ")
+        	Println(msg)
+        	return
+        }
+        b2 := make([]byte,1024)
+        _, _, err = ln.ReadFromUDP(b2)
+        msg, _ = Atoi(string(b2[0])) 
+    }
 }
 
-func print(ch chan int) {
-
-	i := 0
+func print() {
+	
 	for {
-
-		select {
-		case i = <-ch:
-		default:
-		}
-
 		i++
 		Println(i)
-		ch <- i
 		time.Sleep(time.Second)
-		i = i % 3
+		i = i%3
 	}
 }
 
 func main() {
-
-	ch := make(chan int)
-
-	// Initiate program
-	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
-	ln, _ := ListenUDP("udp", saddr)
-	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
-
+	state = "slave"
+	i = 0
+	
+	// Initiate program    
+    saddr, _ := ResolveUDPAddr("udp", "localhost:40000")        
+    ln, _ := ListenUDP("udp", saddr)
+    ln.SetReadDeadline(time.Now().Add(300*time.Millisecond))
 	b := make([]byte, 1024)
 	_, _, err := ln.ReadFromUDP(b)
 	ln.Close()
 
 	if err != nil {
 		state = "master"
-	} else {
-		state = "slave"
 	}
 	// Initiate program -- END
-
+	
 	for {
 		switch state {
 		case "master":
-			go udp_send(ch)
-			go print(ch)
-			cmd := exec.Command("osascript", "-e",
-				"tell application \"Terminal\" to do script \"go run ~/Desktop/pheonix.go\"")
+			go udp_send()
+			go print()
+			cmd := exec.Command("mate-terminal", "-x", "go", "run", "pheonix.go")
 			cmd.Start()
 			Println("master")
 			state = "default"
 		case "slave":
-			go udp_listen(ch)
+			go udp_listen()
 			Println("slave")
 			state = "default"
-		case "default":
-
+		default:
+            time.Sleep(100*time.Millisecond)
 		}
 	}
 }
