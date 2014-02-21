@@ -48,8 +48,8 @@ func main() {
 		master <- false
 		go UDP_listen(array_update)
 		Println("Starter UDP_listen...")
-		go IMA_master(get_array, master)
-		Println("Starter IMA_master...")
+		// go IMA_master(get_array, master)
+		// Println("Starter IMA_master...")
 	}
 
 	/*for {
