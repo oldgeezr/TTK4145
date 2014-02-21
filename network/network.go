@@ -11,8 +11,6 @@ import (
 func Send(conn Conn, msg string) {
 
 	length, _ := Atoi(msg)
-	Print("Send:", length)
-	Println("Msg:", msg)
 
 	if length < 100 {
 		msg = "0" + msg

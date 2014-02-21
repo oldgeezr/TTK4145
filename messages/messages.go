@@ -23,7 +23,7 @@ func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
 			sort.Ints(IPaddresses)
 
 		case get_array <- IPaddresses:
-			Println("Noen leste arrayet..!")
+			// Println("Noen leste arrayet..!")
 
 		case msg := <-flush:
 			// Println("Tømte arrayet..!")
