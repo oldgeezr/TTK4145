@@ -11,6 +11,8 @@ import (
 func Send(conn Conn, msg string) {
 
 	length, _ := Atoi(msg)
+	Print("Send:", length)
+	Println("Msg:", msg)
 
 	if length < 100 {
 		msg = "0" + msg
@@ -75,8 +77,8 @@ func GetMyIP() string {
 			myIP = IPString[i]
 		}
 	}
-	Println("Sendte IP..!")
-	return myIP[12:]
+	Println("Sendte IP..!:", myIP)
+	return myIP[10:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }
 
 func UDP_listen(array_update chan int) {
@@ -92,6 +94,7 @@ func UDP_listen(array_update chan int) {
 		_ = err
 		remoteIP, _ := Atoi(string(b[0:3]))
 
+		Println(string(b))
 		Println(remoteIP)
 		array_update <- remoteIP
 	}
