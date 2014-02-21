@@ -37,16 +37,13 @@ func TCP_connect(address, port string) {
 
 func IMA(address, port string, master chan bool) {
 
-	Println("IMA startet..!")
 	saddr, _ := ResolveUDPAddr("udp", address+":"+port)
 	conn, _ := DialUDP("udp", nil, saddr)
 	var myIP string
 
-	state := <-master
-
 	for {
 		select {
-		case state = <-master:
+		case state := <-master:
 			if state {
 				Println("Satte masterIP..!")
 				myIP = "300" // master IP
@@ -54,10 +51,12 @@ func IMA(address, port string, master chan bool) {
 				Println("Starter GetMyIP...")
 				myIP = GetMyIP()
 			}
+		default:
 			time.Sleep(333 * time.Millisecond)
 			Send(conn, myIP)
 		}
 	}
+
 }
 
 func GetMyIP() string {
