@@ -48,18 +48,18 @@ func main() {
 		master <- false
 		go UDP_listen(array_update)
 		Println("Starter UDP_listen...")
-		// go IMA_master(get_array, master)
-		// Println("Starter IMA_master...")
+		go IMA_master(get_array, master)
+		Println("Starter IMA_master...")
 	}
 
-	/*for {
+	for {
 		select {
 
 		case msg := <-get_array:
 			Println(msg)
 			time.Sleep(333 * time.Millisecond)
 		}
-	}*/
+	}
 
 	neverQuit := make(chan string)
 	<-neverQuit

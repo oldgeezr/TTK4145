@@ -77,7 +77,7 @@ func GetMyIP() string {
 			myIP = IPString[i]
 		}
 	}
-	Println("Sendte IP..!:", myIP)
+
 	return myIP[10:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }
 
@@ -93,9 +93,6 @@ func UDP_listen(array_update chan int) {
 		_, _, err := ln.ReadFromUDP(b)
 		_ = err
 		remoteIP, _ := Atoi(string(b[0:3]))
-
-		Println(string(b))
-		Println(remoteIP)
 		array_update <- remoteIP
 	}
 }

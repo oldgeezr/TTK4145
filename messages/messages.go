@@ -59,6 +59,8 @@ func Timer(flush chan bool) {
 
 func IMA_master(get_array chan []int, master chan bool) {
 
+	Println("IMA_master startet..!")
+
 	for {
 
 		time.Sleep(1000 * time.Millisecond)
