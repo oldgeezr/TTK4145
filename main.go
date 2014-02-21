@@ -17,6 +17,7 @@ func main() {
 	b := make([]byte, 16)
 
 	_, _, err := ln.ReadFromUDP(b)
+	Println(err)
 	if err != nil {
 		Println("Ble master...")
 	} else {
