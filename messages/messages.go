@@ -49,7 +49,7 @@ func Timer(flush chan bool) {
 	Println("Timer startet..!")
 
 	for {
-		for timer := range time.Tick(time.Second) {
+		for timer := range time.Tick(2 * time.Second) {
 			_ = timer
 			flush <- true
 		}
@@ -65,10 +65,12 @@ func IMA_master(get_array chan []int, master chan bool) {
 
 		time.Sleep(1000 * time.Millisecond)
 		array := <-get_array
+		Println("Got array: ", array)
 		if len(array) != 0 {
 			if array[len(array)-1] != 300 {
 				temp, _ := Atoi(GetMyIP())
 				if array[0] != temp {
+					Println("Sender master request...")
 					master <- true
 				}
 			}
