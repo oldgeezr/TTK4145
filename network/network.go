@@ -52,7 +52,7 @@ func IMA(address, port string, master chan bool) {
 				myIP = GetMyIP()
 			}
 		default:
-			time.Sleep(333 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 			Send(conn, myIP)
 		}
 	}

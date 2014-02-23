@@ -12,7 +12,7 @@ func main() {
 
 	saddr, _ := ResolveUDPAddr("udp", "192.168.1.255:39773")
 	ln, _ := ListenUDP("udp", saddr)
-	ln.SetReadDeadline(time.Now().Add(900 * time.Millisecond))
+	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 
 	b := make([]byte, 16)
 
