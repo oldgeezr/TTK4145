@@ -3,7 +3,7 @@ package main
 import (
 	. "./messages"
 	. "./network"
-	// . "fmt"
+	. "fmt"
 	. "net"
 	"time"
 )
