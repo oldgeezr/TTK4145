@@ -2,7 +2,7 @@ package main
 
 import (
 	. "./messages"
-	. "./network"
+	. "./network/udp"
 	. "fmt"
 	. "net"
 	"time"
