@@ -60,21 +60,27 @@ func Timer(flush chan bool) {
 func IMA_master(get_array chan []int, master chan bool) {
 
 	// Println("IMA_master startet..!")
+	count := 0
 
 	for {
 
-		time.Sleep(1000 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 		array := <-get_array
 		// Println("Got array: ", array)
 		if len(array) != 0 {
 			if array[len(array)-1] != 300 {
 				temp, _ := Atoi(GetMyIP())
 				if temp == array[0] {
-					// Println("Sender master request...")
-					Println("MASTER forsvant..!")
-					master <- true
+					count++
+					if count == 2 {
+						// Println("Sender master request...")
+						Println("MASTER forsvant..!")
+						master <- true
+					}
 				}
 			}
+		} else {
+			count = 0
 		}
 	}
 }
