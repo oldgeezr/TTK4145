@@ -19,11 +19,41 @@ func Send(conn Conn, msg string) {
 	_ = err
 }
 
+func TCP_Send(conn Conn, msg string) {
+
+	time.Sleep(1100 * time.Millisecond)
+	_, err := conn.Write([]byte(msg))
+	_ = err
+}
+
 func TCP_read(conn Conn) {
 
 	b := make([]byte, 1024)
 	for {
 		conn.Read(b)
+	}
+}
+
+func TCP_echo(conn Conn) {
+
+	b := make([]byte, 1024)
+	_, err := conn.Read(b)
+	_, err = conn.Write(b)
+	_ = err
+
+}
+
+func MASTER_TCP_read(myIP string) {
+
+	saddr, _ := ResolveTCPAddr("tcp", "192.168.1."+myIP+":27731")
+	ln, _ := ListenTCP("tcp", saddr)
+
+	for {
+
+		time.Sleep(500 * time.Millisecond)
+		conn, _ := ln.Accept()
+
+		go TCP_echo(conn)
 	}
 }
 
@@ -33,9 +63,10 @@ func TCP_connect(address, port string) {
 	_ = err
 
 	go TCP_read(conn)
+	go TCP_Send(conn, "Er du på TCP, MASTER?")
 }
 
-func IMA(address, port string, master chan bool) {
+func IMA(address, port string, master chan bool, get_array chan []int) {
 
 	saddr, _ := ResolveUDPAddr("udp", address+":"+port)
 	conn, _ := DialUDP("udp", nil, saddr)
@@ -50,10 +81,14 @@ func IMA(address, port string, master chan bool) {
 				temp, _ := Atoi(GetMyIP())
 				temp = temp + 255
 				myIP = Itoa(temp) // master IP
+				go MASTER_TCP_read(myIP)
 			} else {
 				// Println("Starter GetMyIP...")
 				Println("Ble SLAVE..!")
 				myIP = GetMyIP()
+
+				// Her kan vi godt gjøre oppkoblingen av TCP: Fra slave til master
+				go Connect_to_MASTER(get_array, "27731")
 			}
 		default:
 			time.Sleep(100 * time.Millisecond)
@@ -96,5 +131,20 @@ func UDP_listen(array_update chan int) {
 		_ = err
 		remoteIP, _ := Atoi(string(b[0:3]))
 		array_update <- remoteIP
+	}
+}
+
+func Connect_to_MASTER(get_array chan []int, port string) {
+
+	for {
+		select {
+		case ip := <-get_array:
+			if ip[len(ip)-1] > 255 {
+				TCP_connect("192.168.1."+Itoa(ip[len(ip)-1]), port)
+				break
+			}
+		default:
+			time.Sleep(50 * time.Millisecond)
+		}
 	}
 }

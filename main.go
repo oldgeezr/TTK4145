@@ -30,14 +30,14 @@ func main() {
 	// Println("Starter Timer...")
 
 	if err != nil {
-		go IMA("192.168.1.255", "39773", master)
+		go IMA("192.168.1.255", "39773", master, get_array)
 		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 	} else {
 		// Println("slave")
-		go IMA("192.168.1.255", "39773", master)
+		go IMA("192.168.1.255", "39773", master, get_array)
 		// Println("Starter IMA...")
 		master <- false
 		go UDP_listen(array_update)
