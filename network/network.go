@@ -45,10 +45,12 @@ func IMA(address, port string, master chan bool) {
 		select {
 		case state := <-master:
 			if state {
-				Println("Satte masterIP..!")
+				// Println("Satte masterIP..!")
+				Println("Ble MASTER..!")
 				myIP = "300" // master IP
 			} else {
-				Println("Starter GetMyIP...")
+				// Println("Starter GetMyIP...")
+				Println("Ble SLAVE..!")
 				myIP = GetMyIP()
 			}
 		default:
@@ -81,7 +83,7 @@ func GetMyIP() string {
 
 func UDP_listen(array_update chan int) {
 
-	Println("UDP_listen startet..!")
+	// Println("UDP_listen startet..!")
 
 	saddr, _ := ResolveUDPAddr("udp", ":39773")
 	ln, _ := ListenUDP("udp", saddr)

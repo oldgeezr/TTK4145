@@ -11,7 +11,7 @@ import (
 func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
 
 	IPaddresses := []int{}
-	Println("IP_array startet..!")
+	// Println("IP_array startet..!")
 
 	for {
 
@@ -46,7 +46,7 @@ func AppendIfMissing(slice []int, i int) []int {
 
 func Timer(flush chan bool) {
 
-	Println("Timer startet..!")
+	// Println("Timer startet..!")
 
 	for {
 		for timer := range time.Tick(2 * time.Second) {
@@ -59,18 +59,19 @@ func Timer(flush chan bool) {
 
 func IMA_master(get_array chan []int, master chan bool) {
 
-	Println("IMA_master startet..!")
+	// Println("IMA_master startet..!")
 
 	for {
 
 		time.Sleep(1000 * time.Millisecond)
 		array := <-get_array
-		Println("Got array: ", array)
+		// Println("Got array: ", array)
 		if len(array) != 0 {
 			if array[len(array)-1] != 300 {
 				temp, _ := Atoi(GetMyIP())
 				if temp == array[0] {
-					Println("Sender master request...")
+					// Println("Sender master request...")
+					Println("MASTER forsvant..!")
 					master <- true
 				}
 			}

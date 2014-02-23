@@ -3,7 +3,7 @@ package main
 import (
 	. "./messages"
 	. "./network"
-	. "fmt"
+	// . "fmt"
 	. "net"
 	"time"
 )
@@ -17,12 +17,6 @@ func main() {
 	b := make([]byte, 16)
 
 	_, _, err := ln.ReadFromUDP(b)
-	Println(err)
-	if err != nil {
-		Println("Ble master...")
-	} else {
-		Println("Ble slave...")
-	}
 	ln.Close()
 
 	array_update := make(chan int)
@@ -31,35 +25,35 @@ func main() {
 	master := make(chan bool)
 
 	go IP_array(array_update, get_array, flush)
-	Println("Starter IP_array...")
+	// Println("Starter IP_array...")
 	go Timer(flush)
-	Println("Starter Timer...")
+	// Println("Starter Timer...")
 
 	if err != nil {
 		go IMA("192.168.1.255", "39773", master)
-		Println("Starter IMA...")
+		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(array_update)
-		Println("Starter UDP_listen...")
+		// Println("Starter UDP_listen...")
 	} else {
-		Println("slave")
+		// Println("slave")
 		go IMA("192.168.1.255", "39773", master)
-		Println("Starter IMA...")
+		// Println("Starter IMA...")
 		master <- false
 		go UDP_listen(array_update)
-		Println("Starter UDP_listen...")
+		// Println("Starter UDP_listen...")
 		go IMA_master(get_array, master)
-		Println("Starter IMA_master...")
+		// Println("Starter IMA_master...")
 	}
 
-	for {
+	/*for {
 		select {
 
 		case msg := <-get_array:
-			Println(msg)
+			// Println(msg)
 			time.Sleep(333 * time.Millisecond)
 		}
-	}
+	}*/
 
 	neverQuit := make(chan string)
 	<-neverQuit
