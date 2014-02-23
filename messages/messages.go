@@ -68,7 +68,7 @@ func IMA_master(get_array chan []int, master chan bool) {
 		array := <-get_array
 		// Println("Got array: ", array)
 		if len(array) != 0 {
-			if array[len(array)-1] != 300 {
+			if array[len(array)-1] < 255 {
 				temp, _ := Atoi(GetMyIP())
 				if temp == array[0] {
 					count++

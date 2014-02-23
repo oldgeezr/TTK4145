@@ -47,7 +47,9 @@ func IMA(address, port string, master chan bool) {
 			if state {
 				// Println("Satte masterIP..!")
 				Println("Ble MASTER..!")
-				myIP = "300" // master IP
+				temp, _ := Atoi(GetMyIP())
+				temp = temp + 255
+				myIP = Itoa(temp) // master IP
 			} else {
 				// Println("Starter GetMyIP...")
 				Println("Ble SLAVE..!")
