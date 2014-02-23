@@ -38,6 +38,7 @@ func TCP_echo(conn Conn) {
 
 	b := make([]byte, 1024)
 	_, err := conn.Read(b)
+	Println(string(b))
 	_, err = conn.Write([]byte("Seff..!"))
 	_ = err
 
@@ -58,13 +59,15 @@ func MASTER_TCP_read() {
 
 func TCP_connect(address, port string) {
 
-	conn, err := Dial("tcp", address+":"+port)
-	Println(err)
+	conn, _ := Dial("tcp", address+":"+port)
 
 	for {
 
 		b := make([]byte, 1024)
 		_, err := conn.Read(b)
+		Println(b)
+
+		_, err = conn.Write([]byte("Er du på TCP, MASTER?"))
 		_ = err
 	}
 }
