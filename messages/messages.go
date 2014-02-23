@@ -72,7 +72,7 @@ func IMA_master(get_array chan []int, master chan bool) {
 				temp, _ := Atoi(GetMyIP())
 				if temp == array[0] {
 					count++
-					if count == 2 {
+					if count == 3 {
 						// Println("Sender master request...")
 						Println("MASTER forsvant..!")
 						master <- true
