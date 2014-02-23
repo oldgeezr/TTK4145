@@ -78,9 +78,9 @@ func IMA_master(get_array chan []int, master chan bool) {
 						master <- true
 					}
 				}
+			} else {
+				count = 0
 			}
-		} else {
-			count = 0
 		}
 	}
 }
