@@ -46,14 +46,14 @@ func main() {
 		// Println("Starter IMA_master...")
 	}
 
-	/*for {
+	for {
 		select {
 
 		case msg := <-get_array:
-			// Println(msg)
-			time.Sleep(333 * time.Millisecond)
+			Println(msg)
+			time.Sleep(150 * time.Millisecond)
 		}
-	}*/
+	}
 
 	neverQuit := make(chan string)
 	<-neverQuit
