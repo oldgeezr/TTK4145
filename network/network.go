@@ -38,15 +38,14 @@ func TCP_echo(conn Conn) {
 
 	b := make([]byte, 1024)
 	_, err := conn.Read(b)
-	_, err = conn.Write(b)
+	_, err = conn.Write([]byte("Seff..!"))
 	_ = err
 
 }
 
-func MASTER_TCP_read(myIP string) {
+func MASTER_TCP_read() {
 
-	saddr, _ := ResolveTCPAddr("tcp", "192.168.1."+myIP+":27731")
-	ln, _ := ListenTCP("tcp", saddr)
+	ln, _ := Listen("tcp", ":27731")
 
 	for {
 
@@ -80,12 +79,12 @@ func IMA(address, port string, master chan bool, get_array chan []int) {
 		select {
 		case state := <-master:
 			if state {
+				go MASTER_TCP_read()
 				// Println("Satte masterIP..!")
 				Println("Ble MASTER..!")
 				temp, _ := Atoi(GetMyIP())
 				temp = temp + 255
 				myIP = Itoa(temp) // master IP
-				go MASTER_TCP_read(myIP)
 			} else {
 				// Println("Starter GetMyIP...")
 				Println("Ble SLAVE..!")
