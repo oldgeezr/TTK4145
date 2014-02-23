@@ -60,10 +60,14 @@ func MASTER_TCP_read(myIP string) {
 func TCP_connect(address, port string) {
 
 	conn, err := Dial("tcp", address+":"+port)
-	_ = err
+	Println(err)
 
-	go TCP_read(conn)
-	go TCP_Send(conn, "Er du på TCP, MASTER?")
+	for {
+
+		b := make([]byte, 1024)
+		_, err := conn.Read(b)
+		_ = err
+	}
 }
 
 func IMA(address, port string, master chan bool, get_array chan []int) {
@@ -139,9 +143,12 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 	for {
 		select {
 		case ip := <-get_array:
-			if ip[len(ip)-1] > 255 {
-				TCP_connect("192.168.1."+Itoa(ip[len(ip)-1]), port)
-				break
+			if len(ip) != 0 {
+				if ip[len(ip)-1] > 255 {
+					master_ip := ip[len(ip)-1] - 255
+					TCP_connect("192.168.1."+Itoa(master_ip), port)
+					break
+				}
 			}
 		default:
 			time.Sleep(50 * time.Millisecond)
