@@ -3,8 +3,8 @@ package main
 import (
 	. "./messages"
 	. "./network"
+	. "./network/tcp"
 	. "./network/udp"
-	. "./nework/tcp"
 	. "fmt"
 	. "net"
 	"time"
