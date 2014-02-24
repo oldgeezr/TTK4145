@@ -19,13 +19,13 @@ func GetMyIP() string {
 
 	IPString := make([]string, len(allIPs))
 	for i := range allIPs {
-		Println("------->", allIPs[i])
 		temp := allIPs[i].String()
 		ip := strings.Split(temp, "/")
 		IPString[i] = ip[0]
 	}
 	var myIP string
 	for i := range IPString {
+		Println("------->", IPString[i])
 		if IPString[i][0:3] == BROADCAST[0:2] {
 			myIP = IPString[i]
 		}
