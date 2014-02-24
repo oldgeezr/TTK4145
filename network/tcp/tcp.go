@@ -48,7 +48,7 @@ func MASTER_TCP_read() {
 
 func TCP_connect(address, port string) {
 
-	conn, _ := Dial("tcp", address+":"+port)
+	conn, _ := Dial("tcp", address+port)
 
 	for {
 
@@ -63,15 +63,13 @@ func TCP_connect(address, port string) {
 
 func Connect_to_MASTER(get_array chan []int, port string) {
 
-	_ = port
-
 	for {
 		select {
 		case ip := <-get_array:
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
-					// master_ip := ip[len(ip)-1] - 255
-					Println("Du klarte aa hente array og er klart til å ")
+					master_ip := ip[len(ip)-1] - 255
+					Println(master_ip)
 					break
 				}
 			}
