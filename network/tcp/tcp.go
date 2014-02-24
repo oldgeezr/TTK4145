@@ -70,7 +70,7 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 		case ip := <-get_array:
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
-					master_ip := ip[len(ip)-1] - 255
+					// master_ip := ip[len(ip)-1] - 255
 					Println("Du klarte aa hente array og er klart til å ")
 					break
 				}
