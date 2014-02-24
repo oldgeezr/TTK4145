@@ -41,7 +41,7 @@ func IMA(address, port string, master chan bool, get_array chan []int) {
 				myIP = GetMyIP()
 
 				// Her kan vi godt gjøre oppkoblingen av TCP: Fra slave til master
-				go Connect_to_MASTER(get_array, TCP_PORT)
+				// go Connect_to_MASTER(get_array, TCP_PORT)
 			}
 		default:
 			time.Sleep(100 * time.Millisecond)
