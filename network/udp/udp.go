@@ -29,7 +29,7 @@ func IMA(address, port string, master chan bool, get_array chan []int) {
 		select {
 		case state := <-master:
 			if state {
-				go MASTER_TCP_read()
+				go TCP_echo()
 				// Println("Satte masterIP..!")
 				Println("Ble MASTER..!")
 				temp, _ := Atoi(GetMyIP())

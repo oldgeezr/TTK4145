@@ -37,7 +37,6 @@ func main() {
 		master <- true
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
-		go TCP_echo()
 	} else { // SLAVE
 		// Println("slave")
 		go IMA(BROADCAST, UDP_PORT, master, get_array)
