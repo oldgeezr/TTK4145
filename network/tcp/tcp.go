@@ -71,6 +71,7 @@ func MASTER_TCP_read() {
 
 		time.Sleep(500 * time.Millisecond)
 		conn, _ := ln.Accept()
+		_ = conn
 
 		go TCP_echo()
 	}
