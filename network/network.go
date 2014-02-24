@@ -26,7 +26,8 @@ func GetMyIP() string {
 	var myIP string
 	for i := range IPString {
 		Println("------->", IPString[i])
-		if IPString[i][0:3] == BROADCAST[0:2] {
+		if IPString[i][0:3] == BROADCAST[0:3] {
+			Println("------->", BROADCAST[0:3])
 			myIP = IPString[i]
 		}
 	}
