@@ -21,7 +21,7 @@ func UDP_send(conn Conn, msg string) {
 
 func IMA(address, port string, master chan bool, get_array chan []int) {
 
-	saddr, _ := ResolveUDPAddr("udp", address+":"+port)
+	saddr, _ := ResolveUDPAddr("udp", address+port)
 	conn, _ := DialUDP("udp", nil, saddr)
 	var myIP string
 
