@@ -4,6 +4,7 @@ import (
 	. "./messages"
 	. "./network"
 	. "./network/udp"
+	. "./nework/tcp"
 	. "fmt"
 	. "net"
 	"time"
@@ -30,13 +31,13 @@ func main() {
 	go Timer(flush)
 	// Println("Starter Timer...")
 
-	if err != nil {
+	if err != nil { // MASTER
 		go IMA(BROADCAST, UDP_PORT, master, get_array)
 		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
-	} else {
+	} else { // SLAVE
 		// Println("slave")
 		go IMA(BROADCAST, UDP_PORT, master, get_array)
 		// Println("Starter IMA...")
@@ -45,6 +46,7 @@ func main() {
 		// Println("Starter UDP_listen...")
 		go IMA_master(get_array, master)
 		// Println("Starter IMA_master...")
+		go Connect_to_MASTER(get_array, UDP_PORT)
 	}
 
 	for {

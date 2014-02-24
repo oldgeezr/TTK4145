@@ -63,13 +63,15 @@ func TCP_connect(address, port string) {
 
 func Connect_to_MASTER(get_array chan []int, port string) {
 
+	_ = port
+
 	for {
 		select {
 		case ip := <-get_array:
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					TCP_connect(IP_BASE+Itoa(master_ip), port)
+					Println("Du klarte aa hente array og er klart til å ")
 					break
 				}
 			}
