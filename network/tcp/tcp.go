@@ -85,9 +85,8 @@ func TCP_connect(address, port string) {
 
 		b := make([]byte, 1024)
 		_, err := conn.Read(b)
-		Println(string(b[0:20]))
 
-		_, err = conn.Write([]byte("Er du på TCP, MASTER?"))
+		_, err = conn.Write([]byte("Er du på TCP, MASTER?\x00"))
 		_ = err
 	}
 }
