@@ -14,14 +14,14 @@ func TCP_listen() {
 
 	listener, err := Listen("tcp", "0.0.0.0:6666")
 	if err != nil {
-		println("error listening:", err.Error())
+		Println("error listening:", err.Error())
 		os.Exit(1)
 	}
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			println("Error accept:", err.Error())
+			Println("Error accept:", err.Error())
 			return
 		}
 		go EchoFunc(conn)
@@ -32,18 +32,18 @@ func EchoFunc(conn Conn) {
 	buf := make([]byte, RECV_BUF_LEN)
 	n, err := conn.Read(buf)
 	if err != nil {
-		println("Error reading:", err.Error())
+		Println("Error reading:", err.Error())
 		return
 	}
-	println("received ", n, " bytes of data =", string(buf))
+	Println("received ", n, " bytes of data =", string(buf))
 
 	//send reply
 	for {
 		_, err = conn.Write(buf)
 		if err != nil {
-			println("Error send reply:", err.Error())
+			Println("Error send reply:", err.Error())
 		} else {
-			println("Reply sent")
+			Println("Reply sent")
 		}
 	}
 }
