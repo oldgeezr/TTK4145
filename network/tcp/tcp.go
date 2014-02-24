@@ -12,7 +12,7 @@ import (
 func TCP_listen() {
 	println("Starting the server")
 
-	listener, err := Listen("tcp", "0.0.0.0:6666")
+	listener, err := Listen("tcp", TCP_PORT)
 	if err != nil {
 		Println("error listening:", err.Error())
 		os.Exit(1)
