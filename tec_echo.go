@@ -8,6 +8,11 @@ import (
 
 func main() {
 
+	go TCP_listen()
+
+	neverQuit := make(chan string)
+	<-neverQuit
+
 }
 
 func TCP_listen() {
