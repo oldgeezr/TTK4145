@@ -12,7 +12,7 @@ import (
 func TCP_listen() {
 	println("Starting the server")
 
-	listener, err := net.Listen("tcp", "0.0.0.0:6666")
+	listener, err := Listen("tcp", "0.0.0.0:6666")
 	if err != nil {
 		println("error listening:", err.Error())
 		os.Exit(1)
@@ -28,7 +28,7 @@ func TCP_listen() {
 	}
 }
 
-func EchoFunc(conn net.Conn) {
+func EchoFunc(conn Conn) {
 	buf := make([]byte, RECV_BUF_LEN)
 	n, err := conn.Read(buf)
 	if err != nil {
