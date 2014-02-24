@@ -1,13 +1,23 @@
 package network
 
 import (
+	. "fmt"
 	. "net"
 	"strings"
+)
+
+const (
+	UDP_PORT  string = ":39773"
+	TCP_PORT  string = ":27731"
+	BROADCAST string = "129.241.187.255"
+	IP_BASE   string = "129.241.187."
 )
 
 func GetMyIP() string {
 
 	allIPs, _ := InterfaceAddrs()
+
+	Println(allIPs)
 
 	IPString := make([]string, len(allIPs))
 	for i := range allIPs {
@@ -17,10 +27,11 @@ func GetMyIP() string {
 	}
 	var myIP string
 	for i := range IPString {
-		if IPString[i][0:3] == "192" {
+		if IPString[i][0:3] == BROADCAST[0:2] {
 			myIP = IPString[i]
 		}
 	}
 
-	return myIP[10:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
+	Println(myIP)
+	return myIP[12:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }

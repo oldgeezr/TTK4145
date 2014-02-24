@@ -2,6 +2,7 @@ package main
 
 import (
 	. "./messages"
+	. "./network"
 	. "./network/udp"
 	. "fmt"
 	. "net"
@@ -10,7 +11,7 @@ import (
 
 func main() {
 
-	saddr, _ := ResolveUDPAddr("udp", "192.168.1.255:39773")
+	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
 	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 
@@ -30,14 +31,14 @@ func main() {
 	// Println("Starter Timer...")
 
 	if err != nil {
-		go IMA("192.168.1.255", "39773", master, get_array)
+		go IMA(BROADCAST, UDP_PORT, master, get_array)
 		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 	} else {
 		// Println("slave")
-		go IMA("192.168.1.255", "39773", master, get_array)
+		go IMA(BROADCAST, UDP_PORT, master, get_array)
 		// Println("Starter IMA...")
 		master <- false
 		go UDP_listen(array_update)

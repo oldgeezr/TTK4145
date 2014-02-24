@@ -1,6 +1,7 @@
 package tcp
 
 import (
+	. "../.././network"
 	. "fmt" // temp
 	. "net"
 	. "strconv"
@@ -34,7 +35,7 @@ func TCP_echo(conn Conn) {
 
 func MASTER_TCP_read() {
 
-	ln, _ := Listen("tcp", ":27731")
+	ln, _ := Listen("tcp", TCP_PORT)
 
 	for {
 
@@ -68,7 +69,7 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					TCP_connect("192.168.1."+Itoa(master_ip), port)
+					TCP_connect(IP_BASE+Itoa(master_ip), port)
 					break
 				}
 			}
