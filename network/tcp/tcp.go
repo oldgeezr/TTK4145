@@ -28,7 +28,7 @@ func TCP_echo() {
 
 	println("Starting the server")
 
-	listener, err := net.Listen("tcp", TCP_PORT)
+	listener, err := Listen("tcp", TCP_PORT)
 	if err != nil {
 		println("error listening:", err.Error())
 		os.Exit(1)
@@ -45,7 +45,7 @@ func TCP_echo() {
 
 }
 
-func EchoFunc(conn net.Conn) {
+func EchoFunc(conn Conn) {
 	buf := make([]byte, RECV_BUF_LEN)
 	n, err := conn.Read(buf)
 	if err != nil {
