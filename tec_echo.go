@@ -17,7 +17,7 @@ func TCP_listen() {
 	for {
 
 		conn, _ := ln.Accept()
-		go TCP_send()
+		go TCP_send(conn)
 	}
 
 }
