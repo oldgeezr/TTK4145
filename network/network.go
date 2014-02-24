@@ -15,12 +15,11 @@ const (
 
 func GetMyIP() string {
 
-	Println("------>", BROADCAST)
-
 	allIPs, _ := InterfaceAddrs()
 
 	IPString := make([]string, len(allIPs))
 	for i := range allIPs {
+		Println("------->", allIPs[i])
 		temp := allIPs[i].String()
 		ip := strings.Split(temp, "/")
 		IPString[i] = ip[0]
@@ -32,6 +31,5 @@ func GetMyIP() string {
 		}
 	}
 
-	Println("------>", myIP)
 	return myIP[12:15] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }
