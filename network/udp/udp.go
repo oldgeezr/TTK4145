@@ -55,7 +55,7 @@ func UDP_listen(array_update chan int) {
 
 	// Println("UDP_listen startet..!")
 
-	saddr, _ := ResolveUDPAddr("udp", ":39773")
+	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
 
 	for {

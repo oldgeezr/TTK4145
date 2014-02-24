@@ -15,8 +15,6 @@ const (
 
 func GetMyIP() string {
 
-	Println("------->", BROADCAST[0:3])
-
 	allIPs, _ := InterfaceAddrs()
 
 	IPString := make([]string, len(allIPs))
@@ -28,9 +26,10 @@ func GetMyIP() string {
 	var myIP string
 	for i := range IPString {
 		if IPString[i][0:3] == BROADCAST[0:3] {
+			Println("------>", IPString[i][0:3], "=", BROADCAST[0:3])
 			myIP = IPString[i]
 		}
 	}
 
-	return myIP[12:15] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
+	return myIP[12:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }
