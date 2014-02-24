@@ -27,7 +27,7 @@ func TCP_read(conn Conn) {
 func TCP_echo() {
 
 	// Listen for incoming connections.
-	l, err := Listen("udp", TCP_PORT)
+	l, err := Listen("tcp", TCP_PORT)
 	if err != nil {
 		Println("Error listening:", err.Error())
 		os.Exit(1)
