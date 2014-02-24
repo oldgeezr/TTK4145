@@ -2,7 +2,7 @@ package tcp
 
 import (
 	. "../.././network"
-	// . "fmt" // temp
+	. "fmt" // temp
 	. "net"
 	"os"
 	. "strconv"
@@ -26,23 +26,39 @@ func TCP_read(conn Conn) {
 
 func TCP_echo() {
 
-	println("Starting the server")
-
-	listener, err := Listen("tcp", TCP_PORT)
+	// Listen for incoming connections.
+	l, err := Listen("udp", TCP_PORT)
 	if err != nil {
-		println("error listening:", err.Error())
+		Println("Error listening:", err.Error())
 		os.Exit(1)
 	}
-
+	// Close the listener when the application closes.
+	defer l.Close()
 	for {
-		conn, err := listener.Accept()
+		// Listen for an incoming connection.
+		conn, err := l.Accept()
 		if err != nil {
-			println("Error accept:", err.Error())
-			return
+			Println("Error accepting: ", err.Error())
+			os.Exit(1)
 		}
-		go EchoFunc(conn)
+		// Handle connections in a new goroutine.
+		go handleRequest(conn)
 	}
 
+}
+
+func handleRequest(conn Conn) {
+	// Make a buffer to hold incoming data.
+	buf := make([]byte, 1024)
+	// Read the incoming connection into the buffer.
+	reqLen, err := conn.Read(buf)
+	if err != nil {
+		Println("Error reading:", err.Error())
+	}
+	// Send a response back to person contacting us.
+	conn.Write([]byte("Message received."))
+	// Close the connection when you're done with it.
+	conn.Close()
 }
 
 func EchoFunc(conn Conn) {
