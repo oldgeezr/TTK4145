@@ -33,5 +33,5 @@ func GetMyIP() string {
 	}
 
 	Println(myIP)
-	return myIP[12:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
+	return myIP[12:15] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }
