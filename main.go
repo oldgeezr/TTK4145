@@ -37,6 +37,7 @@ func main() {
 		master <- true
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
+		go TCP_echo()
 	} else { // SLAVE
 		// Println("slave")
 		go IMA(BROADCAST, UDP_PORT, master, get_array)
@@ -49,14 +50,14 @@ func main() {
 		go Connect_to_MASTER(get_array, UDP_PORT)
 	}
 
-	for {
+	/*for {
 		select {
 
 		case msg := <-get_array:
 			Println(msg)
 			time.Sleep(150 * time.Millisecond)
 		}
-	}
+	}*/
 
 	neverQuit := make(chan string)
 	<-neverQuit

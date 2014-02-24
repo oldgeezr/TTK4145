@@ -4,6 +4,7 @@ import (
 	. "../.././network"
 	. "fmt" // temp
 	. "net"
+	"os"
 	. "strconv"
 	"time"
 )
@@ -23,14 +24,43 @@ func TCP_read(conn Conn) {
 	}
 }
 
-func TCP_echo(conn Conn) {
+func TCP_echo() {
 
-	b := make([]byte, 1024)
-	_, err := conn.Read(b)
-	Println(string(b[0:20]))
-	_, err = conn.Write([]byte("Seff..!"))
-	_ = err
+	println("Starting the server")
 
+	listener, err := net.Listen("tcp", TCP_PORT)
+	if err != nil {
+		println("error listening:", err.Error())
+		os.Exit(1)
+	}
+
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			println("Error accept:", err.Error())
+			return
+		}
+		go EchoFunc(conn)
+	}
+
+}
+
+func EchoFunc(conn net.Conn) {
+	buf := make([]byte, RECV_BUF_LEN)
+	n, err := conn.Read(buf)
+	if err != nil {
+		println("Error reading:", err.Error())
+		return
+	}
+	println("received ", n, " bytes of data =", string(buf))
+
+	//send reply
+	_, err = conn.Write(buf)
+	if err != nil {
+		println("Error send reply:", err.Error())
+	} else {
+		println("Reply sent")
+	}
 }
 
 func MASTER_TCP_read() {
