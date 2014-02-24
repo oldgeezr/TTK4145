@@ -7,13 +7,15 @@ import (
 )
 
 const (
-	UDP_PORT  []string = ":39773"
-	TCP_PORT  []string = ":27731"
-	BROADCAST []string = "129.241.187.255"
-	IP_BASE   []string = "129.241.187."
+	UDP_PORT  string = ":39773"
+	TCP_PORT  string = ":27731"
+	BROADCAST string = "129.241.187.255"
+	IP_BASE   string = "129.241.187."
 )
 
 func GetMyIP() string {
+
+	Println("------->", BROADCAST[0:3])
 
 	allIPs, _ := InterfaceAddrs()
 
@@ -25,9 +27,7 @@ func GetMyIP() string {
 	}
 	var myIP string
 	for i := range IPString {
-		Println("------->", IPString[i])
 		if IPString[i][0:3] == BROADCAST[0:3] {
-			Println("------->", BROADCAST[0:3])
 			myIP = IPString[i]
 		}
 	}
