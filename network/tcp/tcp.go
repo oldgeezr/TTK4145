@@ -69,7 +69,7 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					Println(master_ip)
+					go TCP_connect(IP_BASE+master_ip, TCP_PORT)
 					break
 				}
 			}
