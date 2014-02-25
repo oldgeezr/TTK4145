@@ -10,13 +10,15 @@ import (
 
 var current_floor int
 
-func Wait_for_input(int_button chan int, int_order chan string) {
+func Wait_for_input(int_button chan int, int_order, ext_order chan string) {
 
 	for {
 		select {
 		case floor := <-int_button:
-			current_floor = Get_floor_sensor()
+			// current_floor = Get_floor_sensor()
 			int_order <- Itoa(floor) + ":" + GetMyIP()
+			time.Sleep(500 * time.Millisecond)
+			ext_order <- Itoa(floor) + ":" + GetMyIP()
 		default:
 			time.Sleep(25 * time.Millisecond)
 		}
@@ -88,7 +90,7 @@ func Order(int_button chan int) {
 	}
 }
 
-func Internal(int_button chan int, int_order chan string) {
+func Internal(int_button chan int, int_order, ext_order chan string) {
 
 	// Initialize
 	Init()
@@ -96,7 +98,7 @@ func Internal(int_button chan int, int_order chan string) {
 	Set_stop_lamp(1)
 
 	go KeyboardInput(int_button)
-	go Wait_for_input(int_button, int_order)
+	go Wait_for_input(int_button, int_order, ext_order)
 
 	neverQuit := make(chan string)
 	<-neverQuit

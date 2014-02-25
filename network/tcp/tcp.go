@@ -27,14 +27,18 @@ func TCP_echo(conn Conn) {
 	}
 }
 
-func TCP_connect(master_ip string, int_order chan string) {
+func TCP_connect(master_ip string, int_order, ext_order chan string) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	time.Sleep(time.Second)
 	for {
-		time.Sleep(time.Second)
 		b := make([]byte, BUF_LEN)
-		msg := <-int_order
-		b = []byte(msg)
+		select {
+		case msg := <-int_order:
+			b = []byte("int: " + msg)
+		case msg := <-ext_order:
+			b = []byte("ext: " + msg)
+		}
 		conn.Write(b)
 	}
 }
