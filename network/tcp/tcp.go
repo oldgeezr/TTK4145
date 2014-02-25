@@ -18,6 +18,7 @@ func TCP_listen(master bool) {
 		if master {
 			go TCP_echo(conn)
 		} else {
+			Println("hei")
 			b := make([]byte, BUF_LEN)
 			conn.Read(b)
 			msg, _ := Atoi(string(b[0]))
