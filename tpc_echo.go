@@ -19,7 +19,6 @@ func main() {
 func TCP_listen() {
 
 	ln, err := Listen("tcp", ":27731")
-	Println(err, "listen")
 
 	for {
 
@@ -41,7 +40,6 @@ func TCP_echo(conn Conn) {
 func TCP_send() {
 
 	conn, err := Dial("tcp", "129.241.187.147:27731")
-	Println(err, "send")
 	for {
 		time.Sleep(time.Second)
 		b := make([]byte, 1024)

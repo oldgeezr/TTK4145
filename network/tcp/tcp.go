@@ -10,55 +10,33 @@ import (
 )
 
 func TCP_listen() {
-	println("Starting the server")
 
-	listener, err := Listen("tcp", TCP_PORT)
-	if err != nil {
-		Println("error listening:", err.Error())
-		os.Exit(1)
-	}
-
+	ln, err := Listen("tcp", TCP_PORT)
 	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			Println("Error accept:", err.Error())
-			return
-		}
-		go EchoFunc(conn)
+
+		conn, _ := ln.Accept()
+		go TCP_echo(conn)
 	}
+
 }
 
-func EchoFunc(conn Conn) {
-	buf := make([]byte, RECV_BUF_LEN)
-	n, err := conn.Read(buf)
-	if err != nil {
-		Println("Error reading:", err.Error())
-		return
-	}
-	Println("received ", n, " bytes of data =", string(buf))
-
-	//send reply
-	for {
-		_, err = conn.Write(buf)
-		if err != nil {
-			Println("Error send reply:", err.Error())
-		} else {
-			Println("Reply sent")
-		}
-	}
-}
-
-func TCP_connect(address, port string) {
-
-	conn, _ := Dial("tcp", address+port)
+func TCP_echo(conn Conn) {
 
 	for {
-
 		b := make([]byte, 1024)
-		_, err := conn.Read(b)
+		conn.Read(b)
+		Println(string(b))
+	}
+}
 
-		_, err = conn.Write([]byte("Er du på TCP, MASTER?\n"))
-		_ = err
+func TCP_connect(master_ip string) {
+
+	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	for {
+		time.Sleep(time.Second)
+		b := make([]byte, 1024)
+		b = []byte("yei!")
+		conn.Write(b)
 	}
 }
 
@@ -70,7 +48,7 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					go TCP_connect(IP_BASE+Itoa(master_ip), TCP_PORT)
+					go TCP_connect(Itoa(master_ip))
 					break
 				}
 			}
