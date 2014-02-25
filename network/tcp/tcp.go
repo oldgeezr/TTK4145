@@ -49,7 +49,7 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 					master_ip := ip[len(ip)-1] - 255
 					go TCP_connect(Itoa(master_ip))
 					Println("I was here ..")
-					break
+					return
 				}
 			}
 		default:
