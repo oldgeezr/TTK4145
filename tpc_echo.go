@@ -38,9 +38,7 @@ func TCP_echo(conn Conn) {
 
 func TCP_send() {
 
-	Println("I was here")
-
-	conn, err := Dial("tcp", "129.241.187.255:27731")
+	conn, err := Dial("tcp", "129.241.187.147:27731")
 	Println(err, "send")
 	for {
 		time.Sleep(time.Second)
