@@ -36,7 +36,7 @@ func IMA(address, port string, master chan bool, get_array chan []int) {
 				temp = temp + 255
 				myIP = Itoa(temp) // master IP
 			} else {
-				go TCP_listen(false)
+				// go TCP_listen(false)
 				// Println("Starter GetMyIP...")
 				Println("Ble SLAVE..!")
 				myIP = GetMyIP()

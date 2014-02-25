@@ -18,12 +18,12 @@ func TCP_listen(master bool) {
 		if master {
 			go TCP_echo(conn)
 		} else {
-			Println("hei")
+			/*Println("hei")
 			b := make([]byte, BUF_LEN)
 			conn.Read(b)
 			msg, _ := Atoi(string(b[0]))
 			Println(msg)
-			Send_to_floor(msg)
+			Send_to_floor(msg)*/
 		}
 	}
 }
@@ -46,9 +46,11 @@ func TCP_connect(master_ip string, int_order, ext_order chan string) {
 		b := make([]byte, BUF_LEN)
 		select {
 		case msg := <-int_order:
-			b = []byte("int: " + msg)
+			b = []byte(msg)
 		case msg := <-ext_order:
-			b = []byte("ext: " + msg)
+			b = []byte(msg)
+		case conn.Read(b):
+			Println(string(b))
 		}
 		conn.Write(b)
 	}
