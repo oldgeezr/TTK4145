@@ -39,7 +39,7 @@ func TCP_connect(master_ip string, int_order chan string) {
 	}
 }
 
-func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool) {
+func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool, int_order chan string) {
 
 	for {
 		select {
@@ -49,7 +49,7 @@ func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool) 
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					go TCP_connect(Itoa(master_ip))
+					go TCP_connect(Itoa(master_ip), int_order)
 				}
 			}
 		default:
