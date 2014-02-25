@@ -4,7 +4,6 @@ import (
 	. "../.././network"
 	. "fmt" // temp
 	. "net"
-	"os"
 	. "strconv"
 	"time"
 )
