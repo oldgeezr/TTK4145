@@ -50,6 +50,7 @@ func Connect_to_MASTER(get_array chan []int, port string) {
 					go TCP_connect(Itoa(master_ip))
 					Println("I was here ..")
 					return
+					// HER HAR DU ET PROBLEM AT DU TROSS RETURN ARGUMENTET KJØRER GO FUNKSJONEN 2 GANGER
 				}
 			}
 		default:
