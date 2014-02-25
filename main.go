@@ -1,6 +1,7 @@
 package main
 
 import (
+	. "./lift"
 	. "./messages"
 	. "./network"
 	. "./network/tcp"
@@ -27,6 +28,9 @@ func main() {
 	flush := make(chan bool)
 	master := make(chan bool)
 
+	int_button := make(chan int)
+	int_order := make(chan string)
+
 	go IP_array(array_update, get_array, flush)
 	// Println("Starter IP_array...")
 	go Timer(flush)
@@ -39,6 +43,7 @@ func main() {
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 	} else { // SLAVE
+		go Internal(int_button, int_order)
 		// Println("slave")
 		go IMA(BROADCAST, UDP_PORT, master, get_array)
 		// Println("Starter IMA...")
