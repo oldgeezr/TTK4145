@@ -34,7 +34,7 @@ func TCP_connect(master_ip string) {
 	for {
 		time.Sleep(time.Second)
 		b := make([]byte, 1024)
-		b = []byte("yei!")
+		b = []byte(GetMyIP())
 		conn.Write(b)
 	}
 }
