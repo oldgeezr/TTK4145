@@ -2,7 +2,7 @@ package tcp
 
 import (
 	. "../.././network"
-	. "fmt" // temp
+	. "fmt"
 	. "net"
 	. "strconv"
 	"time"
@@ -16,13 +16,12 @@ func TCP_listen() {
 		conn, _ := ln.Accept()
 		go TCP_echo(conn)
 	}
-
 }
 
 func TCP_echo(conn Conn) {
 
 	for {
-		b := make([]byte, 1024)
+		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
 	}
@@ -33,7 +32,7 @@ func TCP_connect(master_ip string) {
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	for {
 		time.Sleep(time.Second)
-		b := make([]byte, 1024)
+		b := make([]byte, BUF_LEN)
 		b = []byte(GetMyIP())
 		conn.Write(b)
 	}

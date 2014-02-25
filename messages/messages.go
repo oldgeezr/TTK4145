@@ -12,25 +12,19 @@ func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
 
 	IPaddresses := []int{}
 	// Println("IP_array startet..!")
-
 	for {
-
 		select {
 		case ip := <-array_update:
-
 			// Println("Oppdaterte arrayet..!")
 			IPaddresses = AppendIfMissing(IPaddresses, ip)
 			sort.Ints(IPaddresses)
-
 		case get_array <- IPaddresses:
 			// Println("Noen leste arrayet..!")
-
 		case msg := <-flush:
 			// Println("Tømte arrayet..!")
 			_ = msg
 			IPaddresses = IPaddresses[:0]
 		}
-
 	}
 }
 
@@ -47,7 +41,6 @@ func AppendIfMissing(slice []int, i int) []int {
 func Timer(flush chan bool) {
 
 	// Println("Timer startet..!")
-
 	for {
 		for timer := range time.Tick(2 * time.Second) {
 			_ = timer
@@ -61,9 +54,7 @@ func IMA_master(get_array chan []int, master, new_master chan bool) {
 
 	// Println("IMA_master startet..!")
 	count := 0
-
 	for {
-
 		time.Sleep(500 * time.Millisecond)
 		array := <-get_array
 		// Println("Got array: ", array)

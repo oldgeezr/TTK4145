@@ -3,7 +3,7 @@ package udp
 import (
 	. "../.././network"
 	. ".././tcp"
-	. "fmt" // temp
+	. "fmt"
 	. "net"
 	. "strconv"
 	"time"
@@ -51,7 +51,6 @@ func IMA(address, port string, master chan bool, get_array chan []int) {
 func UDP_listen(array_update chan int) {
 
 	// Println("UDP_listen startet..!")
-
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
 

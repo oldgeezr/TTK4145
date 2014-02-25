@@ -51,15 +51,6 @@ func main() {
 		new_master <- true
 	}
 
-	/*for {
-		select {
-
-		case msg := <-get_array:
-			Println(msg)
-			time.Sleep(150 * time.Millisecond)
-		}
-	}*/
-
 	neverQuit := make(chan string)
 	<-neverQuit
 }

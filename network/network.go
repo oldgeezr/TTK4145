@@ -7,11 +7,11 @@ import (
 )
 
 const (
-	UDP_PORT     string = ":39773"
-	TCP_PORT     string = ":27731"
-	BROADCAST    string = "129.241.187.255"
-	IP_BASE      string = "129.241.187."
-	RECV_BUF_LEN int    = 1024
+	UDP_PORT  string = ":39773"
+	TCP_PORT  string = ":27731"
+	BROADCAST string = "129.241.187.255"
+	IP_BASE   string = "129.241.187."
+	BUF_LEN   int    = 1024
 )
 
 func GetMyIP() string {
