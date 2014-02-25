@@ -17,8 +17,6 @@ func Wait_for_input(int_button chan int, int_order, ext_order chan string) {
 		case floor := <-int_button:
 			// current_floor = Get_floor_sensor()
 			int_order <- Itoa(floor) + ":" + GetMyIP()
-			time.Sleep(500 * time.Millisecond)
-			ext_order <- Itoa(floor) + ":" + GetMyIP()
 		default:
 			time.Sleep(25 * time.Millisecond)
 		}
