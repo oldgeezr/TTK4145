@@ -23,6 +23,7 @@ func main() {
 
 	array_update := make(chan int)
 	get_array := make(chan []int)
+	new_master := make(chan bool)
 	flush := make(chan bool)
 	master := make(chan bool)
 
@@ -44,7 +45,7 @@ func main() {
 		master <- false
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
-		go IMA_master(get_array, master)
+		go IMA_master(get_array, master, new_master)
 		// Println("Starter IMA_master...")
 		go Connect_to_MASTER(get_array, UDP_PORT)
 	}

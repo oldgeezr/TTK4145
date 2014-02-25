@@ -57,7 +57,7 @@ func Timer(flush chan bool) {
 	}
 }
 
-func IMA_master(get_array chan []int, master chan bool) {
+func IMA_master(get_array chan []int, master, new_master chan bool) {
 
 	// Println("IMA_master startet..!")
 	count := 0
@@ -76,6 +76,8 @@ func IMA_master(get_array chan []int, master chan bool) {
 						// Println("Sender master request...")
 						Println("MASTER forsvant..!")
 						master <- true
+						time.Sleep(50 * time.Microsecond)
+						new_master <- true
 					}
 				}
 			} else {
