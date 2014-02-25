@@ -25,7 +25,8 @@ func TCP_echo(conn Conn) {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
-		conn.Write([]byte("From master:") + b)
+		msg := "From master: " + string(b)
+		conn.Write([]byte(msg))
 	}
 }
 
