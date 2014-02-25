@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	// . "../.././lift"
+	. "../.././lift"
 	. "../.././network"
 	. "fmt"
 	. "net"
@@ -25,8 +25,7 @@ func TCP_echo(conn Conn) {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
-		msg := "From master: " + string(b)
-		conn.Write([]byte(msg))
+		conn.Write(b)
 	}
 }
 
@@ -36,6 +35,9 @@ func TCP_slave(conn Conn) {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
+		msg, _ := Atoi(string(b[0]))
+		Println(msg)
+		Send_to_floor(msg)
 	}
 }
 
