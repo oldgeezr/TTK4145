@@ -9,22 +9,13 @@ import (
 	"time"
 )
 
-func TCP_listen(master bool) {
+func TCP_listen() {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 
 		conn, _ := ln.Accept()
-		if master {
-			go TCP_echo(conn)
-		} else {
-			/*Println("hei")
-			b := make([]byte, BUF_LEN)
-			conn.Read(b)
-			msg, _ := Atoi(string(b[0]))
-			Println(msg)
-			Send_to_floor(msg)*/
-		}
+		go TCP_echo(conn)
 	}
 }
 
@@ -38,25 +29,29 @@ func TCP_echo(conn Conn) {
 	}
 }
 
+func TCP_slave(conn Conn) {
+
+	for {
+		b := make([]byte, BUF_LEN)
+		conn.Read(b)
+		Println(string(b))
+	}
+}
+
 func TCP_connect(master_ip string, int_order, ext_order chan string) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	go TCP_slave(conn)
 	time.Sleep(time.Second)
 	for {
 		b := make([]byte, BUF_LEN)
 		select {
 		case msg := <-int_order:
 			b = []byte(msg)
-			conn.Write(b)
 		case msg := <-ext_order:
 			b = []byte(msg)
-			conn.Write(b)
-		default:
-			time.Sleep(100 * time.Millisecond)
-			conn.Read(b)
-			Println(string(b))
 		}
-
+		conn.Write(b)
 	}
 }
 
