@@ -10,7 +10,7 @@ import (
 
 func TCP_listen() {
 
-	ln, err := Listen("tcp", TCP_PORT)
+	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 
 		conn, _ := ln.Accept()
@@ -30,7 +30,7 @@ func TCP_echo(conn Conn) {
 
 func TCP_connect(master_ip string) {
 
-	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	for {
 		time.Sleep(time.Second)
 		b := make([]byte, 1024)
