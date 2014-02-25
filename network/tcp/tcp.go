@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	. "../.././lift"
+	// . "../.././lift"
 	. "../.././network"
 	. "fmt"
 	. "net"
@@ -47,12 +47,16 @@ func TCP_connect(master_ip string, int_order, ext_order chan string) {
 		select {
 		case msg := <-int_order:
 			b = []byte(msg)
+			conn.Write(b)
 		case msg := <-ext_order:
 			b = []byte(msg)
-		case conn.Read(b):
+			conn.Write(b)
+		default:
+			time.Sleep(100 * time.Millisecond)
+			conn.Read(b)
 			Println(string(b))
 		}
-		conn.Write(b)
+
 	}
 }
 
