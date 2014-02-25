@@ -52,12 +52,12 @@ func Send_to_floor(floor, current_floor int) {
 	}
 }
 
-func KeyboardInput(ch chan int) {
+func KeyboardInput(int_button chan int) {
 	var a int
 
 	for {
 		Scan(&a)
-		ch <- a
+		int_button <- a
 	}
 }
 
@@ -95,7 +95,7 @@ func Internal(int_button chan int, int_order chan string) {
 	Speed(0)
 	Set_stop_lamp(1)
 
-	go Order(int_button)
+	go KeyboardInput(int_button)
 	go Wait_for_input(int_button, int_order)
 
 	neverQuit := make(chan string)
