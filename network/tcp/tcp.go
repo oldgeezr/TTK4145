@@ -44,6 +44,7 @@ func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool) 
 	for {
 		select {
 		case <-new_master:
+			time.Sleep(time.Second)
 			ip := <-get_array
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {

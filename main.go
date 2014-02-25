@@ -48,7 +48,6 @@ func main() {
 		go IMA_master(get_array, master, new_master)
 		// Println("Starter IMA_master...")
 		go Connect_to_MASTER(get_array, UDP_PORT, new_master)
-		time.Sleep(time.Second)
 		new_master <- true
 	}
 
