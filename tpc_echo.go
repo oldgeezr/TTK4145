@@ -31,9 +31,11 @@ func TCP_listen() {
 
 func TCP_echo(conn Conn) {
 
-	b := make([]byte, 1024)
-	conn.Read(b)
-	Println(string(b))
+	for {
+		b := make([]byte, 1024)
+		conn.Read(b)
+		Println(string(b))
+	}
 }
 
 func TCP_send() {
