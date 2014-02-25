@@ -26,7 +26,8 @@ func Wait_for_input(int_button chan int, int_order, ext_order chan string) {
 
 }
 
-func Send_to_floor(floor, current_floor int) {
+func Send_to_floor(floor) {
+	current_floor = Get_floor_sensor()
 	if current_floor < floor {
 		Println("Going up")
 		for {

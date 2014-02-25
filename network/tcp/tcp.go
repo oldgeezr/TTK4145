@@ -1,6 +1,7 @@
 package tcp
 
 import (
+	. "../../.././lift"
 	. "../.././network"
 	. "fmt"
 	. "net"
@@ -8,13 +9,19 @@ import (
 	"time"
 )
 
-func TCP_listen() {
+func TCP_listen(master bool) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 
 		conn, _ := ln.Accept()
-		go TCP_echo(conn)
+		if master {
+			go TCP_echo(conn)
+		} else {
+			b := make([]byte, BUF_LEN)
+			conn.Read(b)
+			Send_to_floor(Atoi(string(b[0])))
+		}
 	}
 }
 
@@ -23,7 +30,7 @@ func TCP_echo(conn Conn) {
 	for {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
-		Println(string(b))
+		conn.Write(b)
 	}
 }
 
