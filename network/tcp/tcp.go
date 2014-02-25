@@ -3,7 +3,7 @@ package tcp
 import (
 	. "../.././lift"
 	. "../.././network"
-	. "fmt"
+	// . "fmt"
 	. "net"
 	. "strconv"
 	"time"
@@ -20,7 +20,8 @@ func TCP_listen(master bool) {
 		} else {
 			b := make([]byte, BUF_LEN)
 			conn.Read(b)
-			Send_to_floor(Atoi(string(b[0])))
+			msg, _ := Atoi(string(b[0]))
+			Send_to_floor(msg)
 		}
 	}
 }
