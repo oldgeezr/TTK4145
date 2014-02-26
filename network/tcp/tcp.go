@@ -31,12 +31,13 @@ func TCP_echo(conn Conn) {
 
 func TCP_slave(conn Conn) {
 
+	// På sikt bør vi her kanskje lukke connection dersom master forsvinner. Mulig dette vil føre til problemer dersom vi ikke gjør det
+
 	for {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
 		msg, _ := Atoi(string(b[0]))
-		Println(msg)
 		Send_to_floor(msg)
 	}
 }
