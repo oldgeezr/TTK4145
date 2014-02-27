@@ -16,6 +16,7 @@ func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict) {
 	for {
 
 		conn, _ := ln.Accept()
+		go TCP_master_send(conn, job_queue, last_queue)
 		go func() {
 			b := make([]byte, BUF_LEN)
 			conn.Read(b)

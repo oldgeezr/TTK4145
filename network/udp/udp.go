@@ -29,8 +29,7 @@ func IMA(master chan bool, get_array chan []int) {
 		select {
 		case state := <-master:
 			if state {
-				go TCP_master_recieve()
-				go TCP_master_send()
+				go TCP_master_recieve(job_queue, last_queue)
 				// Println("Satte masterIP..!")
 				Println("Ble MASTER..!")
 				temp, _ := Atoi(GetMyIP())
