@@ -27,9 +27,9 @@ func TCP_master_echo(conn Conn) {
 
 	for {
 		b := make([]byte, BUF_LEN)
-		conn.Read(b)
+		length, _ := conn.Read(b)
 		var c Dict
-		err := json.Unmarshal(b, &c)
+		err := json.Unmarshal(b[0:length], &c)
 		Println("was here:", c, err)
 		/*if len(c.Ip) != 3 {
 			if c.Ip[0] == 'X' {
