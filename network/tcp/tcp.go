@@ -37,12 +37,12 @@ func TCP_slave(conn Conn) {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
-		msg, _ := Atoi(string(b[0]))
-		Send_to_floor(msg)
+		// msg, _ := Atoi(string(b[0]))
+		// Send_to_floor(msg)
 	}
 }
 
-func TCP_connect(master_ip string, int_order, ext_order chan string) {
+func TCP_connect(master_ip string, int_order, ext_order, last_order chan string) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	go TCP_slave(conn)
@@ -54,12 +54,14 @@ func TCP_connect(master_ip string, int_order, ext_order chan string) {
 			b = []byte(msg)
 		case msg := <-ext_order:
 			b = []byte(msg)
+		case msg := <-last_order:
+			b = []byte(msg)
 		}
 		conn.Write(b)
 	}
 }
 
-func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool, int_order, ext_order chan string) {
+func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool, int_order, ext_order, last_order chan string) {
 
 	for {
 		select {
@@ -69,7 +71,7 @@ func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool, 
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					go TCP_connect(Itoa(master_ip), int_order, ext_order)
+					go TCP_connect(Itoa(master_ip), int_order, ext_order, last_order)
 				}
 			}
 		default:

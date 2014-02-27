@@ -1,8 +1,10 @@
 package log
 
-/*const (
-	N int = 3 // Antall heiser
-)*/
+import (
+	// . "fmt"
+	// . "strconv"
+	"time"
+)
 
 type Dict struct {
 	Ip    string
@@ -29,44 +31,62 @@ func Pop_first(this []Slice) []Slice {
 	return this[1:len(this)]
 }
 
-func Insert(this []Slice, pos Order.Pos, floor Order.Floor) []Slice {
+func Insert(that []Slice, new_order Order) []Slice {
 
-	// HÅper dette funker
+	pos := new_order.Pos
+	floor := new_order.Floor
 	temp_slice := []Slice{}
-	temp_slice = this[:pos-1]
-	temp_slice = append(temp_slice, floor)
-	temp_slice = append(temp_slice, this[pos:])
+	rest_slice := []Slice{}
+	if pos > len(that) || pos == 0 {
+		temp_slice = append(temp_slice, Slice{new_order.Floor})
+	} else {
+		temp_slice = append(temp_slice, that[:pos-1]...)
+		rest_slice = append(rest_slice, that[pos-1:]...)
+		temp_slice = append(temp_slice, Slice{floor})
+		temp_slice = append(temp_slice, rest_slice...)
+	}
 	return temp_slice
 }
-
-func Last_queue(last_floor, get_last_queue chan Dict, new_job_queue chan string, algo_out chan Order) {
+func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
 
 	last_queue := []Dict{}
+
+	// i := 1
+	// j := 1
 
 	for {
 		select {
 		case msg := <-last_floor:
-			missing := false
+			missing := true
 			for _, last := range last_queue {
 				if msg.Ip == last.Ip {
 					last.Floor = msg.Floor
-				} else {
-					missing = true
+					missing = false
+					// Println("Fantes allerede:", j, "gang")
+					// j++
 				}
 			}
 			if missing {
-				last_queue = append(last_queue, Dict{msg})
+				last_queue = append(last_queue, msg)
 				new_job_queue <- msg.Ip
+				// Println("Appendet:", i, "gang")
+				// i++
 			}
-		case get_last_queue <- last_queue:
+		case msg := <-get_last_queue_request:
+			if msg {
+				get_last_queue <- last_queue
+			}
 			// Må kanskje ha ein default med time sleep
+		default:
+			time.Sleep(50 * time.Millisecond)
 		}
 	}
 }
 
-func Job_queues(new_job_queue, master_request, master_pop chan string, algo_out chan Order) {
+func Job_queues(new_job_queue, master_request, master_pop chan string, master_order chan Dict, algo_out chan Order) {
 
 	job_queue := []Jobs{}
+	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
 
 	for {
 		select {
@@ -75,26 +95,30 @@ func Job_queues(new_job_queue, master_request, master_pop chan string, algo_out 
 			job_queue = append(job_queue, Jobs{ip, []Slice{}})
 		case Do := <-algo_out:
 			// Legg til beslutning fra algo i rett jobb kø
-			for _, queue := range job_queue {
-				if queue.Ip == ip {
-					queue = Insert(queue, Do.Pos, Do.Floor)
-					master_request <- queue.Dest[0]
+			for i, queue := range job_queue {
+				if queue.Ip == Do.Ip {
+					job_queue[i].Dest = Insert(queue.Dest, Do)
+					master_order <- Dict{Do.Ip, Do.Floor}
+					// Println(job_queue)
 				}
 			}
 		case ip := <-master_request:
 			// Send ny ordre fra riktig kø til master
 			for _, queue := range job_queue {
 				if queue.Ip == ip {
-					master_request <- queue.Dest[0]
+					master_order <- Dict{queue.Ip, queue.Dest[0].A}
 				}
 			}
 		case ip := <-master_pop:
 			// pop ordre fra kø, da den er fullførrt
-			for _, queue := range job_queue {
+			for i, queue := range job_queue {
 				if queue.Ip == ip {
-					queue = Pop_first(queue)
+					job_queue[i].Dest = Pop_first(queue.Dest)
+					// Println(job_queue)
 				}
 			}
+		default:
+			time.Sleep(50 * time.Millisecond)
 		}
 	}
 }
