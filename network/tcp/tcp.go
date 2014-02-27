@@ -1,9 +1,9 @@
 package tcp
 
 import (
-	. "../.././lift"
 	. "../.././lift/log"
 	. "../.././network"
+	"encoding/json"
 	. "fmt"
 	. "net"
 	. "strconv"
@@ -43,10 +43,12 @@ func TCP_master_send(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
 		select {
 		case msg := <-job_queue:
 			msg, _ = json.Marshal(msg)
+			conn.Write(msg)
 		case msg := <-last_queue:
 			msg, _ = json.Marshal(msg)
-		default:
 			conn.Write(msg)
+		default:
+			time.Sleep(50 * time.Millisecond)
 		}
 	}
 }
