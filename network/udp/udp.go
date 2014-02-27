@@ -19,7 +19,7 @@ func UDP_send(conn Conn, msg string) {
 	_ = err
 }
 
-func IMA(master chan bool, get_array chan []int) {
+func IMA(master chan bool, get_array chan []int, job_queue chan []Jobs, last_queue chan []Dict) {
 
 	saddr, _ := ResolveUDPAddr("udp", BROADCAST+UDP_PORT)
 	conn, _ := DialUDP("udp", nil, saddr)

@@ -51,7 +51,7 @@ func main() {
 	go Job_queues(new_job_queue, master_request, master_pop, master_order, algo_out)
 
 	if err != nil { // MASTER
-		go IMA(master, get_array)
+		go IMA(master, get_array, job_queue, last_queue)
 		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(array_update)
@@ -59,7 +59,7 @@ func main() {
 	} else { // SLAVE
 		go Internal(int_order, ext_order, last_order)
 		// Println("slave")
-		go IMA(master, get_array)
+		go IMA(master, get_array, job_queue, last_queue)
 		// Println("Starter IMA...")
 		master <- false
 		go UDP_listen(array_update)
