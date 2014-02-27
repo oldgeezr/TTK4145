@@ -93,8 +93,10 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 		b := make([]byte, BUF_LEN)
 		select {
 		case msg := <-int_order:
+			Println("got int")
 			b, _ = json.Marshal(msg)
 		case msg := <-ext_order:
+			Println("got ext")
 			b, _ = json.Marshal(msg)
 		case msg := <-last_order:
 			b, _ = json.Marshal(msg)
