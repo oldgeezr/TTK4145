@@ -24,23 +24,26 @@ func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict) {
 }
 
 func TCP_master_echo(conn Conn) {
-	b := make([]byte, BUF_LEN)
-	conn.Read(b)
-	var c Dict
-	_ = json.Unmarshal(b, &c)
-	Println("was here:", c)
-	/*if len(c.Ip) != 3 {
-		if c.Ip[0] == 'X' {
-			// Fikk en last order og må oppdatere last queue
-			Println("last:", c)
+
+	for {
+		b := make([]byte, BUF_LEN)
+		conn.Read(b)
+		var c Dict
+		_ = json.Unmarshal(b, &c)
+		Println("was here:", c)
+		/*if len(c.Ip) != 3 {
+			if c.Ip[0] == 'X' {
+				// Fikk en last order og må oppdatere last queue
+				Println("last:", c)
+			} else {
+				// Fikk en ext order og må sende til algoritme
+				Println("ext:", c)
+			}
 		} else {
-			// Fikk en ext order og må sende til algoritme
-			Println("ext:", c)
-		}
-	} else {
-		// Fikk int order. Må sende til algoritme
-		Println("int:", c)
-	}*/
+			// Fikk int order. Må sende til algoritme
+			Println("int:", c)
+		}*/
+	}
 }
 
 func TCP_master_send(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
