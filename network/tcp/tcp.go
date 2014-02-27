@@ -29,7 +29,7 @@ func TCP_echo(conn Conn) {
 	}
 }
 
-func TCP_slave(conn Conn) {
+func TCP_send(conn Conn) {
 
 	// På sikt bør vi her kanskje lukke connection dersom master forsvinner. Mulig dette vil føre til problemer dersom vi ikke gjør det
 
@@ -51,8 +51,18 @@ func TCP_slave(conn Conn) {
 func TCP_connect(master_ip string, int_order, ext_order, last_order chan string) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
-	go TCP_slave(conn)
+	go TCP_send(conn)
 	time.Sleep(time.Second)
+
+	b2 := make([]byte, BUF_LEN)
+
+	go func() {
+		_, err := conn.Read(b2)
+		if err != nil {
+			conn.Close()
+		}
+	}()
+
 	for {
 		b := make([]byte, BUF_LEN)
 		select {
