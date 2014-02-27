@@ -30,8 +30,7 @@ func TCP_master_echo(conn Conn) {
 		length, _ := conn.Read(b)
 		var c Dict
 		err := json.Unmarshal(b[0:length], &c)
-		Println("was here:", c, err)
-		/*if len(c.Ip) != 3 {
+		if len(c.Ip) != 3 {
 			if c.Ip[0] == 'X' {
 				// Fikk en last order og må oppdatere last queue
 				Println("last:", c)
@@ -42,7 +41,7 @@ func TCP_master_echo(conn Conn) {
 		} else {
 			// Fikk int order. Må sende til algoritme
 			Println("int:", c)
-		}*/
+		}
 	}
 }
 
@@ -99,16 +98,14 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 	for {
 		select {
 		case msg := <-int_order:
-			b, err := json.Marshal(msg)
-			Println("got int", msg, err)
+			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-ext_order:
-			b, err := json.Marshal(msg)
-			Println("got ext", msg, err)
+			b, _ := json.Marshal(msg)
 			conn.Write(b)
-		/*case msg := <-last_order:
-		b, _ = json.Marshal(msg)
-		conn.Write(b)*/
+		case msg := <-last_order:
+			b, _ = json.Marshal(msg)
+			conn.Write(b)
 		default:
 			time.Sleep(25 * time.Millisecond)
 		}
