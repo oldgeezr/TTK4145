@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	// . "../.././lift"
+	. "../.././lift"
 	. "../.././network"
 	. "fmt"
 	. "net"
@@ -37,8 +37,8 @@ func TCP_slave(conn Conn) {
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		Println(string(b))
-		// msg, _ := Atoi(string(b[0]))
-		// Send_to_floor(msg)
+		msg, _ := Atoi(string(b[0]))
+		Send_to_floor(msg)
 	}
 }
 
@@ -54,8 +54,8 @@ func TCP_connect(master_ip string, int_order, ext_order, last_order chan string)
 			b = []byte(msg)
 		case msg := <-ext_order:
 			b = []byte(msg)
-		case msg := <-last_order:
-			b = []byte(msg)
+			// case msg := <-last_order:
+			// 	b = []byte(msg)
 		}
 		conn.Write(b)
 	}
