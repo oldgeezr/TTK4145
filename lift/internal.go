@@ -180,18 +180,20 @@ func Internal(int_button, ext_button chan int, int_order, ext_order, last_order,
 	Speed(150)
 	last_floor := -1
 
-	for {
+	go func() {
+		for {
 
-		last_floor = Get_floor_sensor()
+			last_floor = Get_floor_sensor()
 
-		if last_floor != -1 {
+			if last_floor != -1 {
 
-			Speed(-150)
-			time.Sleep(25 * time.Millisecond)
-			Speed(0)
-			break
+				Speed(-150)
+				time.Sleep(25 * time.Millisecond)
+				Speed(0)
+				return
+			}
 		}
-	}
+	}()
 
 	go Floor_indicator(last_order)
 	go Int_order(int_button)
