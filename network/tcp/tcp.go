@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	. "../.././lift"
+	// . "../.././lift"
 	. "../.././network"
 	. "fmt"
 	. "net"
