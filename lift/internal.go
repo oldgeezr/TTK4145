@@ -135,7 +135,7 @@ func Floor_indicator(last_order chan Dict) {
 		floor = Get_floor_sensor()
 		if floor != -1 {
 			Set_floor_indicator(floor)
-			last_order <- Dict{GetMyIP(), i}
+			last_order <- Dict{GetMyIP(), floor}
 		}
 		time.Sleep(500 * time.Millisecond)
 	}
