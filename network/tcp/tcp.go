@@ -104,7 +104,7 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-last_order:
-			b, _ = json.Marshal(msg)
+			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
 			time.Sleep(25 * time.Millisecond)
