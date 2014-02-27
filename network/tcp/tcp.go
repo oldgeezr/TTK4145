@@ -29,7 +29,7 @@ func TCP_master_echo(conn Conn) {
 		b := make([]byte, BUF_LEN)
 		length, _ := conn.Read(b)
 		var c Dict
-		err := json.Unmarshal(b[0:length], &c)
+		json.Unmarshal(b[0:length], &c)
 		if len(c.Ip) != 3 {
 			if c.Ip[0] == 'X' {
 				// Fikk en last order og må oppdatere last queue
