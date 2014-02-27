@@ -102,7 +102,7 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 	}
 }
 
-func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ext_order, last_order chan Dict) {
+func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ext_order, last_order chan Dict, job_queue chan []Jobs, last_queue chan []Dict) {
 
 	for {
 		select {

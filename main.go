@@ -66,7 +66,7 @@ func main() {
 		// Println("Starter UDP_listen...")
 		go IMA_master(get_array, master, new_master)
 		// Println("Starter IMA_master...")
-		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_order)
+		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_order, job_queue, last_queue)
 		new_master <- true
 	}
 
