@@ -38,7 +38,13 @@ func TCP_slave(conn Conn) {
 		conn.Read(b)
 		Println(string(b))
 		msg, _ := Atoi(string(b[0]))
-		Send_to_floor(msg, "int")
+		if string(b[2:4]) == "uppp" {
+			Send_to_floor(msg, "uppp")
+		} else if string(b[2:4]) == "down" {
+			Send_to_floor(msg, "down")
+		} else {
+			Send_to_floor(msg, "intt")
+		}
 	}
 }
 

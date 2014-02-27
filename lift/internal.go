@@ -45,10 +45,10 @@ func Send_to_floor(floor int, button string) {
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-				if button == "int" {
+				if button == "intt" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
-					if button == "up" {
+					if button == "uppp" {
 						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
 					} else {
 						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
@@ -69,10 +69,10 @@ func Send_to_floor(floor int, button string) {
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-				if button == "int" {
+				if button == "intt" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
-					if button == "up" {
+					if button == "uppp" {
 						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
 					} else {
 						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
@@ -107,7 +107,7 @@ func Ext_order(int_button chan int, direction chan string) {
 				Println("External call up button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
 				int_button <- i
-				direction <- "up"
+				direction <- "uppp"
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
