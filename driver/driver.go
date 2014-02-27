@@ -60,6 +60,6 @@ func Set_stop_lamp(value int) {
 	C.elev_set_stop_lamp(C.int(value))
 }
 
-func Elev_set_door_open_lamo(value int) {
+func Elev_set_door_open_lamp(value int) {
 	C.elev_set_door_open_lamp(C.int(value))
 }
