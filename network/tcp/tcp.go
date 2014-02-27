@@ -42,11 +42,11 @@ func TCP_master_send(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
 	for {
 		select {
 		case msg := <-job_queue:
-			msg, _ = json.Marshal(msg)
-			conn.Write(msg)
+			b, _ := json.Marshal(msg)
+			conn.Write(b)
 		case msg := <-last_queue:
-			msg, _ = json.Marshal(msg)
-			conn.Write(msg)
+			b, _ := json.Marshal(msg)
+			conn.Write(b)
 		default:
 			time.Sleep(50 * time.Millisecond)
 		}
@@ -91,13 +91,14 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 		b := make([]byte, BUF_LEN)
 		select {
 		case msg := <-int_order:
-			msg, _ = json.Marshal(msg)
+			b, _ = json.Marshal(msg)
 		case msg := <-ext_order:
-			msg, _ = json.Marshal(msg)
+			b, _ = json.Marshal(msg)
 		case msg := <-last_order:
-			msg, _ = json.Marshal(msg)
+			b, _ = json.Marshal(msg)
+		default:
+			conn.Write(b)
 		}
-		conn.Write(b)
 	}
 }
 
