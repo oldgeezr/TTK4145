@@ -42,6 +42,7 @@ func Send_to_floor(floor int, button string) {
 				Println("I am now at floor: " + Itoa(Get_floor_sensor()))
 				Set_stop_lamp(1)
 				Elev_set_door_open_lamp(1)
+				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
 				if button == "int" {
@@ -65,6 +66,7 @@ func Send_to_floor(floor int, button string) {
 				Println("I am now at floor: " + Itoa(Get_floor_sensor()))
 				Set_stop_lamp(1)
 				Elev_set_door_open_lamp(1)
+				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
 				if button == "int" {
