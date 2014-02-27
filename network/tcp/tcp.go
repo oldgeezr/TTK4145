@@ -22,7 +22,8 @@ func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict) {
 			conn.Read(b)
 			var c Dict
 			_ = json.Unmarshal(b, &c)
-			if len(c.Ip) != 3 {
+			Println("was here:", c)
+			/*if len(c.Ip) != 3 {
 				if c.Ip[0] == 'X' {
 					// Fikk en last order og må oppdatere last queue
 					Println("last:", c)
@@ -33,7 +34,7 @@ func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict) {
 			} else {
 				// Fikk int order. Må sende til algoritme
 				Println("int:", c)
-			}
+			}*/
 		}()
 	}
 }
