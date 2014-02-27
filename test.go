@@ -2,13 +2,12 @@ package main
 
 import (
 	. "./lift/log"
+	"encoding/json"
 	. "fmt"
-	"time"
 )
 
-func main() {
-
-	new_job_queue := make(chan string)
+/*
+new_job_queue := make(chan string)
 	master_request := make(chan string)
 	master_order := make(chan Dict)
 	master_pop := make(chan string)
@@ -83,5 +82,25 @@ func main() {
 
 	neverQuit := make(chan string)
 	<-neverQuit
+*/
+
+func main() {
+
+	job_queue := []Jobs{}
+	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
+
+	b, err := json.Marshal(job_queue)
+
+	if err != nil {
+		Println("first:", err)
+	} else {
+		var c []Jobs
+		err2 := json.Unmarshal(b, &c)
+		if err2 != nil {
+			Println("second:", err2)
+		} else {
+			Println(c)
+		}
+	}
 
 }

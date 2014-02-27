@@ -29,12 +29,9 @@ func main() {
 	new_master := make(chan bool)
 	flush := make(chan bool)
 	master := make(chan bool)
-	int_button := make(chan int)
-	ext_button := make(chan int)
-	int_order := make(chan string)
-	ext_order := make(chan string)
-	last_order := make(chan string)
-	direction := make(chan string)
+	int_order := make(chan Dict)
+	ext_order := make(chan Dict)
+	last_order := make(chan Dict)
 	new_job_queue := make(chan string)
 	master_request := make(chan string)
 	master_order := make(chan Dict)
@@ -43,6 +40,8 @@ func main() {
 	last_floor := make(chan Dict)
 	get_last_queue := make(chan []Dict)
 	get_last_queue_request := make(chan bool)
+	job_queue := make(chan []Jobs)
+	last_queue := make(chan []Dict)
 
 	go IP_array(array_update, get_array, flush)
 	// Println("Starter IP_array...")
@@ -52,22 +51,22 @@ func main() {
 	go Job_queues(new_job_queue, master_request, master_pop, master_order, algo_out)
 
 	if err != nil { // MASTER
-		go IMA(BROADCAST, UDP_PORT, master, get_array)
+		go IMA(master, get_array)
 		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 	} else { // SLAVE
-		go Internal(int_button, ext_button, int_order, ext_order, last_order, direction)
+		go Internal(int_order, ext_order, last_order)
 		// Println("slave")
-		go IMA(BROADCAST, UDP_PORT, master, get_array)
+		go IMA(master, get_array)
 		// Println("Starter IMA...")
 		master <- false
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 		go IMA_master(get_array, master, new_master)
 		// Println("Starter IMA_master...")
-		go Connect_to_MASTER(get_array, UDP_PORT, new_master, int_order, ext_order, last_order)
+		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_order)
 		new_master <- true
 	}
 

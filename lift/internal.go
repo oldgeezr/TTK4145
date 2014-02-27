@@ -3,30 +3,11 @@ package lift
 import (
 	. ".././driver"
 	. ".././network"
+	. "./log"
 	. "fmt"
 	. "strconv"
 	"time"
 )
-
-//Waits for internal and external inputs from elevator control
-func Wait_for_input(int_button, ext_button chan int, int_order, ext_order, last_order, direction chan string) {
-
-	var floor int
-
-	for {
-		select {
-		case floor = <-int_button:
-			int_order <- Itoa(floor) + ":" + GetMyIP()
-		case floor = <-ext_button:
-			dir := <-direction
-			ext_order <- Itoa(floor) + ":" + dir
-		case temp := <-last_order:
-			_ = temp
-			//last_order <- Itoa(temp) + ":" + GetMyIP()
-			time.Sleep(50 * time.Millisecond)
-		}
-	}
-}
 
 //Sends elevator to specified floor
 func Send_to_floor(floor int, button string) {
@@ -45,10 +26,10 @@ func Send_to_floor(floor int, button string) {
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-				if button == "intt" {
+				if button == "int" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
-					if button == "uppp" {
+					if button == "up" {
 						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
 					} else {
 						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
@@ -69,10 +50,10 @@ func Send_to_floor(floor int, button string) {
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-				if button == "intt" {
+				if button == "int" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
-					if button == "uppp" {
+					if button == "up" {
 						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
 					} else {
 						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
@@ -96,7 +77,7 @@ func KeyboardInput(ch chan int) {
 }
 
 //Handles external button presses
-func Ext_order(int_button chan int, direction chan string) {
+func Ext_order(ext_order chan Dict) {
 
 	i := 0
 
@@ -106,8 +87,7 @@ func Ext_order(int_button chan int, direction chan string) {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				Println("External call up button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
-				int_button <- i
-				direction <- "uppp"
+				ext_order <- Dict{"up", i}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -115,8 +95,7 @@ func Ext_order(int_button chan int, direction chan string) {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				Println("External call down button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
-				int_button <- i
-				direction <- "down"
+				ext_order <- Dict{"down", i}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -129,14 +108,14 @@ func Ext_order(int_button chan int, direction chan string) {
 }
 
 //Handles internal button presses
-func Int_order(int_button chan int) {
+func Int_order(int_order chan Dict) {
 
 	i := 0
 	for {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
-			int_button <- i
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
+			int_order <- Dict{GetMyIP(), i}
 			time.Sleep(300 * time.Millisecond)
 		}
 
@@ -148,7 +127,7 @@ func Int_order(int_button chan int) {
 }
 
 //Checks which floor the elevator is on and sets the floor-light
-func Floor_indicator(last_order chan string) {
+func Floor_indicator(last_order chan Dict) {
 	Println("executing floor indicator!")
 	//_ = last_order
 	var floor int
@@ -156,10 +135,9 @@ func Floor_indicator(last_order chan string) {
 		floor = Get_floor_sensor()
 		if floor != -1 {
 			Set_floor_indicator(floor)
-			last_order <- Itoa(floor)
-			time.Sleep(50 * time.Millisecond)
+			last_order <- Dict{GetMyIP(), i}
 		}
-		time.Sleep(25 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 
@@ -173,7 +151,7 @@ func To_nearest_floor() {
 	}
 }
 
-func Internal(int_button, ext_button chan int, int_order, ext_order, last_order, direction chan string) {
+func Internal(int_order, ext_order, last_order chan Dict) {
 
 	// Initialize
 	Init()
@@ -196,9 +174,8 @@ func Internal(int_button, ext_button chan int, int_order, ext_order, last_order,
 	}()
 
 	go Floor_indicator(last_order)
-	go Int_order(int_button)
-	go Ext_order(ext_button, direction)
-	go Wait_for_input(int_button, ext_button, int_order, ext_order, last_order, direction)
+	go Int_order(int_order)
+	go Ext_order(ext_order)
 
 	neverQuit := make(chan string)
 	<-neverQuit

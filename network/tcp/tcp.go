@@ -2,6 +2,7 @@ package tcp
 
 import (
 	. "../.././lift"
+	. "../.././lift/log"
 	. "../.././network"
 	. "fmt"
 	. "net"
@@ -9,75 +10,96 @@ import (
 	"time"
 )
 
-func TCP_listen() {
+func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 
 		conn, _ := ln.Accept()
-		go TCP_echo(conn)
+		go func() {
+			b := make([]byte, BUF_LEN)
+			conn.Read(b)
+			var c Dict
+			_ = json.Unmarshal(b, &c)
+			if len(c.Ip) != 3 {
+				if c.Ip[0] == 'X' {
+					// Fikk en last order og må oppdatere last queue
+					Println("last:", c)
+				} else {
+					// Fikk en ext order og må sende til algoritme
+					Println("ext:", c)
+				}
+			} else {
+				// Fikk int order. Må sende til algoritme
+				Println("int:", c)
+			}
+		}()
 	}
 }
 
-func TCP_echo(conn Conn) {
+func TCP_master_send(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
 
 	for {
-		b := make([]byte, BUF_LEN)
-		conn.Read(b)
-		Println(string(b))
-		conn.Write(b)
-	}
-}
-
-func TCP_send(conn Conn) {
-
-	// På sikt bør vi her kanskje lukke connection dersom master forsvinner. Mulig dette vil føre til problemer dersom vi ikke gjør det
-
-	for {
-		b := make([]byte, BUF_LEN)
-		conn.Read(b)
-		Println(string(b))
-		msg, _ := Atoi(string(b[0]))
-		if string(b[2:4]) == "uppp" {
-			Send_to_floor(msg, "uppp")
-		} else if string(b[2:4]) == "down" {
-			Send_to_floor(msg, "down")
-		} else {
-			Send_to_floor(msg, "intt")
+		select {
+		case msg := <-job_queue:
+			msg, _ = json.Marshal(msg)
+		case msg := <-last_queue:
+			msg, _ = json.Marshal(msg)
+		default:
+			conn.Write(msg)
 		}
 	}
 }
 
-func TCP_connect(master_ip string, int_order, ext_order, last_order chan string) {
+func TCP_slave_recieve(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
+
+	for {
+		b := make([]byte, BUF_LEN)
+		conn.Read(b)
+		var c []Jobs
+		var d []Dict
+		err := json.Unmarshal(b, &c)
+		if err != nil {
+			_ = json.Unmarshal(b, &d)
+			last_queue <- d
+		} else {
+			job_queue <- c
+		}
+
+	}
+}
+
+func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict, job_queue chan []Jobs, last_queue chan []Dict) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
-	go TCP_send(conn)
 	time.Sleep(time.Second)
 
-	b2 := make([]byte, BUF_LEN)
+	go TCP_slave_recieve(conn, job_queue, last_queue)
+
+	/*b2 := make([]byte, BUF_LEN)
 
 	go func() {
 		_, err := conn.Read(b2)
 		if err != nil {
 			conn.Close()
 		}
-	}()
+	}()*/
 
 	for {
 		b := make([]byte, BUF_LEN)
 		select {
 		case msg := <-int_order:
-			b = []byte(msg)
+			msg, _ = json.Marshal(msg)
 		case msg := <-ext_order:
-			b = []byte(msg)
-			// case msg := <-last_order:
-			// 	b = []byte(msg)
+			msg, _ = json.Marshal(msg)
+		case msg := <-last_order:
+			msg, _ = json.Marshal(msg)
 		}
 		conn.Write(b)
 	}
 }
 
-func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool, int_order, ext_order, last_order chan string) {
+func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ext_order, last_order chan Dict) {
 
 	for {
 		select {
@@ -87,7 +109,7 @@ func Connect_to_MASTER(get_array chan []int, port string, new_master chan bool, 
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					go TCP_connect(Itoa(master_ip), int_order, ext_order, last_order)
+					go TCP_slave_send(Itoa(master_ip), int_order, ext_order, last_order, job_queue, last_queue)
 				}
 			}
 		default:
