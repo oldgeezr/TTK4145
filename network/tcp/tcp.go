@@ -4,26 +4,25 @@ import (
 	. "../.././lift/log"
 	. "../.././network"
 	"encoding/json"
-	. "fmt"
+	// . "fmt"
 	. "net"
 	. "strconv"
 	"time"
 )
 
-func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict) {
+func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict, last_floor chan Dict) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 
-		conn, err := ln.Accept()
+		conn, _ := ln.Accept()
 
-		Println("error from master: ", err)
 		// go TCP_master_send(conn, job_queue, last_queue)
-		go TCP_master_echo(conn)
+		go TCP_master_echo(conn, last_floor)
 	}
 }
 
-func TCP_master_echo(conn Conn) {
+func TCP_master_echo(conn Conn, last_floor chan Dict) {
 
 	for {
 		b := make([]byte, BUF_LEN)
@@ -33,14 +32,15 @@ func TCP_master_echo(conn Conn) {
 		if len(c.Ip) != 3 {
 			if c.Ip[0] == 'X' {
 				// Fikk en last order og må oppdatere last queue
-				Println("last:", c)
+				c.Ip = c.Ip[1:]
+				last_floor <- c
 			} else {
 				// Fikk en ext order og må sende til algoritme
-				Println("ext:", c)
+				// Println("ext:", c)
 			}
 		} else {
 			// Fikk int order. Må sende til algoritme
-			Println("int:", c)
+			// Println("int:", c)
 		}
 	}
 }

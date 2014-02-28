@@ -9,6 +9,44 @@ import (
 	"time"
 )
 
+func Master_get_last_queue(get_last_queue chan []Dict) {
+
+	for {
+
+		select {
+		case msg := <-get_last_queue:
+			Print(msg)
+		default:
+			time.Sleep(time.Second)
+		}
+	}
+}
+
+func Master_print_last_queue(get_last_queue_request chan bool) {
+
+	for {
+
+		get_last_queue_request <- true
+		time.Sleep(2 * time.Second)
+	}
+}
+
+func Master_input(int_order, ext_order, last_order chan Dict) {
+
+	for {
+		select {
+		case msg := <-int_order:
+			Print(msg)
+		case msg := <-ext_order:
+			Print(msg)
+		case msg := <-last_order:
+			Print(msg)
+		default:
+			time.Sleep(25 * time.Millisecond)
+		}
+	}
+}
+
 //Sends elevator to specified floor
 func Send_to_floor(floor int, button string) {
 	current_floor := Get_floor_sensor()
