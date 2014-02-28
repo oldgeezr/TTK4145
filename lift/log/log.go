@@ -57,15 +57,18 @@ func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue
 	for {
 		select {
 		case msg := <-last_floor:
-			missing := true
-			for _, last := range last_queue {
+			missing_ip := true
+			for i, last := range last_queue {
 				if msg.Ip[1:] == last.Ip {
-					missing = false
+					missing_ip = false
 					// Println("Fantes allerede:", j, "gang")
 					// j++
+					if msg.Floor != last.Floor {
+						last_queue[i].Floor = msg.Floor
+					}
 				}
 			}
-			if missing {
+			if missing_ip {
 				msg.Ip = msg.Ip[1:]
 				last_queue = append(last_queue, msg)
 				new_job_queue <- msg.Ip
