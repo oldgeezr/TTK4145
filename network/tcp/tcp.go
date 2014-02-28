@@ -4,7 +4,7 @@ import (
 	. "../.././lift/log"
 	. "../.././network"
 	"encoding/json"
-	// . "fmt"
+	. "fmt"
 	. "net"
 	. "strconv"
 	"time"
@@ -105,6 +105,7 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_floor chan Dict
 			conn.Write(b)
 		case msg := <-last_floor:
 			b, _ := json.Marshal(msg)
+			Println(msg)
 			conn.Write(b)
 		default:
 			time.Sleep(25 * time.Millisecond)
