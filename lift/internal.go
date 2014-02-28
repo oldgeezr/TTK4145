@@ -29,9 +29,9 @@ func Master_print_last_queue(get_last_queue_request chan bool, master_request ch
 
 		get_last_queue_request <- true
 		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 1}
+		algo_out <- Order{"141", 3, 1}
 		time.Sleep(time.Second)
-		master_request <- "143"
+		master_request <- "141"
 		time.Sleep(time.Second)
 
 	}
