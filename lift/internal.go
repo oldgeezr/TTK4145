@@ -14,7 +14,7 @@ func Master_get_last_queue(get_last_queue chan []Dict) {
 	for {
 
 		msg := <-get_last_queue
-		Print(msg)
+		Println(msg)
 	}
 }
 
