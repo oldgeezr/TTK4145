@@ -32,7 +32,6 @@ func TCP_master_echo(conn Conn, last_floor chan Dict) {
 		if len(c.Ip) != 3 {
 			if c.Ip[0] == 'X' {
 				// Fikk en last order og må oppdatere last queue
-				c.Ip = c.Ip[1:]
 				last_floor <- c
 			} else {
 				// Fikk en ext order og må sende til algoritme
