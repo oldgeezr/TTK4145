@@ -17,7 +17,6 @@ func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
 			Println(msg)
 		case msg := <-master_order:
 			Println(msg.Floor)
-			Send_to_floor(msg.Floor, "int")
 		default:
 			time.Sleep(50 * time.Microsecond)
 		}
