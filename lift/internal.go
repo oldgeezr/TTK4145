@@ -16,8 +16,8 @@ func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
 		case msg := <-get_last_queue:
 			Println(msg)
 		case msg := <-master_order:
-			Println(msg.Floor)
-			Send_to_floor(msg.Floor, "int")
+			Send_to_floor(floor, button)
+
 		default:
 			time.Sleep(50 * time.Microsecond)
 		}
@@ -28,13 +28,26 @@ func Master_print_last_queue(get_last_queue_request chan bool, master_request ch
 
 	for {
 
-		get_last_queue_request <- true
 		time.Sleep(time.Second)
-		algo_out <- Order{"141", 3, 1}
+		algo_out <- Order{"143", 3, 1}
+		master_request <- "143"
+		time.Sleep(time.Second)
+		algo_out <- Order{"143", 3, 2}
+		master_request <- "143"
+		time.Sleep(time.Second)
+		algo_out <- Order{"143", 3, 3}
+		master_request <- "143"
+		time.Sleep(time.Second)
+		algo_out <- Order{"143", 3, 1}
+		master_request <- "143"
+		time.Sleep(time.Second)
+		algo_out <- Order{"143", 3, 4}
+		master_request <- "143"
+		time.Sleep(time.Second)
+		algo_out <- Order{"143", 3, 1}
+		master_request <- "143"
 		time.Sleep(time.Second)
 		master_request <- "141"
-		time.Sleep(time.Second)
-
 	}
 }
 

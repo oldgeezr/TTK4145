@@ -41,13 +41,15 @@ func main() {
 	get_last_queue_request := make(chan bool)
 	job_queue := make(chan []Jobs)
 	last_queue := make(chan []Dict)
+	que := make(chan []Jobs)
+	que_request := make(chan bool)
 
 	go IP_array(array_update, get_array, flush)
 	// Println("Starter IP_array...")
 	go Timer(flush)
 	// Println("Starter Timer...")
 	go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
-	go Job_queues(new_job_queue, master_request, master_pop, master_order, algo_out)
+	go Job_queues(que, que_request, new_job_queue, master_request, master_pop, master_order, algo_out)
 
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)

@@ -36,15 +36,16 @@ func Insert(that []Slice, new_order Order) []Slice {
 	pos := new_order.Pos
 	floor := new_order.Floor
 	temp_slice := []Slice{}
-	rest_slice := []Slice{}
 	if pos > len(that) || pos == 0 {
+		temp_slice = append(temp_slice, that...)
 		temp_slice = append(temp_slice, Slice{new_order.Floor})
+
 	} else {
 		temp_slice = append(temp_slice, that[:pos-1]...)
-		rest_slice = append(rest_slice, that[pos-1:]...)
 		temp_slice = append(temp_slice, Slice{floor})
-		temp_slice = append(temp_slice, rest_slice...)
+		temp_slice = append(temp_slice, that[pos-1:]...)
 	}
+
 	return temp_slice
 }
 func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
@@ -86,7 +87,7 @@ func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue
 	}
 }
 
-func Job_queues(new_job_queue, master_request, master_pop chan string, master_order chan Dict, algo_out chan Order) {
+func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_request, master_pop chan string, master_order chan Dict, algo_out chan Order) {
 
 	job_queue := []Jobs{}
 	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
@@ -100,7 +101,7 @@ func Job_queues(new_job_queue, master_request, master_pop chan string, master_or
 			// Legg til beslutning fra algo i rett jobb kø
 			for i, queue := range job_queue {
 				if queue.Ip == Do.Ip {
-					job_queue[i].Dest = Insert(queue.Dest, Do)
+					job_queue[i].Dest = Insert(job_queue[i].Dest, Do)
 					master_order <- Dict{Do.Ip, Do.Floor}
 					// Println(job_queue)
 				}
@@ -111,6 +112,10 @@ func Job_queues(new_job_queue, master_request, master_pop chan string, master_or
 				if queue.Ip == ip {
 					master_order <- Dict{queue.Ip, queue.Dest[0].A}
 				}
+			}
+		case msg := <-que_request:
+			if que_request {
+				que <- job_queue
 			}
 		case ip := <-master_pop:
 			// pop ordre fra kø, da den er fullførrt
