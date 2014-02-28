@@ -52,8 +52,8 @@ func main() {
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)
 		go Internal(int_order, ext_order, last_floor)
-		go Master_get_last_queue(get_last_queue)
-		go Master_print_last_queue(get_last_queue_request)
+		go Master_get_last_queue(get_last_queue, master_order)
+		go Master_print_last_queue(get_last_queue_request, master_request, algo_out)
 		go IMA(master, get_array, job_queue, last_queue, last_floor)
 		// Println("Starter IMA...")
 		master <- true

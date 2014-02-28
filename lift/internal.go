@@ -9,21 +9,32 @@ import (
 	"time"
 )
 
-func Master_get_last_queue(get_last_queue chan []Dict) {
+func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
 
 	for {
-
-		msg := <-get_last_queue
-		Println(msg)
+		select {
+		case msg := <-get_last_queue:
+			Println(msg)
+		case msg := <-master_order:
+			Println(msg.Floor)
+			Send_to_floor(msg.Floor, "int")
+		default:
+			time.Sleep(50 * time.Microsecond)
+		}
 	}
 }
 
-func Master_print_last_queue(get_last_queue_request chan bool) {
+func Master_print_last_queue(get_last_queue_request chan bool, master_request chan string, algo_out chan Order) {
 
 	for {
 
 		get_last_queue_request <- true
-		time.Sleep(2 * time.Second)
+		time.Sleep(time.Second)
+		algo_out <- Order{"143", 3, 1}
+		time.Sleep(time.Second)
+		master_request <- "143"
+		time.Sleep(time.Second)
+
 	}
 }
 
