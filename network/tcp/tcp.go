@@ -107,7 +107,8 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_floor chan Dict
 			Println("from slave send:", msg)
 			conn.Write(b)
 		default:
-			time.Sleep(25 * time.Millisecond)
+			time.Sleep(23 * time.Millisecond)
+			// Println("default slave send")
 		}
 	}
 }

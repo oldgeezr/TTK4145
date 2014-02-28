@@ -209,8 +209,4 @@ func Internal(int_order, ext_order, last_floor chan Dict) {
 	go Floor_indicator(last_floor)
 	go Int_order(int_order)
 	go Ext_order(ext_order)
-
-	neverQuit := make(chan string)
-	<-neverQuit
-
 }
