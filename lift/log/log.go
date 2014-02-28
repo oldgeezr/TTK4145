@@ -58,9 +58,9 @@ func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue
 		select {
 		case msg := <-last_floor:
 			missing := true
-			for _, last := range last_queue {
+			for i, last := range last_queue {
 				if msg.Ip == last.Ip {
-					last.Floor = msg.Floor
+					last_queue[i] = msg
 					missing = false
 					// Println("Fantes allerede:", j, "gang")
 					// j++

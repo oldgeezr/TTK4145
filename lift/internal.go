@@ -13,12 +13,8 @@ func Master_get_last_queue(get_last_queue chan []Dict) {
 
 	for {
 
-		select {
-		case msg := <-get_last_queue:
-			Print(msg)
-		default:
-			time.Sleep(time.Second)
-		}
+		msg := <-get_last_queue
+		Print(msg)
 	}
 }
 
