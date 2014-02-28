@@ -170,7 +170,7 @@ func Floor_indicator(last_floor chan Dict) {
 			Set_floor_indicator(floor)
 			last_floor <- Dict{"X" + GetMyIP(), floor}
 		}
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 	}
 }
 
