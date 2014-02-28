@@ -79,7 +79,7 @@ func TCP_slave_recieve(conn Conn, job_queue chan []Jobs, last_queue chan []Dict)
 	}
 }
 
-func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict, job_queue chan []Jobs, last_queue chan []Dict) {
+func TCP_slave_send(master_ip string, int_order, ext_order, last_floor chan Dict, job_queue chan []Jobs, last_queue chan []Dict) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	time.Sleep(time.Second)
@@ -103,7 +103,7 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 		case msg := <-ext_order:
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-		case msg := <-last_order:
+		case msg := <-last_floor:
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
@@ -112,7 +112,7 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_order chan Dict
 	}
 }
 
-func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ext_order, last_order chan Dict, job_queue chan []Jobs, last_queue chan []Dict) {
+func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ext_order, last_floor chan Dict, job_queue chan []Jobs, last_queue chan []Dict) {
 
 	for {
 		select {
@@ -122,7 +122,7 @@ func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ex
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					go TCP_slave_send(Itoa(master_ip), int_order, ext_order, last_order, job_queue, last_queue)
+					go TCP_slave_send(Itoa(master_ip), int_order, ext_order, last_floor, job_queue, last_queue)
 				}
 			}
 		default:

@@ -31,7 +31,6 @@ func main() {
 	master := make(chan bool)
 	int_order := make(chan Dict)
 	ext_order := make(chan Dict)
-	last_order := make(chan Dict)
 	new_job_queue := make(chan string)
 	master_request := make(chan string)
 	master_order := make(chan Dict)
@@ -51,8 +50,8 @@ func main() {
 	go Job_queues(new_job_queue, master_request, master_pop, master_order, algo_out)
 
 	if err != nil { // MASTER
-		// go Master_input(int_order, ext_order, last_order)
-		go Internal(int_order, ext_order, last_order)
+		// go Master_input(int_order, ext_order, last_floor)
+		go Internal(int_order, ext_order, last_floor)
 		go Master_get_last_queue(get_last_queue)
 		go Master_print_last_queue(get_last_queue_request)
 		go IMA(master, get_array, job_queue, last_queue, last_floor)
@@ -61,7 +60,7 @@ func main() {
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 	} else { // SLAVE
-		go Internal(int_order, ext_order, last_order)
+		go Internal(int_order, ext_order, last_floor)
 		// Println("slave")
 		go IMA(master, get_array, job_queue, last_queue, last_floor)
 		// Println("Starter IMA...")
@@ -70,7 +69,7 @@ func main() {
 		// Println("Starter UDP_listen...")
 		go IMA_master(get_array, master, new_master)
 		// Println("Starter IMA_master...")
-		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_order, job_queue, last_queue)
+		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_floor, job_queue, last_queue)
 		new_master <- true
 	}
 

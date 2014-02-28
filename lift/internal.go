@@ -27,7 +27,7 @@ func Master_print_last_queue(get_last_queue_request chan bool) {
 	}
 }
 
-func Master_input(int_order, ext_order, last_order chan Dict) {
+func Master_input(int_order, ext_order, last_floor chan Dict) {
 
 	for {
 		select {
@@ -35,8 +35,8 @@ func Master_input(int_order, ext_order, last_order chan Dict) {
 			Print(msg)
 		case msg := <-ext_order:
 			Print(msg)
-		case msg := <-last_order:
-			Print(msg)
+		case msg := <-last_floor:
+			_ = msg
 		default:
 			time.Sleep(25 * time.Millisecond)
 		}
@@ -161,15 +161,14 @@ func Int_order(int_order chan Dict) {
 }
 
 //Checks which floor the elevator is on and sets the floor-light
-func Floor_indicator(last_order chan Dict) {
+func Floor_indicator(last_floor chan Dict) {
 	Println("executing floor indicator!")
-	//_ = last_order
 	var floor int
 	for {
 		floor = Get_floor_sensor()
 		if floor != -1 {
 			Set_floor_indicator(floor)
-			last_order <- Dict{GetMyIP(), floor}
+			last_floor <- Dict{GetMyIP(), floor}
 		}
 		time.Sleep(500 * time.Millisecond)
 	}
@@ -185,19 +184,19 @@ func To_nearest_floor() {
 	}
 }
 
-func Internal(int_order, ext_order, last_order chan Dict) {
+func Internal(int_order, ext_order, last_floor chan Dict) {
 
 	// Initialize
 	Init()
 	Speed(150)
-	last_floor := -1
+	floor := -1
 
 	go func() {
 		for {
 
-			last_floor = Get_floor_sensor()
+			floor = Get_floor_sensor()
 
-			if last_floor != -1 {
+			if floor != -1 {
 
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
@@ -207,7 +206,7 @@ func Internal(int_order, ext_order, last_order chan Dict) {
 		}
 	}()
 
-	go Floor_indicator(last_order)
+	go Floor_indicator(last_floor)
 	go Int_order(int_order)
 	go Ext_order(ext_order)
 
