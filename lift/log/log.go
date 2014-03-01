@@ -1,53 +1,12 @@
 package log
 
 import (
+	. "../.././functions"
 	// . "fmt"
 	// . "strconv"
-	"time"
+	// "time"
 )
 
-type Dict struct {
-	Ip    string
-	Floor int
-}
-
-type Slice struct {
-	A int
-}
-
-type Jobs struct {
-	Ip   string
-	Dest []Slice
-}
-
-type Order struct {
-	Ip    string
-	Pos   int
-	Floor int
-}
-
-func Pop_first(this []Slice) []Slice {
-
-	return this[1:len(this)]
-}
-
-func Insert(that []Slice, new_order Order) []Slice {
-
-	pos := new_order.Pos
-	floor := new_order.Floor
-	temp_slice := []Slice{}
-	if pos > len(that) || pos == 0 {
-		temp_slice = append(temp_slice, that...)
-		temp_slice = append(temp_slice, Slice{new_order.Floor})
-
-	} else {
-		temp_slice = append(temp_slice, that[:pos-1]...)
-		temp_slice = append(temp_slice, Slice{floor})
-		temp_slice = append(temp_slice, that[pos-1:]...)
-	}
-
-	return temp_slice
-}
 func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
 
 	last_queue := []Dict{}
@@ -110,11 +69,11 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 			// Send ny ordre fra riktig kø til master
 			for _, queue := range job_queue {
 				if queue.Ip == ip {
-					master_order <- Dict{queue.Ip, queue.Dest[0].A}
+					master_order <- Dict{queue.Ip, queue.Dest[0].Floor}
 				}
 			}
 		case msg := <-que_request:
-			if que_request {
+			if msg {
 				que <- job_queue
 			}
 		case ip := <-master_pop:
@@ -129,4 +88,4 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 			time.Sleep(50 * time.Millisecond)
 		}
 	}
-}
+}*/

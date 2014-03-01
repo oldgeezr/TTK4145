@@ -5,27 +5,27 @@ import (
 	"time"
 )
 
-func Algo(que chan []Jobs, que_request chan bool, int_order, ext_order chan Dict, algo_out chan Order) {
+func Algo(int_order chan Dict, get_last_queue chan []Dict, que_request chan bool, que chan []Jobs) {
 
 	for {
 		select {
-		case msg := <-int_order:
-			go func() {
-				job_queue := <-que
-				for _, queue := range job_queue {
-					if queue.Ip == msg.Ip {
-						for i := range queue.Dest {
-							if 
+		case last_queue := <-get_last_queue:
+			que_request <- true
+			time.Sleep(25 * time.Millisecond)
+			int_queue := <-que
+			for _, last := range last_queue {
+				ip := last.Ip
+				floor := last.Floor
+				for _, inter := range int_queue {
+					if ip == inter.Ip {
+						for _, ord := range inter.Dest {
+							if floor == ord {
+
+							}
 						}
 					}
 				}
-			}()
-			que_request <- true
-		case msg := <-ext_order:
-
-		default:
-			time.Sleep(50 * time.Millisecond)
+			}
 		}
 	}
-
 }
