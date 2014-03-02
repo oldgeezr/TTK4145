@@ -29,14 +29,24 @@ func Missing_int_job(job_queue Jobs, floor int) bool {
 	return true
 }
 
-func Missing_int_job(job_queue Dict, floor int) bool {
+func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
 
-	for _, orders := range job_queue.Dest {
-		if orders.Floor == floor && orders.Ip_order == "int" {
+	for _, orders := range job_queue {
+		if orders.Dir == dir && orders.Floor == floor {
 			return false
 		}
 	}
 	return true
+}
+
+func Remove_order_ext_queue(this []Dict, floor int, dir string) {
+
+	for _, orders := range this {
+		if orders.Dir == dir && orders.Floor == floor {
+			this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])]
+		}
+	}
+	return this
 }
 
 func Remove_order_int_queue(this Jobs, floor int) Jobs {
@@ -89,9 +99,13 @@ func main() {
 	}*/
 
 	for _, order := range int_queue {
-		if Missing_int_job(order, at_floor.Dest[0].Floor) { // Mangler jobb i intern køen
-			if !Missing_int_job(ext_queue, at_floor.Dest[0].Floor) {
-				Println("lol")
+		if !Missing_int_job(order, at_floor.Dest[0].Floor) { // Mangler jobb i intern køen
+			order = Remove_order_int_queue(order, at_floor.Dest[0].Floor)               // Slett alle interne
+			ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Dest[0].Floor, "up") // slett alle eksterne opp som ned
+			ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Dest[0].Floor, "down")
+		} else {
+			if !Missing_ext_job(ext_queue, at_floor.Dest[0].Floor, at_floor.Dest[0].Dir) {
+
 			}
 		}
 	}
