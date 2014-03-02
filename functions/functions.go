@@ -7,6 +7,7 @@ import (
 type Dict struct {
 	Ip    string
 	Floor int
+	Dir   string
 }
 
 type Slice struct {
