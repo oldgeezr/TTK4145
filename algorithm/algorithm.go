@@ -44,8 +44,10 @@ func Algo(int_order, at_floor chan Dict, get_last_queue chan []Dict, que_request
 							// Noen skal av
 							// Stop heis
 							// Fjern alle etg i heis kø som er likt siste etgs
+
 						} else {
 							// Ingen skal av
+							// spør om
 						}
 					}
 				}

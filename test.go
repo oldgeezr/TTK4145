@@ -29,6 +29,16 @@ func Missing_int_job(job_queue Jobs, floor int) bool {
 	return true
 }
 
+func Missing_int_job(job_queue Dict, floor int) bool {
+
+	for _, orders := range job_queue.Dest {
+		if orders.Floor == floor && orders.Ip_order == "int" {
+			return false
+		}
+	}
+	return true
+}
+
 func Remove_order_int_queue(this Jobs, floor int) Jobs {
 
 	for i, orders := range this.Dest {
@@ -52,40 +62,38 @@ func main() {
 	floor := []Dict{}
 	int_queue = append(int_queue, Jobs{"147", append(floor, Dict{"int", 1, "standby"})}, Jobs{"154", append(floor, Dict{"int", 2, "standby"})})
 
-	/*
-		// External job queue
-		ext_queue := []Dict{}
-		ext_queue = append(ext_queue, Dict{"ext", 3, "up"}, Dict{"ext", 1, "down"}, Dict{"ext", 1, "up"})
-		// @ floor
-		at_floor := last_queue[0]
+	// External job queue
+	ext_queue := []Dict{}
+	ext_queue = append(ext_queue, Dict{"ext", 3, "up"}, Dict{"ext", 1, "down"}, Dict{"ext", 1, "up"})
+	// @ floor
+	at_floor := int_queue[0]
 
-		// hei stopp flagg
-		stop_lift := false
+	// hei stopp flagg
+	// stop_lift := false
 
-		for _, order := range job_queue {
-			for _, int_order := range order.Dest {
-				if int_order.Floor.Ip == "int" || int_order.Floor.Floor == at_floor.Floor {
-					// Noen skal av
-					// Stop heis
-					stop_lift = true
-					// Fjern alle ordre i denne etg for alle heiser
-					// Pop ordre
-				}
-				if stop_lift {
-					// fjern alle ordre i denne etg
-				} else {
-					if int_order.Floor.Ip ==  || int_order.Floor.Ip == "down" || int_order.Floor.Floor == at_floor.Floor {
-					}
-				}
+	/*for _, order := range job_queue {
+		for _, int_order := range order.Dest {
+			if int_order.Floor.Ip == "int" || int_order.Floor.Floor == at_floor.Floor {
+				// Noen skal av
+				// Stop heis
+				stop_lift = true
+				// Fjern alle ordre i denne etg for alle heiser
+				// Pop ordre
+			}
+			if stop_lift {
+				// fjern alle ordre i denne etg
 
 			}
-		}
-	*/
 
-	Println(int_queue)
-	if Missing_int_job(int_queue[0], 1) {
-		int_queue[0] = Remove_order_int_queue(int_queue[0], 1)
-		Println(int_queue)
+		}
+	}*/
+
+	for _, order := range int_queue {
+		if Missing_int_job(order, at_floor.Dest[0].Floor) { // Mangler jobb i intern køen
+			if !Missing_int_job(ext_queue, at_floor.Dest[0].Floor) {
+				Println("lol")
+			}
+		}
 	}
 
 }
