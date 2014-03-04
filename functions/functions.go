@@ -57,7 +57,17 @@ func Remove_from_pos(this []Dict, value int) []Dict {
 
 // Insert at pos (ext)
 
-func AppendIfMissing(slice []Dict, i int) ([]Dict, bool) {
+func AIM_Jobs(steve []Jobs, ip int) ([]Jobs, bool) {
+
+	for _, ele := range steve {
+		if ele.Floor == i {
+			return steve, false
+		}
+	}
+	return append(steve, Jobs{ip, []Dict{}}), true
+}
+
+func AIM_Dict(slice []Dict, i int) ([]Dict, bool) {
 
 	for _, ele := range slice {
 		if ele.Floor == i {
@@ -67,7 +77,7 @@ func AppendIfMissing(slice []Dict, i int) ([]Dict, bool) {
 	return append(slice, Dict{"ip_order", i, "dir"}), true
 }
 
-func Append_if_missing_ip(slice []int, i int) []int {
+func AIM_ip(slice []int, i int) []int {
 
 	for _, ele := range slice {
 		if ele == i {

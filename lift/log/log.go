@@ -86,16 +86,16 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 			}*/
 		case msg := <-master_order:
 			if msg.Dir == "int" {
-				job_queue = append(job_queue, Jobs{msg.Ip_order, []Dict{}})
+				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
 						job_queue[i].Dest, _ = AppendIfMissing(job_queue[i].Dest, msg.Floor)
 					}
 				}
 			}
+			Println(job_queue)
 		default:
 			time.Sleep(50 * time.Millisecond)
-			Println(job_queue)
 		}
 	}
 }
