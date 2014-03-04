@@ -55,7 +55,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 		select {
 		case ip := <-new_job_queue:
 			// Opprett ny kø på gitt ip
-			job_queue = append(job_queue, Jobs{ip, []Slice{}})
+			job_queue = append(job_queue, Jobs{ip, []Dict{}})
 		case Do := <-algo_out:
 			// Legg til beslutning fra algo i rett jobb kø
 			for i, queue := range job_queue {
