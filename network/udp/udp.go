@@ -4,7 +4,7 @@ import (
 	// . "../.././lift/log"
 	. "../.././functions"
 	. "../.././network"
-	. ".././tcp"
+	// . ".././tcp"
 	. "fmt"
 	. "net"
 	. "strconv"
