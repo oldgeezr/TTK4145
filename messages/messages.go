@@ -17,7 +17,7 @@ func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
 		select {
 		case ip := <-array_update:
 			// Println("Oppdaterte arrayet..!")
-			IPaddresses = Append_if_missing_ip(IPaddresses, ip)
+			IPaddresses = AIM_ip(IPaddresses, ip)
 			sort.Ints(IPaddresses)
 		case get_array <- IPaddresses:
 			// Println("Noen leste arrayet..!")
