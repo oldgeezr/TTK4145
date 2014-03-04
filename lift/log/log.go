@@ -49,6 +49,7 @@ import (
 func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_request, master_pop chan string, master_order chan Dict, algo_out chan Order) {
 
 	job_queue := []Jobs{}
+	ext_queue := []Dict{}
 	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
 
 	for {
@@ -92,8 +93,11 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 						job_queue[i].Dest, _ = AIM_Dict(job_queue[i].Dest, msg.Floor)
 					}
 				}
+			} else if msg.Ip_order == "ext" {
+				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			}
 			Println(job_queue)
+			Println(ext_queue)
 		default:
 			time.Sleep(50 * time.Millisecond)
 		}

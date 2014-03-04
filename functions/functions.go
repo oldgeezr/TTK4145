@@ -77,6 +77,16 @@ func AIM_Dict(slice []Dict, i int) ([]Dict, bool) {
 	return append(slice, Dict{"ip_order", i, "dir"}), true
 }
 
+func AIM_Spice(slice []Dict, i int, G string) ([]Dict, bool) {
+
+	for _, ele := range slice {
+		if ele.Floor == i && ele.Dir == G {
+			return slice, false
+		}
+	}
+	return append(slice, Dict{"ip_order", i, G}), true
+}
+
 func AIM_ip(slice []int, i int) []int {
 
 	for _, ele := range slice {

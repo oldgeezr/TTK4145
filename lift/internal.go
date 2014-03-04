@@ -146,7 +146,7 @@ func Ext_order(ext_order chan Dict) {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				Println("External call up button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
-				ext_order <- Dict{"up", i, "ext"}
+				ext_order <- Dict{"ext", i, "up"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -154,7 +154,7 @@ func Ext_order(ext_order chan Dict) {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				Println("External call down button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
-				ext_order <- Dict{"down", i, "ext"}
+				ext_order <- Dict{"ext", i, "down"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
