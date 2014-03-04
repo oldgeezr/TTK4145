@@ -5,7 +5,7 @@ import (
 	. ".././network"
 	// . "./log"
 	. ".././functions"
-	. "fmt"
+	// . "fmt"
 	. "strconv"
 	"time"
 )
@@ -174,9 +174,7 @@ func Int_order(int_order chan Dict) {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
-			Println(Dict{GetMyIP(), i, "int"})
 			int_order <- Dict{GetMyIP(), i, "int"}
-			Println(Dict{GetMyIP(), i, "int"})
 			time.Sleep(300 * time.Millisecond)
 		}
 

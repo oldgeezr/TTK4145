@@ -94,9 +94,7 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_floor chan Dict
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-last_floor:
-			Println(last_floor)
-			b, _ := json.Marshal(msg)
-			conn.Write(b)
+			_ = msg
 		default:
 			time.Sleep(23 * time.Millisecond)
 			// Println("default slave send")
@@ -115,7 +113,6 @@ func Connect_to_MASTER(get_array chan []int, new_master chan bool, int_order, ex
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
 					go TCP_slave_send(Itoa(master_ip), int_order, ext_order, last_floor, job_queue, last_queue)
-					Println("connected to master")
 				}
 			}
 		default:
