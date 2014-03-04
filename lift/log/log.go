@@ -53,7 +53,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 
 	for {
 		select {
-		case ip := <-new_job_queue:
+		/*case ip := <-new_job_queue:
 			// Opprett ny kø på gitt ip
 			job_queue = append(job_queue, Jobs{ip, []Dict{}})
 		/*case Do := <-algo_out:
@@ -64,7 +64,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 				master_order <- Dict{Do.Ip, Do.Floor}
 				// Println(job_queue)
 			}
-		}*/
+		}
 		case ip := <-master_request:
 			// Send ny ordre fra riktig kø til master
 			for _, queue := range job_queue {
@@ -82,6 +82,15 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 				if queue.Ip == ip {
 					job_queue[i].Dest = Pop_first(queue.Dest)
 					// Println(job_queue)
+				}
+			}*/
+		case msg := <-master_order:
+			if msg.Dir == "int" {
+				job_queue = append(job_queue, Jobs{msg.Ip_order, []Dict{}})
+				for i, job := range job_queue {
+					if job.Ip == msg.Ip_order {
+						job_queue[i] = AppendIfMissing(job_queue[i], msg.Floor)
+					}
 				}
 			}
 		default:

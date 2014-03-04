@@ -23,25 +23,14 @@ func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict, last_floo
 	}
 }
 
-func TCP_master_echo(conn Conn, last_floor chan Dict) {
+func TCP_master_echo(conn Conn, last_floor, master_order chan Dict) {
 
 	for {
 		b := make([]byte, BUF_LEN)
 		length, _ := conn.Read(b)
 		var c Dict
 		json.Unmarshal(b[0:length], &c)
-		if len(c.Ip_order) != 3 {
-			if c.Ip_order[0] == 'X' {
-				// Fikk en last order og må oppdatere last queue
-				last_floor <- c
-			} else {
-				// Fikk en ext order og må sende til algoritme
-				// Println("ext:", c)
-			}
-		} else {
-			// Fikk int order. Må sende til algoritme
-			// Println("int:", c)
-		}
+		master_order <- c
 	}
 }
 
