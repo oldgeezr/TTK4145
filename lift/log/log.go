@@ -4,7 +4,7 @@ import (
 	. "../.././functions"
 	// . "fmt"
 	// . "strconv"
-	// "time"
+	"time"
 )
 
 /*func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
@@ -56,20 +56,20 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 		case ip := <-new_job_queue:
 			// Opprett ny kø på gitt ip
 			job_queue = append(job_queue, Jobs{ip, []Dict{}})
-		case Do := <-algo_out:
-			// Legg til beslutning fra algo i rett jobb kø
-			for i, queue := range job_queue {
-				if queue.Ip == Do.Ip {
-					job_queue[i].Dest = Insert(job_queue[i].Dest, Do)
-					master_order <- Dict{Do.Ip, Do.Floor}
-					// Println(job_queue)
-				}
+		/*case Do := <-algo_out:
+		// Legg til beslutning fra algo i rett jobb kø
+		for i, queue := range job_queue {
+			if queue.Ip == Do.Ip {
+				job_queue[i].Dest = Insert_at_pos(job_queue[i].Dest, Do)
+				master_order <- Dict{Do.Ip, Do.Floor}
+				// Println(job_queue)
 			}
+		}*/
 		case ip := <-master_request:
 			// Send ny ordre fra riktig kø til master
 			for _, queue := range job_queue {
 				if queue.Ip == ip {
-					master_order <- Dict{queue.Ip, queue.Dest[0].Floor}
+					master_order <- Dict{queue.Ip, queue.Dest[0].Floor, "care2"}
 				}
 			}
 		case msg := <-que_request:
