@@ -24,7 +24,7 @@ type Order struct {
 // Insert int if unique : FUNKER!
 func Insert_at_pos(this []Dict, value, i int) []Dict {
 
-	_, missing := AppendIfMissing(this, value)
+	_, missing := AIM_Dict(this, value)
 	if missing {
 		this = append(this[:i], append([]Dict{Dict{"IP_order", value, "dir"}}, this[i:]...)...)
 	}
@@ -60,7 +60,7 @@ func Remove_from_pos(this []Dict, value int) []Dict {
 func AIM_Jobs(steve []Jobs, ip int) ([]Jobs, bool) {
 
 	for _, ele := range steve {
-		if ele.Floor == i {
+		if ele.Ip == ip {
 			return steve, false
 		}
 	}
