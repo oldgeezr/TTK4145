@@ -20,6 +20,7 @@ func TCP_master_recieve(job_queue, que chan []Jobs, last_queue chan []Dict, last
 
 		// go TCP_master_send(conn, job_queue, last_queue)
 		go TCP_master_send(conn, job_queue, que, last_queue)
+		go TCP_master_echo(conn, last_floor, master_order)
 	}
 }
 
