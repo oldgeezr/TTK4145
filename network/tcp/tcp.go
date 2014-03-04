@@ -58,10 +58,10 @@ func TCP_slave_recieve(conn Conn, job_queue chan []Jobs, last_queue chan []Dict)
 
 	for {
 		b := make([]byte, BUF_LEN)
-		conn.Read(b)
+		length, _ := conn.Read(b)
 		var c []Jobs
-		json.Unmarshal(b, &c)
-		Println(c)
+		json.Unmarshal(b[0:length], &c)
+		Println("From slave:", c)
 
 	}
 }
