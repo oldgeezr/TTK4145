@@ -57,7 +57,7 @@ func Remove_from_pos(this []Dict, value int) []Dict {
 
 // Insert at pos (ext)
 
-func AIM_Jobs(steve []Jobs, ip int) ([]Jobs, bool) {
+func AIM_Jobs(steve []Jobs, ip string) ([]Jobs, bool) {
 
 	for _, ele := range steve {
 		if ele.Ip == ip {
