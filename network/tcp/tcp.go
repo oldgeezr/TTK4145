@@ -5,7 +5,7 @@ import (
 	. "../.././functions"
 	. "../.././network"
 	"encoding/json"
-	// . "fmt"
+	. "fmt"
 	. "net"
 	. "strconv"
 	"time"
@@ -87,12 +87,14 @@ func TCP_slave_send(master_ip string, int_order, ext_order, last_floor chan Dict
 	for {
 		select {
 		case msg := <-int_order:
+			Println(msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-ext_order:
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-last_floor:
+			Println(last_floor)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
