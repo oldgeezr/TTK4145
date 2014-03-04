@@ -3,7 +3,8 @@ package lift
 import (
 	. ".././driver"
 	. ".././network"
-	. "./log"
+	// . "./log"
+	. ".././functions"
 	. "fmt"
 	. "strconv"
 	"time"

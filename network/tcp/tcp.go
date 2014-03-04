@@ -1,7 +1,8 @@
 package tcp
 
 import (
-	. "../.././lift/log"
+	// . "../.././lift/log"
+	. "../.././functions"
 	. "../.././network"
 	"encoding/json"
 	// . "fmt"
