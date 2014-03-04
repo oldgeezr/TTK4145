@@ -11,13 +11,13 @@ import (
 
 func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
 
-	IPaddresses := []int{}
+	IPaddresses := []Dict{}
 	// Println("IP_array startet..!")
 	for {
 		select {
 		case ip := <-array_update:
 			// Println("Oppdaterte arrayet..!")
-			IPaddresses = AppendIfMissing(IPaddresses, ip)
+			IPaddresses, _ = AppendIfMissing(IPaddresses, Dict{"care", ip, "casre"})
 			sort.Ints(IPaddresses)
 		case get_array <- IPaddresses:
 			// Println("Noen leste arrayet..!")
