@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict, last_floor, master_order chan Dict) {
+func TCP_master_recieve(job_queue, que chan []Jobs, last_queue chan []Dict, last_floor, master_order chan Dict) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
@@ -19,7 +19,7 @@ func TCP_master_recieve(job_queue chan []Jobs, last_queue chan []Dict, last_floo
 		conn, _ := ln.Accept()
 
 		// go TCP_master_send(conn, job_queue, last_queue)
-		go TCP_master_echo(conn, last_floor, master_order)
+		go TCP_master_send(conn, job_queue, que, last_queue)
 	}
 }
 

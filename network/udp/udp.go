@@ -21,7 +21,7 @@ func UDP_send(conn Conn, msg string) {
 	_ = err
 }
 
-func IMA(master chan bool, get_array chan []int, job_queue chan []Jobs, last_queue chan []Dict, last_floor, master_order chan Dict) {
+func IMA(master chan bool, get_array chan []int, job_queue, que chan []Jobs, last_queue chan []Dict, last_floor, master_order chan Dict) {
 
 	saddr, _ := ResolveUDPAddr("udp", BROADCAST+UDP_PORT)
 	conn, _ := DialUDP("udp", nil, saddr)
@@ -31,7 +31,7 @@ func IMA(master chan bool, get_array chan []int, job_queue chan []Jobs, last_que
 		select {
 		case state := <-master:
 			if state {
-				go TCP_master_recieve(job_queue, last_queue, last_floor, master_order)
+				go TCP_master_recieve(job_queue, que, last_queue, last_floor, master_order)
 				// Println("Satte masterIP..!")
 				Println("Ble MASTER..!")
 				temp, _ := Atoi(GetMyIP())
