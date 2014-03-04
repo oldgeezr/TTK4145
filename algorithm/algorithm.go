@@ -31,7 +31,6 @@ func Algo(get_at_floor, algo_out chan Dict, get_int_queue chan []Jobs, get_ext_q
 						}
 						Println("I was here??")
 					}
-					algo_out <- ext_queue[0]
 					break // Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 				}
 			}
