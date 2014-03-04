@@ -59,7 +59,7 @@ func TCP_slave_recieve(conn Conn, job_queue chan []Jobs, last_queue chan []Dict)
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		var c []Jobs
-		err := json.Unmarshal(b, &c)
+		json.Unmarshal(b, &c)
 		Println(c)
 
 	}
