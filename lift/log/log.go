@@ -89,7 +89,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
-						job_queue[i].Dest, _ = AppendIfMissing(job_queue[i].Dest, msg.Floor)
+						job_queue[i].Dest, _ = AIM_Dict(job_queue[i].Dest, msg.Floor)
 					}
 				}
 			}
