@@ -2,11 +2,11 @@ package main
 
 import (
 	//. "./algorithm"
-	. "./lift"
+	// . "./lift"
 	// . "./lift/log"
 	. "./messages"
 	. "./network"
-	. "./network/tcp"
+	// . "./network/tcp"
 	. "./network/udp"
 	// . "fmt"
 	. "net"
