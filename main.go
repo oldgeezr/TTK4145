@@ -50,7 +50,7 @@ func main() {
 	go Timer(flush)
 	// Println("Starter Timer...")
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
-	// go Job_queues(que, que_request, new_job_queue, master_request, master_pop, master_order, algo_out)
+	go Job_queues(que, que_request, new_job_queue, master_request, master_pop, master_order, algo_out)
 
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)
