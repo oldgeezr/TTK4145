@@ -67,6 +67,16 @@ func AppendIfMissing(slice []Dict, i int) ([]Dict, bool) {
 	return append(slice, Dict{"ip_order", i, "dir"}), true
 }
 
+func Append_if_missing_ip(slice []int, i int) []int {
+
+	for _, ele := range slice {
+		if ele == i {
+			return slice
+		}
+	}
+	return append(slice, i)
+}
+
 func Missing_int_job(job_queue Jobs, floor int) bool {
 
 	for _, orders := range job_queue.Dest {
