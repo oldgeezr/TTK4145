@@ -7,7 +7,7 @@ import (
 	. "./functions"
 	. "./messages"
 	. "./network"
-	// . "./network/tcp"
+	. "./network/tcp"
 	. "./network/udp"
 	// . "fmt"
 	. "net"
@@ -27,11 +27,11 @@ func main() {
 
 	array_update := make(chan int)
 	get_array := make(chan []int)
-	// new_master := make(chan bool)
+	new_master := make(chan bool)
 	flush := make(chan bool)
 	master := make(chan bool)
-	// int_order := make(chan Dict)
-	// ext_order := make(chan Dict)
+	int_order := make(chan Dict)
+	ext_order := make(chan Dict)
 	// new_job_queue := make(chan string)
 	// master_request := make(chan string)
 	// master_order := make(chan Dict)
@@ -70,9 +70,9 @@ func main() {
 		master <- false
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
-		// go IMA_master(get_array, master, new_master)
+		go IMA_master(get_array, master, new_master)
 		// Println("Starter IMA_master...")
-		// go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_floor, job_queue, last_queue)
+		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_floor, job_queue, last_queue)
 		// new_master <- true
 	}
 
