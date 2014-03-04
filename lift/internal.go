@@ -10,6 +10,23 @@ import (
 	"time"
 )
 
+func Do_first(que chan []Jobs) {
+
+	for {
+		select {
+		case msg := <-que:
+			for _, queue := range msg {
+				if queue.Ip == GetMyIP() {
+					Send_to_floor(queue.Dest[0].Floor, queue.Dest[0].dir)
+				}
+			}
+		default:
+			time.Sleep(25 * time.Millisecond)
+		}
+	}
+
+}
+
 /*func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
 
 	for {

@@ -74,6 +74,7 @@ func main() {
 		// Println("Starter IMA_master...")
 		go Connect_to_MASTER(get_array, new_master, int_order, ext_order, last_floor, job_queue, last_queue)
 		new_master <- true
+		go Do_first(que)
 	}
 
 	neverQuit := make(chan string)
