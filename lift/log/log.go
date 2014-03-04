@@ -96,6 +96,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			}
+			que <- job_queue
 			Println(job_queue)
 			Println(ext_queue)
 		default:

@@ -34,7 +34,7 @@ func TCP_master_echo(conn Conn, last_floor, master_order chan Dict) {
 	}
 }
 
-func TCP_master_send(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
+func TCP_master_send(conn Conn, job_queue, que chan []Jobs, last_queue chan []Dict) {
 
 	for {
 		select {
@@ -42,6 +42,9 @@ func TCP_master_send(conn Conn, job_queue chan []Jobs, last_queue chan []Dict) {
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-last_queue:
+			b, _ := json.Marshal(msg)
+			conn.Write(b)
+		case msg := <-que:
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
@@ -56,14 +59,8 @@ func TCP_slave_recieve(conn Conn, job_queue chan []Jobs, last_queue chan []Dict)
 		b := make([]byte, BUF_LEN)
 		conn.Read(b)
 		var c []Jobs
-		var d []Dict
 		err := json.Unmarshal(b, &c)
-		if err != nil {
-			_ = json.Unmarshal(b, &d)
-			last_queue <- d
-		} else {
-			job_queue <- c
-		}
+		Println(c)
 
 	}
 }
