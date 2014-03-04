@@ -2,7 +2,7 @@ package main
 
 import (
 	//. "./algorithm"
-	// . "./lift"
+	. "./lift"
 	// . "./lift/log"
 	. "./functions"
 	. "./messages"
@@ -54,7 +54,7 @@ func main() {
 
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)
-		// go Internal(int_order, ext_order, last_floor)
+		go Internal(int_order, ext_order, last_floor)
 		// go Master_get_last_queue(get_last_queue, master_order)
 		// go Master_print_last_queue(get_last_queue_request, master_request, algo_out)
 		go IMA(master, get_array, job_queue, last_queue, last_floor, master_order)
@@ -63,7 +63,7 @@ func main() {
 		go UDP_listen(array_update)
 		// Println("Starter UDP_listen...")
 	} else { // SLAVE
-		// go Internal(int_order, ext_order, last_floor)
+		go Internal(int_order, ext_order, last_floor)
 		// Println("slave")
 		go IMA(master, get_array, job_queue, last_queue, last_floor, master_order)
 		// Println("Starter IMA...")
