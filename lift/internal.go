@@ -17,7 +17,7 @@ func Do_first(que chan []Jobs) {
 		case msg := <-que:
 			for _, queue := range msg {
 				if queue.Ip == GetMyIP() {
-					Send_to_floor(queue.Dest[0].Floor, queue.Dest[0].dir)
+					Send_to_floor(queue.Dest[0].Floor, queue.Dest[0].Dir)
 				}
 			}
 		default:
