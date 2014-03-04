@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
+/*func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
 
 	for {
 		select {
@@ -66,7 +66,7 @@ func Master_input(int_order, ext_order, last_floor chan Dict) {
 			time.Sleep(25 * time.Millisecond)
 		}
 	}
-}
+}*/
 
 //Sends elevator to specified floor
 func Send_to_floor(floor int, button string) {
@@ -174,7 +174,9 @@ func Int_order(int_order chan Dict) {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
+			Println(Dict{GetMyIP(), i, "int"})
 			int_order <- Dict{GetMyIP(), i, "int"}
+			Println(Dict{GetMyIP(), i, "int"})
 			time.Sleep(300 * time.Millisecond)
 		}
 
