@@ -1,7 +1,8 @@
 package udp
 
 import (
-	. "../.././lift/log"
+	// . "../.././lift/log"
+	. "../.././functions"
 	. "../.././network"
 	. ".././tcp"
 	. "fmt"
