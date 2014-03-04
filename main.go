@@ -2,9 +2,9 @@ package main
 
 import (
 	//. "./algorithm"
-	. "./lift"
-	// . "./lift/log"
 	. "./functions"
+	. "./lift"
+	. "./lift/log"
 	. "./messages"
 	. "./network"
 	. "./network/tcp"
