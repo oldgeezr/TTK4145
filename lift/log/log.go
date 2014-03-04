@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././functions"
-	// . "fmt"
+	. "fmt"
 	// . "strconv"
 	"time"
 )
@@ -90,6 +90,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
 						job_queue[i] = AppendIfMissing(job_queue[i], msg.Floor)
+						Println(msg)
 					}
 				}
 			}
