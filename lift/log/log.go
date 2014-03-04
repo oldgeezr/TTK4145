@@ -7,7 +7,7 @@ import (
 	// "time"
 )
 
-func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
+/*func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
 
 	last_queue := []Dict{}
 
@@ -44,7 +44,7 @@ func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue
 			time.Sleep(50 * time.Millisecond)
 		}
 	}
-}
+}*/
 
 func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_request, master_pop chan string, master_order chan Dict, algo_out chan Order) {
 
@@ -88,4 +88,4 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 			time.Sleep(50 * time.Millisecond)
 		}
 	}
-}*/
+}
