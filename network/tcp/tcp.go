@@ -30,8 +30,8 @@ func TCP_master_echo(conn Conn, last_floor chan Dict) {
 		length, _ := conn.Read(b)
 		var c Dict
 		json.Unmarshal(b[0:length], &c)
-		if len(c.Ip) != 3 {
-			if c.Ip[0] == 'X' {
+		if len(c.Ip_order) != 3 {
+			if c.Ip_order[0] == 'X' {
 				// Fikk en last order og må oppdatere last queue
 				last_floor <- c
 			} else {
