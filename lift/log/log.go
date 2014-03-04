@@ -90,12 +90,12 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
 						job_queue[i].Dest, _ = AppendIfMissing(job_queue[i].Dest, msg.Floor)
-						Println(msg)
 					}
 				}
 			}
 		default:
 			time.Sleep(50 * time.Millisecond)
+			Println(job_queue)
 		}
 	}
 }
