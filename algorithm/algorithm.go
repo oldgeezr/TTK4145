@@ -2,57 +2,41 @@ package algorithm
 
 import (
 	. "../functions"
-	. "../lift/log"
+	// . "../lift/log"
+	. "fmt"
 	"time"
 )
 
-/*func Algo(int_order chan Dict, get_last_queue chan []Dict, que_request chan bool, que chan []Jobs) {
+func Algo(get_at_floor, algo_out chan Dict, get_int_queue chan []Jobs, get_ext_queue chan []Dict) {
 
 	for {
 		select {
-		case last_queue := <-get_last_queue:
-			que_request <- true
-			time.Sleep(25 * time.Millisecond)
-			int_queue := <-que
-			for _, last := range last_queue {
-				ip := last.Ip
-				floor := last.Floor
-				for _, inter := range int_queue {
-					if ip == inter.Ip {
-						for _, ord := range inter.Dest {
-							if floor == ord {
-
-							}
+		case at_floor := <-get_at_floor:
+			int_queue := <-get_int_queue
+			ext_queue := <-get_ext_queue
+			for _, order := range int_queue {
+				if order.Ip == at_floor.Ip_order { // Finn riktig kø
+					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
+						// Stopp heis
+						Println("queue before remove:", order)
+						order = Remove_order_int_queue(order, at_floor.Floor)
+						Println("queue after remove:", order) // Slett alle interne
+						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir)
+						Println("ext_queue after remove:", ext_queue) // Slett alle eksterne i riktig retning
+					} else { // Ingen skal av
+						if !Missing_ext_job(ext_queue, at_floor.Floor, at_floor.Dir) { // Noen skal på
+							// Stopp heis
+							Println("I was here?")
+							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir) // Slett alle eksterne i riktig retning
 						}
+						Println("I was here??")
 					}
+					algo_out <- ext_queue[0]
+					break // Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 				}
 			}
-		}
-	}
-}*/
-
-func Algo(int_order, at_floor chan Dict, get_last_queue chan []Dict, que_request chan bool, que chan []Jobs) {
-
-	for {
-		select {
-		case last_floor := <-at_floor: // får inn siste etg fra ip
-			job_queue := <-que
-			for _, find_lift := range job_queue {
-				if find_lift.Ip == last_floor.Ip {
-					for _, floor := range find_lift.Dest {
-						if last_floor.Floor == floor {
-							// Noen skal av
-							// Stop heis
-							// Fjern alle etg i heis kø som er likt siste etgs
-
-						} else {
-							// Ingen skal av
-							// spør om
-						}
-					}
-				}
-			}
-
+		default:
+			time.Sleep(50 * time.Millisecond)
 		}
 	}
 }

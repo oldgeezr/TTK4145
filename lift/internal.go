@@ -145,7 +145,7 @@ func Ext_order(ext_order chan Dict) {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				Println("External call up button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
-				ext_order <- Dict{"up", i}
+				ext_order <- Dict{"up", i, "ext"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -153,7 +153,7 @@ func Ext_order(ext_order chan Dict) {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				Println("External call down button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
-				ext_order <- Dict{"down", i}
+				ext_order <- Dict{"down", i, "ext"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -173,7 +173,7 @@ func Int_order(int_order chan Dict) {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
-			int_order <- Dict{GetMyIP(), i}
+			int_order <- Dict{GetMyIP(), i, "int"}
 			time.Sleep(300 * time.Millisecond)
 		}
 
@@ -192,7 +192,7 @@ func Floor_indicator(last_floor chan Dict) {
 		floor = Get_floor_sensor()
 		if floor != -1 {
 			Set_floor_indicator(floor)
-			last_floor <- Dict{"X" + GetMyIP(), floor}
+			last_floor <- Dict{"X" + GetMyIP(), floor, "last"}
 		}
 		time.Sleep(50 * time.Millisecond)
 	}
