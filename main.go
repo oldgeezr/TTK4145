@@ -27,7 +27,7 @@ func main() {
 
 	array_update := make(chan int)
 	get_array := make(chan []int)
-	new_master := make(chan bool)
+	// new_master := make(chan bool)
 	flush := make(chan bool)
 	master := make(chan bool)
 	// int_order := make(chan Dict)
