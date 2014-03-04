@@ -4,6 +4,7 @@ import (
 	//. "./algorithm"
 	// . "./lift"
 	// . "./lift/log"
+	. "./functions"
 	. "./messages"
 	. "./network"
 	// . "./network/tcp"
