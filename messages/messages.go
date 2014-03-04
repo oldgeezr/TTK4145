@@ -1,6 +1,7 @@
 package messages
 
 import (
+	. ".././functions"
 	. ".././network"
 	. "fmt"
 	"sort"
@@ -26,16 +27,6 @@ func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
 			IPaddresses = IPaddresses[:0]
 		}
 	}
-}
-
-func AppendIfMissing(slice []int, i int) []int {
-
-	for _, ele := range slice {
-		if ele == i {
-			return slice
-		}
-	}
-	return append(slice, i)
 }
 
 func Timer(flush chan bool) {
