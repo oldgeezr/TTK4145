@@ -1,7 +1,7 @@
 package main
 
 import (
-	//. "./algorithm"
+	. "./algorithm"
 	. "./functions"
 	. "./lift"
 	. "./lift/log"
