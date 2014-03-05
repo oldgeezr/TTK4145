@@ -19,6 +19,7 @@ func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool
 			// Println("Oppdaterte arrayet..!")
 			IPaddresses = AIM_ip(IPaddresses, ip)
 			sort.Ints(IPaddresses)
+			Println(IPaddresses)
 		case get_ip_array <- IPaddresses:
 			// Println("Noen leste arrayet..!")
 		case msg := <-flush:
