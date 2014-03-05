@@ -43,7 +43,7 @@ func Timer(flush chan bool) {
 
 func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 
-	Println("IMA_master startet..!")
+	// Println("IMA_master startet..!")
 	count := 0
 	count1 := 0
 	for {

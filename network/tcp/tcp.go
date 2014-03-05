@@ -44,6 +44,8 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 				master_order <- c
 			}
 		}
+
+		Println("klikk!")
 	}
 }
 
