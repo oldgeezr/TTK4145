@@ -30,7 +30,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			master_order <- msg
 		default:
 			b := make([]byte, BUF_LEN)
-			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
+			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 			length, err := conn.Read(b)
 			if err != nil {
 				if err.Error() == "EOF" {
@@ -59,7 +59,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			conn.Write(b)
 		default:
 			b := make([]byte, BUF_LEN)
-			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
+			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 			_, err := conn.Read(b)
 			// Lukker connection dersom det brytes på andre siden
 			if err != nil {
