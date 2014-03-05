@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././functions"
-	. "fmt"
+	// . "fmt"
 )
 
 func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
