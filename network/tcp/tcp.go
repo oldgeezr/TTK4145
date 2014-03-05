@@ -33,8 +33,11 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
 			length, err := conn.Read(b)
 			Println("master_err:", err)
-			if err != nil {
+			if err == nil {
 
+			} else if err == "EOF" {
+				Println("close connection")
+				return
 			} else {
 				var c Dict
 				json.Unmarshal(b[0:length], &c)
@@ -63,6 +66,10 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			length, err := conn.Read(b)
 			Println("slave_err:", err)
 			if err != nil {
+
+			} else if err == "EOF" {
+				Println("close connection")
+				return
 
 			} else {
 				var c Queues
