@@ -53,7 +53,10 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 
 func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 
-	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	if err != nil {
+		return true
+	}
 	for {
 		select {
 		case msg := <-order:
@@ -63,10 +66,10 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
-			length, err := conn.Read(b)
+			length, err2 := conn.Read(b)
 			// Lukker connection dersom det brytes på andre siden
-			if err != nil {
-				if err.Error() == "EOF" {
+			if err2 != nil {
+				if err2.Error() == "EOF" {
 					Println("closed connection")
 					return true
 				}
