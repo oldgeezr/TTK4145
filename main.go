@@ -52,14 +52,11 @@ func main() {
 
 		// Println("Starter IMA...")
 		master <- true
-		go UDP_listen(ip_array_update)
 		// Println("Starter UDP_listen...")
 	} else { // SLAVE
 		// Println("slave")
-		go IMA(master)
 		// Println("Starter IMA...")
 		master <- false
-		go UDP_listen(ip_array_update)
 		// Println("Starter UDP_listen...")
 		go IMA_master(get_ip_array, master, new_master)
 		// Println("Starter IMA_master...")

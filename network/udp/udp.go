@@ -14,8 +14,7 @@ func UDP_send(conn Conn, msg string) {
 	if length < 100 {
 		msg = "0" + msg
 	}
-	_, err := conn.Write([]byte(msg))
-	_ = err
+	conn.Write([]byte(msg))
 }
 
 func IMA(master chan bool) {
@@ -51,8 +50,7 @@ func UDP_listen(ip_array_update chan int) {
 
 	for {
 		b := make([]byte, 16)
-		_, _, err := ln.ReadFromUDP(b)
-		_ = err
+		ReadFromUDP(b)
 		remoteIP, _ := Atoi(string(b[0:3]))
 		ip_array_update <- remoteIP
 	}
