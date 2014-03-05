@@ -10,22 +10,24 @@ import (
 	"time"
 )
 
-/*func Do_first(que chan []Jobs) {
+func Do_first(do_first chan Queues) {
 
 	for {
 		select {
-		case msg := <-que:
-			for _, queue := range msg {
-				if queue.Ip == GetMyIP() {
-					Send_to_floor(queue.Dest[0].Floor, queue.Dest[0].Dir)
+		case msg := <-do_first:
+			job_queue := msg.Int_queue
+			ext_queue := msg.Ext_queue
+			if len(job_queue) != 0 {
+				for _, yours := range job_queue {
+					if yours.Ip == GetMyIP() {
+						Send_to_floor(yours.Dest[0].Floor, "int")
+					}
 				}
+			} else {
 			}
-		default:
-			time.Sleep(25 * time.Millisecond)
 		}
 	}
-
-}*/
+}
 
 //Sends elevator to specified floor
 func Send_to_floor(floor int, button string) {

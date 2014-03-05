@@ -106,9 +106,6 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 			the_queue = msg
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
-			Println(the_queue)
-			Println(job_queue)
-			Println(ext_queue)
 		}
 	}
 }

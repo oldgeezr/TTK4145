@@ -37,6 +37,7 @@ func main() {
 	order := make(chan Dict)
 	master_order := make(chan Dict)
 	queues := make(chan Queues)
+	do_first := make(chan Queues)
 	// algo_out := make(chan Order)
 
 	go IP_array(ip_array_update, get_ip_array, flush)
@@ -48,6 +49,7 @@ func main() {
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
+	go Do_first(do_first)
 
 	go func() {
 		for {
