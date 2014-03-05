@@ -59,6 +59,7 @@ func main() {
 		case <-slave:
 			go IMA_master(get_ip_array, master, new_master)
 		case <-new_master:
+			ip <- get_ip_array
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
