@@ -98,6 +98,7 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 			} else if msg.Dir == "last" {
 				// Dont care
 			}
+			the_queue = Queues{job_queue, ext_queue}
 			queues <- the_queue
 		}
 	}
