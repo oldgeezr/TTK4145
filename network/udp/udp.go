@@ -35,7 +35,6 @@ func IMA(master chan bool) {
 				Println("Ble SLAVE..!")
 				myIP = GetMyIP()
 			}
-			Println(myIP)
 		default:
 			time.Sleep(100 * time.Millisecond)
 			UDP_send(conn, myIP)
