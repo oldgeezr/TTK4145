@@ -3,8 +3,8 @@ package main
 import (
 	//. "./algorithm"
 	. "./functions"
-	. "./lift"
-	. "./lift/log"
+	// . "./lift"
+	// . "./lift/log"
 	. "./messages"
 	. "./network"
 	. "./network/tcp"
