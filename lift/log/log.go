@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././functions"
-	// . "fmt"
+	. "fmt"
 )
 
 func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
@@ -31,6 +31,7 @@ func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_fir
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Dir == "last" {
+				Println("I wass hererererer")
 				last_queue, update := AIM_Dict(last_queue, msg)
 				_ = last_queue
 				if update {
