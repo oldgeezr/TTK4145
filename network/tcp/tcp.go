@@ -33,42 +33,16 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
 			_, err := conn.Read(b)
 			Println("master_err:", err)
-			/*if err != nil {
+			if err != nil {
 				Println("closed connection")
 				return
 			}
 			var c Dict
 			json.Unmarshal(b[0:length], &c)
-			master_order <- c*/
+			master_order <- c
 		}
 	}
 }
-
-/*func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan Dict, queues chan Queues) {
-
-	Println("eg var i CTM")
-
-	for {
-		select {
-		case <-new_master:
-			ip := <-get_ip_array
-			Println("fraa array:", ip)
-			if len(ip) != 0 {
-				if ip[len(ip)-1] > 255 {
-					master_ip := ip[len(ip)-1] - 255
-					Println("mi master_ip:", master_ip)
-					go TCP_slave_com(Itoa(master_ip), order, queues)
-				} else {
-					new_master <- true
-				}
-			} else {
-				new_master <- true
-			}
-		default:
-			time.Sleep(50 * time.Millisecond)
-		}
-	}
-}*/
 
 func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 
@@ -88,13 +62,13 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			Println("I wass herrrrr")
 			_, err := conn.Read(b)
 			Println("slave_err:", err)
-			/*if err != nil {
+			if err != nil {
 				Println("closed connection")
 				return
 			}
 			var c Queues
 			json.Unmarshal(b[0:length], &c)
-			queues <- c*/
+			queues <- c
 		}
 	}
 }
