@@ -16,7 +16,7 @@ func Do_first(do_first chan Queues) {
 		select {
 		case msg := <-do_first:
 			job_queue := msg.Int_queue
-			ext_queue := msg.Ext_queue
+			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {

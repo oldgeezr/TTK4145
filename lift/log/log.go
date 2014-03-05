@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././functions"
-	. "fmt"
+	// . "fmt"
 	// . "strconv"
 )
 
