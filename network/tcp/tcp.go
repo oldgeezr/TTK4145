@@ -42,7 +42,7 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 		select {
 		case <-new_master:
 			time.Sleep(time.Second) // temp
-			ip := <-get_array
+			ip := <-get_ip_array
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
