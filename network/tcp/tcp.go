@@ -28,7 +28,11 @@ func TCP_master_com(conn Conn, order chan Dict, queues chan Queues) {
 			conn.Write(b)
 		default:
 			b := make([]byte, BUF_LEN)
-			length, _ := conn.Read(b)
+			length, err := conn.Read(b)
+			if err != nil {
+				Println("closed connection")
+				return
+			}
 			var c Dict
 			json.Unmarshal(b[0:length], &c)
 			order <- c
@@ -41,12 +45,11 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 	for {
 		select {
 		case <-new_master:
-			// time.Sleep(time.Second) // temp
 			ip := <-get_ip_array
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					go TCP_slave_send(Itoa(master_ip), order, queues)
+					go TCP_slave_com(Itoa(master_ip), order, queues)
 				}
 			}
 		default:
@@ -55,20 +58,9 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 	}
 }
 
-func TCP_slave_send(master_ip string, order chan Dict, queues chan Queues) {
+func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
-
-	go TCP_slave_recieve(conn, queues)
-
-	/*b2 := make([]byte, BUF_LEN)
-
-	go func() {
-		_, err := conn.Read(b2)
-		if err != nil {
-			conn.Close()
-		}
-	}()*/
 
 	for {
 		select {
@@ -77,12 +69,20 @@ func TCP_slave_send(master_ip string, order chan Dict, queues chan Queues) {
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
-			time.Sleep(50 * time.Millisecond)
+			b := make([]byte, BUF_LEN)
+			length, err := conn.Read(b)
+			if err != nil {
+				Println("closed connection")
+				return
+			}
+			var c Queues
+			json.Unmarshal(b[0:length], &c)
+			queues <- c
 		}
 	}
 }
 
-func TCP_slave_recieve(conn Conn, queues chan Queues) {
+/*func TCP_slave_recieve(conn Conn, queues chan Queues) {
 
 	for {
 		b := make([]byte, BUF_LEN)
@@ -91,4 +91,4 @@ func TCP_slave_recieve(conn Conn, queues chan Queues) {
 		json.Unmarshal(b[0:length], &c)
 		queues <- c
 	}
-}
+}*/
