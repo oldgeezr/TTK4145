@@ -10,22 +10,24 @@ import (
 	"time"
 )
 
-func TCP_master_connect(order chan Dict, queues chan Queues) {
+func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 		conn, _ := ln.Accept()
-		go TCP_master_com(conn, order, queues)
+		go TCP_master_com(conn, master_order, queues)
 	}
 }
 
-func TCP_master_com(conn Conn, order chan Dict, queues chan Queues) {
+func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues) {
 
 	for {
 		select {
 		case msg := <-queues:
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
+		case msg := <-order:
+			master_order <- order
 		default:
 			b := make([]byte, BUF_LEN)
 			length, err := conn.Read(b)
@@ -36,7 +38,7 @@ func TCP_master_com(conn Conn, order chan Dict, queues chan Queues) {
 			}
 			var c Dict
 			json.Unmarshal(b[0:length], &c)
-			order <- c
+			master_order <- c
 		}
 	}
 }

@@ -46,7 +46,7 @@ import (
 	}
 }*/
 
-func Job_queues(order chan Dict, queues chan Queues) {
+func Job_queues(master_order chan Dict, queues chan Queues) {
 
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
@@ -86,7 +86,7 @@ func Job_queues(order chan Dict, queues chan Queues) {
 					// Println(job_queue)
 				}
 			}*/
-		case msg := <-order:
+		case msg := <-master_order:
 			if msg.Dir == "int" {
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				for i, job := range job_queue {

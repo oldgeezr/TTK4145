@@ -31,6 +31,7 @@ func main() {
 	flush := make(chan bool)
 	master := make(chan bool)
 	order := make(chan Dict)
+	master_order := make(chan Dict)
 	queues := make(chan Queues)
 	// algo_out := make(chan Order)
 
@@ -39,14 +40,14 @@ func main() {
 	go Timer(flush)
 	// Println("Starter Timer...")
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
-	go Job_queues(order, queues)
+	go Job_queues(master_order, queues)
 	go Internal(order)
 	go IMA(master)
 	go UDP_listen(ip_array_update)
 
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)
-		go TCP_master_connect(order, queues)
+		go TCP_master_connect(order, master_order, queues)
 		// go Master_get_last_queue(get_last_queue, master_order)
 		// go Master_print_last_queue(get_last_queue_request, master_request, algo_out)
 
