@@ -50,7 +50,7 @@ func UDP_listen(ip_array_update chan int) {
 
 	for {
 		b := make([]byte, 16)
-		ReadFromUDP(b)
+		ln.ReadFromUDP(b)
 		remoteIP, _ := Atoi(string(b[0:3]))
 		ip_array_update <- remoteIP
 	}
