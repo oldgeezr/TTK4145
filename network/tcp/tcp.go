@@ -16,21 +16,8 @@ func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 	for {
 		conn, _ := ln.Accept()
 		go TCP_master_com(conn, order, master_order, queues)
-	}
-}
-
-func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues) {
-
-	for {
-		select {
-		case msg := <-queues:
-			Println("queue:", msg)
-			b, _ := json.Marshal(msg)
-			conn.Write(b)
-			/*case msg := <-order:
-			Println("order:", msg)
-			master_order <- msg*/
-			go func() {
+		go func() {
+			for {
 				b := make([]byte, BUF_LEN)
 				conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 				length, err := conn.Read(b)
@@ -46,7 +33,22 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 					master_order <- c
 					Println("send to master_order")
 				}
-			}()
+			}
+		}()
+	}
+}
+
+func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues) {
+
+	for {
+		select {
+		case msg := <-queues:
+			Println("queue:", msg)
+			b, _ := json.Marshal(msg)
+			conn.Write(b)
+			/*case msg := <-order:
+			Println("order:", msg)
+			master_order <- msg*/
 		}
 	}
 }
