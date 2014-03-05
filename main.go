@@ -60,7 +60,7 @@ func main() {
 				Println("Entered slave state")
 				udp <- false
 				go IMA_master(get_ip_array, master, new_master)
-				new_master <- true
+				go func() { new_master <- true }()
 			case <-new_master:
 				Println("Entered new_master state")
 				ip := <-get_ip_array
