@@ -60,27 +60,27 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 
 	go func() {
 		for {
-			b := make([]byte, BUF_LEN)
-			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
-			length, err2 := conn.Read(b)
-			// Lukker connection dersom det brytes på andre siden
-			if err2 != nil {
-				if err2.Error() == "EOF" {
-					Println("closed connection")
-					return true
-				}
-			} else {
-				var c Queues
-				json.Unmarshal(b[0:length], &c)
-				Println("from master:", c)
-			}
+			msg := <-order
+			Println("To master:", msg)
+			b, _ := json.Marshal(msg)
+			conn.Write(b)
 		}
 	}()
 
 	for {
-		msg := <-order
-		Println("To master:", msg)
-		b, _ := json.Marshal(msg)
-		conn.Write(b)
+		b := make([]byte, BUF_LEN)
+		conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
+		length, err2 := conn.Read(b)
+		// Lukker connection dersom det brytes på andre siden
+		if err2 != nil {
+			if err2.Error() == "EOF" {
+				Println("closed connection")
+				return true
+			}
+		} else {
+			var c Queues
+			json.Unmarshal(b[0:length], &c)
+			Println("from master:", c)
+		}
 	}
 }
