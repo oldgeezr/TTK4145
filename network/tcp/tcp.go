@@ -31,7 +31,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
-			_, err := conn.Read(b)
+			length, err := conn.Read(b)
 			Println("from slave:", err)
 			if err != nil {
 				if err.Error() == "EOF" {
