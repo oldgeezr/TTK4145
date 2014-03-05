@@ -24,11 +24,11 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 	for {
 		select {
 		case msg := <-queues:
-			Println(msg)
+			Println("queue:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-order:
-			Println(msg)
+			Println("order:", msg)
 			master_order <- msg
 		default:
 			b := make([]byte, BUF_LEN)
@@ -42,7 +42,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			} else {
 				var c Dict
 				json.Unmarshal(b[0:length], &c)
-				Println(c)
+				Println("recieve:", c)
 				master_order <- c
 			}
 		}
