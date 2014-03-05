@@ -19,7 +19,6 @@ func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool
 			// Println("Oppdaterte arrayet..!")
 			IPaddresses = AIM_ip(IPaddresses, ip)
 			sort.Ints(IPaddresses)
-			Println(IPaddresses)
 		case get_ip_array <- IPaddresses:
 			// Println("Noen leste arrayet..!")
 		case msg := <-flush:
@@ -46,6 +45,7 @@ func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 
 	Println("IMA_master startet..!")
 	count := 0
+	count1 := 0
 	for {
 		time.Sleep(500 * time.Millisecond)
 		array := <-get_ip_array
@@ -60,11 +60,17 @@ func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 						Println("MASTER forsvant..!")
 						master <- true
 						time.Sleep(50 * time.Microsecond)
+						return
+					}
+					if count1 == 2 {
 						new_master <- true
 					}
+				} else {
+					count1++
 				}
 			} else {
 				count = 0
+				count1 = 0
 			}
 		}
 	}

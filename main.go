@@ -25,11 +25,12 @@ func main() {
 	_, _, err := ln.ReadFromUDP(b)
 	ln.Close()
 
+	slave := make(chan bool)
+	master := make(chan bool)
 	ip_array_update := make(chan int)
 	get_ip_array := make(chan []int)
 	new_master := make(chan bool)
 	flush := make(chan bool)
-	master := make(chan bool)
 	order := make(chan Dict)
 	master_order := make(chan Dict)
 	queues := make(chan Queues)
@@ -46,26 +47,30 @@ func main() {
 	go UDP_listen(ip_array_update)
 
 	if err != nil { // MASTER
-		// go Master_input(int_order, ext_order, last_floor)
-		go TCP_master_connect(order, master_order, queues)
-		// go Master_get_last_queue(get_last_queue, master_order)
-		// go Master_print_last_queue(get_last_queue_request, master_request, algo_out)
-
-		// Println("Starter IMA...")
 		master <- true
-		// Println("Starter UDP_listen...")
-	} else { // SLAVE
-		// Println("slave")
-		// Println("Starter IMA...")
-		master <- false
-		// Println("Starter UDP_listen...")
-		go IMA_master(get_ip_array, master, new_master)
-		// Println("Starter IMA_master...")
-		go Connect_to_MASTER(get_ip_array, new_master, order, queues)
-		new_master <- true
-		// go Do_first(que)
+	} else {
+		slave <- true
 	}
 
-	neverQuit := make(chan string)
-	<-neverQuit
+	for {
+		select {
+		case <-master:
+			go TCP_master_connect(order, master_order, queues)
+		case <-slave:
+			go IMA_master(get_ip_array, master, new_master)
+		case <-new_master:
+			if len(ip) != 0 {
+				if ip[len(ip)-1] > 255 {
+					master_ip := ip[len(ip)-1] - 255
+					Println("mi master_ip:", master_ip)
+					go TCP_slave_com(Itoa(master_ip), order, queues)
+					slave <- true
+				} else {
+					new_master <- true
+				}
+			} else {
+				new_master <- true
+			}
+		}
+	}
 }

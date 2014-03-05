@@ -44,7 +44,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 	}
 }
 
-func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan Dict, queues chan Queues) {
+/*func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan Dict, queues chan Queues) {
 
 	Println("eg var i CTM")
 
@@ -68,7 +68,7 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 			time.Sleep(50 * time.Millisecond)
 		}
 	}
-}
+}*/
 
 func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 
