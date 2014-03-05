@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././functions"
-	// . "fmt"
+	. "fmt"
 	// . "strconv"
 )
 
@@ -102,6 +102,13 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 			} else if msg.Dir == "last" {
 				// Dont care
 			}
+		case msg := <-queues:
+			the_queue = msg
+			job_queue = msg.Int_queue
+			ext_queue = msg.Ext_queue
+			Println(the_queue)
+			Println(job_queue)
+			Println(ext_queue)
 		}
 	}
 }

@@ -79,7 +79,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 		} else {
 			var c Queues
 			json.Unmarshal(b[0:length], &c)
-			Println("From master:", c)
+			queues <- c
 		}
 	}
 }
