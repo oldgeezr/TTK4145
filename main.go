@@ -64,6 +64,7 @@ func main() {
 			case <-new_master:
 				Println("Entered new_master state")
 				ip := <-get_ip_array
+				Println(ip)
 				if len(ip) != 0 {
 					if ip[len(ip)-1] > 255 {
 						master_ip := ip[len(ip)-1] - 255
