@@ -33,7 +33,7 @@ func Timer(flush chan bool) {
 
 	// Println("Timer startet..!")
 	for {
-		for timer := range time.Tick(2 * time.Second) {
+		for timer := range time.Tick(1 * time.Second) {
 			_ = timer
 			flush <- true
 		}
