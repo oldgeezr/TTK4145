@@ -95,6 +95,7 @@ func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
 				}
 				the_queue = Queues{job_queue, ext_queue}
 				queues <- the_queue
+				do_first <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue}
