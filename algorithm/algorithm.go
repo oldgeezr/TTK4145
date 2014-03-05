@@ -14,6 +14,8 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			queues := <-get_queues
 			int_queue := queues.Int_queue
 			ext_queue := queues.Ext_queue
+
+			Println("i cant for")
 			for i, order := range int_queue {
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
