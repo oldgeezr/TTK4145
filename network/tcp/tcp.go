@@ -32,8 +32,8 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
 			length, err := conn.Read(b)
-			Println("master_err:", err)
-			if err == nil {
+			Println("from slave:", err)
+			/*if err == nil {
 				Println("err != nil")
 			} else if err.Error() == "EOF" {
 				Println("close connection")
@@ -42,7 +42,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 				var c Dict
 				json.Unmarshal(b[0:length], &c)
 				master_order <- c
-			}
+			}*/
 		}
 	}
 }
@@ -62,20 +62,19 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
-			Println("I wass herrrrr")
 			_, err := conn.Read(b)
-			Println("slave_err:", err)
-			if err != nil {
+			Println("from slave:", err)
+			/*if err != nil {
 				Println("err != nil")
-				/*} else if err.Error() == "EOF" {
+				} else if err.Error() == "EOF" {
 				Println("close connection")
-				return*/
+				return
 
 			} else {
-				/*var c Queues
+				var c Queues
 				json.Unmarshal(b[0:length], &c)
-				queues <- c*/
-			}
+				queues <- c
+			}*/
 		}
 	}
 }
