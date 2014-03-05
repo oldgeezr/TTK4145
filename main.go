@@ -60,6 +60,7 @@ func main() {
 				Println("Entered slave state")
 				udp <- false
 				go IMA_master(get_ip_array, master, new_master)
+				new_master <- true
 			case <-new_master:
 				Println("Entered new_master state")
 				ip := <-get_ip_array
@@ -68,7 +69,6 @@ func main() {
 						master_ip := ip[len(ip)-1] - 255
 						Println("mi master_ip:", master_ip)
 						go TCP_slave_com(Itoa(master_ip), order, queues)
-						slave <- true
 					} else {
 						new_master <- true
 					}
