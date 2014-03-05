@@ -49,35 +49,38 @@ func main() {
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
 
+	go func() {
+		for {
+			select {
+			case <-master:
+				Println("was in master")
+				udp <- true
+				go TCP_master_connect(order, master_order, queues)
+			case <-slave:
+				udp <- false
+				go IMA_master(get_ip_array, master, new_master)
+			case <-new_master:
+				ip := <-get_ip_array
+				if len(ip) != 0 {
+					if ip[len(ip)-1] > 255 {
+						master_ip := ip[len(ip)-1] - 255
+						Println("mi master_ip:", master_ip)
+						go TCP_slave_com(Itoa(master_ip), order, queues)
+						slave <- true
+					} else {
+						new_master <- true
+					}
+				} else {
+					new_master <- true
+				}
+			}
+		}
+
+	}()
+
 	if err != nil { // MASTER
 		master <- true
 	} else {
 		slave <- true
-	}
-
-	for {
-		select {
-		case <-master:
-			Println("was in master")
-			udp <- true
-			go TCP_master_connect(order, master_order, queues)
-		case <-slave:
-			udp <- false
-			go IMA_master(get_ip_array, master, new_master)
-		case <-new_master:
-			ip := <-get_ip_array
-			if len(ip) != 0 {
-				if ip[len(ip)-1] > 255 {
-					master_ip := ip[len(ip)-1] - 255
-					Println("mi master_ip:", master_ip)
-					go TCP_slave_com(Itoa(master_ip), order, queues)
-					slave <- true
-				} else {
-					new_master <- true
-				}
-			} else {
-				new_master <- true
-			}
-		}
 	}
 }
