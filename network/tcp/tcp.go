@@ -33,6 +33,10 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 			_, err := conn.Read(b)
 			Println("from slave:", err)
+			if err.Error() == "EOF" {
+				Println("closed connection")
+				return
+			}
 			/*if err == nil {
 				Println("err != nil")
 			} else if err.Error() == "EOF" {
@@ -64,6 +68,10 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 			_, err := conn.Read(b)
 			Println("from slave:", err)
+			if err.Error() == "EOF" {
+				Println("closed connection")
+				return
+			}
 			/*if err != nil {
 				Println("err != nil")
 				} else if err.Error() == "EOF" {
