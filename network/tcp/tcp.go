@@ -51,7 +51,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 	}
 }
 
-func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
+func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues, new_master chan bool) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	for {
@@ -68,6 +68,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			if err != nil {
 				if err.Error() == "EOF" {
 					Println("closed connection")
+					new_master <- true
 					return
 				}
 			} else {
