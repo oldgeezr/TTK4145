@@ -40,19 +40,21 @@ func main() {
 	// Println("Starter Timer...")
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
 	go Job_queues(order, queues)
+	go Internal(order)
+	go IMA(master)
+	go UDP_listen(ip_array_update)
 
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)
-		go Internal(order)
+
 		// go Master_get_last_queue(get_last_queue, master_order)
 		// go Master_print_last_queue(get_last_queue_request, master_request, algo_out)
-		go IMA(master)
+
 		// Println("Starter IMA...")
 		master <- true
 		go UDP_listen(ip_array_update)
 		// Println("Starter UDP_listen...")
 	} else { // SLAVE
-		go Internal(order)
 		// Println("slave")
 		go IMA(master)
 		// Println("Starter IMA...")

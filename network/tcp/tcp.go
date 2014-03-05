@@ -76,6 +76,8 @@ func TCP_slave_send(master_ip string, order chan Dict, queues chan Queues) {
 			Println(msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
+		default:
+			time.Sleep(50 * time.Millisecond)
 		}
 	}
 }
