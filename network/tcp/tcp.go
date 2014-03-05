@@ -46,6 +46,8 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 
 func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan Dict, queues chan Queues) {
 
+	Println("eg var i CTM")
+
 	for {
 		select {
 		case <-new_master:
