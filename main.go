@@ -58,6 +58,7 @@ func main() {
 	for {
 		select {
 		case <-master:
+			Println("was in master")
 			udp <- true
 			go TCP_master_connect(order, master_order, queues)
 		case <-slave:
