@@ -58,7 +58,11 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 					master_ip := ip[len(ip)-1] - 255
 					Println("mi master_ip:", master_ip)
 					go TCP_slave_com(Itoa(master_ip), order, queues)
+				} else {
+					new_master <- true
 				}
+			} else {
+				new_master <- true
 			}
 		default:
 			time.Sleep(50 * time.Millisecond)
