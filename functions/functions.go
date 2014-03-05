@@ -29,7 +29,7 @@ type Queues struct {
 // Insert int if unique : FUNKER!
 func Insert_at_pos(this []Dict, value, i int) []Dict {
 
-	_, missing := AIM_Dict(this, value)
+	_, missing := AIM_Int(this, value)
 	if missing {
 		this = append(this[:i], append([]Dict{Dict{"IP_order", value, "dir"}}, this[i:]...)...)
 	}
@@ -72,7 +72,7 @@ func AIM_Jobs(steve []Jobs, ip string) ([]Jobs, bool) {
 	return append(steve, Jobs{ip, []Dict{}}), true
 }
 
-func AIM_Dic(slice []Dict, i int) ([]Dict, bool) {
+func AIM_Int(slice []Dict, i int) ([]Dict, bool) {
 
 	for _, ele := range slice {
 		if ele.Floor == i {
@@ -80,6 +80,17 @@ func AIM_Dic(slice []Dict, i int) ([]Dict, bool) {
 		}
 	}
 	return append(slice, Dict{"ip_order", i, "dir"}), true
+}
+
+func AIM_Dict(slice []Dict, i Dict) ([]Dict, bool) {
+
+	for i, ele := range slice {
+		if ele.Ip_order == i.Ip_order {
+			slice[i] = i
+			return slice, false
+		}
+	}
+	return append(slice, i), true
 }
 
 func AIM_Spice(slice []Dict, i int, G string) ([]Dict, bool) {
