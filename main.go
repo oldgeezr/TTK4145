@@ -28,6 +28,8 @@ func main() {
 
 	slave := make(chan bool)
 	master := make(chan bool)
+
+	udp := make(chan bool)
 	ip_array_update := make(chan int)
 	get_ip_array := make(chan []int)
 	new_master := make(chan bool)
@@ -44,7 +46,7 @@ func main() {
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
 	go Job_queues(master_order, queues)
 	go Internal(order)
-	go IMA(master)
+	go IMA(udp)
 	go UDP_listen(ip_array_update)
 
 	if err != nil { // MASTER
@@ -56,8 +58,10 @@ func main() {
 	for {
 		select {
 		case <-master:
+			udp <- true
 			go TCP_master_connect(order, master_order, queues)
 		case <-slave:
+			udp <- false
 			go IMA_master(get_ip_array, master, new_master)
 		case <-new_master:
 			ip := <-get_ip_array

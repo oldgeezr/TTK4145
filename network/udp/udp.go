@@ -17,7 +17,7 @@ func UDP_send(conn Conn, msg string) {
 	conn.Write([]byte(msg))
 }
 
-func IMA(master chan bool) {
+func IMA(udp chan bool) {
 
 	saddr, _ := ResolveUDPAddr("udp", BROADCAST+UDP_PORT)
 	conn, _ := DialUDP("udp", nil, saddr)
@@ -25,7 +25,7 @@ func IMA(master chan bool) {
 
 	for {
 		select {
-		case state := <-master:
+		case state := <-udp:
 			if state {
 				Println("Ble MASTER..!")
 				temp, _ := Atoi(GetMyIP())
