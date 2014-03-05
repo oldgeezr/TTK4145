@@ -71,11 +71,11 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 				Println("close connection")
 				return
 
-			} /*else {
-				var c Queues
+			} else {
+				/*var c Queues
 				json.Unmarshal(b[0:length], &c)
-				queues <- c
-			}*/
+				queues <- c*/
+			}
 		}
 	}
 }
