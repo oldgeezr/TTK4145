@@ -29,7 +29,6 @@ func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 				} else {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
-					Println("From slave:", c)
 					master_order <- c
 				}
 			}
@@ -42,7 +41,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 	for {
 		select {
 		case msg := <-queues:
-			Println("to slave:", msg)
+			Println("To slave:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-order:
@@ -58,10 +57,10 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 		return true
 	}
 
+	// Vi må få fjernet denne goroutinen
 	go func() {
 		for {
 			msg := <-order
-			Println("To master:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		}
@@ -80,7 +79,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 		} else {
 			var c Queues
 			json.Unmarshal(b[0:length], &c)
-			Println("from master:", c)
+			Println("From master:", c)
 		}
 	}
 }
