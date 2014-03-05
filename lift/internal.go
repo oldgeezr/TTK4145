@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func Do_first(que chan []Jobs) {
+/*func Do_first(que chan []Jobs) {
 
 	for {
 		select {
@@ -25,64 +25,6 @@ func Do_first(que chan []Jobs) {
 		}
 	}
 
-}
-
-/*func Master_get_last_queue(get_last_queue chan []Dict, master_order chan Dict) {
-
-	for {
-		select {
-		case msg := <-get_last_queue:
-			Println(msg)
-		case msg := <-master_order:
-			// Send_to_floor(floor, button)
-			_ = msg
-		default:
-			time.Sleep(50 * time.Microsecond)
-		}
-	}
-}
-
-func Master_print_last_queue(get_last_queue_request chan bool, master_request chan string, algo_out chan Order) {
-
-	for {
-
-		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 1}
-		master_request <- "143"
-		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 2}
-		master_request <- "143"
-		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 3}
-		master_request <- "143"
-		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 1}
-		master_request <- "143"
-		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 4}
-		master_request <- "143"
-		time.Sleep(time.Second)
-		algo_out <- Order{"143", 3, 1}
-		master_request <- "143"
-		time.Sleep(time.Second)
-		master_request <- "141"
-	}
-}
-
-func Master_input(int_order, ext_order, last_floor chan Dict) {
-
-	for {
-		select {
-		case msg := <-int_order:
-			Print(msg)
-		case msg := <-ext_order:
-			Print(msg)
-		case msg := <-last_floor:
-			_ = msg
-		default:
-			time.Sleep(25 * time.Millisecond)
-		}
-	}
 }*/
 
 //Sends elevator to specified floor
@@ -212,7 +154,7 @@ func Floor_indicator(order chan Dict) {
 			Set_floor_indicator(floor)
 			order <- Dict{GetMyIP(), floor, "last"}
 		}
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(200 * time.Millisecond)
 	}
 }
 

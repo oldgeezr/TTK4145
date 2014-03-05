@@ -98,8 +98,6 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			}
 			queues <- the_queue
-		default:
-			time.Sleep(50 * time.Millisecond)
 		}
 	}
 }
