@@ -45,7 +45,7 @@ import (
 	}
 }*/
 
-func Job_queues(master_order chan Dict, queues chan Queues) {
+func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
 
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
@@ -106,6 +106,7 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 			the_queue = msg
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
+			do_first <- the_queue
 		}
 	}
 }

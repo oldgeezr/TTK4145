@@ -45,7 +45,7 @@ func main() {
 	go Timer(flush)
 	// Println("Starter Timer...")
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
-	go Job_queues(master_order, queues)
+	go Job_queues(master_order, queues, do_first)
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
