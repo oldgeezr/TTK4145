@@ -69,6 +69,7 @@ func main() {
 					if ip[len(ip)-1] > 255 {
 						master_ip := ip[len(ip)-1] - 255
 						go func() { new_master <- TCP_slave_com(Itoa(master_ip), order, queues) }()
+						// Det som er litt unødvendig er at ny master har en TCP med seg selv..
 					} else {
 						go func() { new_master <- true }()
 					}

@@ -33,7 +33,7 @@ func Timer(flush chan bool) {
 
 	// Println("Timer startet..!")
 	for {
-		for timer := range time.Tick(500 * time.Millisecond) {
+		for timer := range time.Tick(1 * time.Second) {
 			_ = timer
 			flush <- true
 		}
@@ -55,14 +55,14 @@ func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 				temp, _ := Atoi(GetMyIP())
 				if temp == array[0] {
 					count++
-					if count == 1 { // SIKKERTHETSGRAD!
+					if count == 2 { // SIKKERTHETSGRAD!
 						// Println("Sender master request...")
 						Println("MASTER forsvant..!")
 						master <- true
 						time.Sleep(50 * time.Microsecond)
 						return
 					}
-					if count1 == 1 {
+					if count1 == 2 {
 						new_master <- true
 					}
 				} else {
