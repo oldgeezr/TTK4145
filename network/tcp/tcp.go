@@ -46,7 +46,7 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					Println(master_ip)
+					Println("was here", master_ip)
 					go TCP_slave_send(Itoa(master_ip), order, queues)
 				}
 			}
