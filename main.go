@@ -59,7 +59,7 @@ func main() {
 		master <- false
 		go UDP_listen(ip_array_update)
 		// Println("Starter UDP_listen...")
-		go IMA_master(get_array, master, new_master)
+		go IMA_master(get_ip_array, master, new_master)
 		// Println("Starter IMA_master...")
 		go Connect_to_MASTER(get_ip_array, new_master, order, queues)
 		new_master <- true
