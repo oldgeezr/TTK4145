@@ -93,13 +93,15 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 						job_queue[i].Dest, _ = AIM_Dict(job_queue[i].Dest, msg.Floor)
 					}
 				}
+				the_queue = Queues{job_queue, ext_queue}
+				queues <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
+				the_queue = Queues{job_queue, ext_queue}
+				queues <- the_queue
 			} else if msg.Dir == "last" {
 				// Dont care
 			}
-			the_queue = Queues{job_queue, ext_queue}
-			queues <- the_queue
 		}
 	}
 }
