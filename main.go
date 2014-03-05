@@ -53,13 +53,15 @@ func main() {
 		for {
 			select {
 			case <-master:
-				Println("was in master")
+				Println("Entered master state")
 				udp <- true
 				go TCP_master_connect(order, master_order, queues)
 			case <-slave:
+				Println("Entered slave state")
 				udp <- false
 				go IMA_master(get_ip_array, master, new_master)
 			case <-new_master:
+				Println("Entered new_master state")
 				ip := <-get_ip_array
 				if len(ip) != 0 {
 					if ip[len(ip)-1] > 255 {
