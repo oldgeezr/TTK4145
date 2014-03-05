@@ -27,25 +27,26 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			Println("queue:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-		/*case msg := <-order:
-		Println("order:", msg)
-		master_order <- msg*/
-		default:
-			b := make([]byte, BUF_LEN)
-			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
-			length, err := conn.Read(b)
-			if err != nil {
-				if err.Error() == "EOF" {
-					Println("closed connection")
-					return
+			/*case msg := <-order:
+			Println("order:", msg)
+			master_order <- msg*/
+			go func() {
+				b := make([]byte, BUF_LEN)
+				conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
+				length, err := conn.Read(b)
+				if err != nil {
+					if err.Error() == "EOF" {
+						Println("closed connection")
+						return
+					}
+				} else {
+					var c Dict
+					json.Unmarshal(b[0:length], &c)
+					Println("recieve:", c)
+					master_order <- c
+					Println("send to master_order")
 				}
-			} else {
-				var c Dict
-				json.Unmarshal(b[0:length], &c)
-				Println("recieve:", c)
-				master_order <- c
-				Println("send to master_order")
-			}
+			}()
 		}
 	}
 }
