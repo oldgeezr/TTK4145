@@ -22,8 +22,8 @@ type Order struct {
 }
 
 type Queues struct {
-	int_queue []Jobs
-	ext_queue []Dict
+	Int_queue []Jobs
+	Ext_queue []Dict
 }
 
 // Insert int if unique : FUNKER!

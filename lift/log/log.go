@@ -50,7 +50,7 @@ func Job_queues(order chan Dict, queues chan Queues) {
 
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
-	the_queue := Queues
+	the_queue := Queues{}
 	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
 
 	for {
