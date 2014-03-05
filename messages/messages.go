@@ -41,13 +41,13 @@ func Timer(flush chan bool) {
 	}
 }
 
-func IMA_master(get_array chan []int, master, new_master chan bool) {
+func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 
-	// Println("IMA_master startet..!")
+	Println("IMA_master startet..!")
 	count := 0
 	for {
 		time.Sleep(500 * time.Millisecond)
-		array := <-get_array
+		array := <-get_ip_array
 		// Println("Got array: ", array)
 		if len(array) != 0 {
 			if array[len(array)-1] < 255 {

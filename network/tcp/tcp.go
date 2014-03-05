@@ -46,7 +46,6 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
-					Println("was here", master_ip)
 					go TCP_slave_send(Itoa(master_ip), order, queues)
 				}
 			}
@@ -58,7 +57,8 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 
 func TCP_slave_send(master_ip string, order chan Dict, queues chan Queues) {
 
-	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
+	Println("slavesend:", err)
 
 	go TCP_slave_recieve(conn, queues)
 
@@ -77,6 +77,7 @@ func TCP_slave_send(master_ip string, order chan Dict, queues chan Queues) {
 			Println(msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
+			Println("I printed?")
 		default:
 			time.Sleep(50 * time.Millisecond)
 		}
@@ -86,6 +87,7 @@ func TCP_slave_send(master_ip string, order chan Dict, queues chan Queues) {
 func TCP_slave_recieve(conn Conn, queues chan Queues) {
 
 	for {
+		Println("waiting to recieve")
 		b := make([]byte, BUF_LEN)
 		length, _ := conn.Read(b)
 		var c Queues
