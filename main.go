@@ -46,7 +46,7 @@ func main() {
 
 	if err != nil { // MASTER
 		// go Master_input(int_order, ext_order, last_floor)
-
+		go TCP_master_connect(order, queues)
 		// go Master_get_last_queue(get_last_queue, master_order)
 		// go Master_print_last_queue(get_last_queue_request, master_request, algo_out)
 
