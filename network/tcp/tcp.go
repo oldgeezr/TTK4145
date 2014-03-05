@@ -56,12 +56,13 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 	for {
 		select {
 		case msg := <-order:
+			Println(msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
-			_, err := conn.Read(b)
+			length, err := conn.Read(b)
 			// Lukker connection dersom det brytes på andre siden
 			if err != nil {
 				if err.Error() == "EOF" {
@@ -69,7 +70,8 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 					return
 				}
 			} else {
-				// Do something
+				var c Queues
+				json.Unmarshal(b[0:length], &c)
 			}
 		}
 	}
