@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././functions"
-	. "fmt"
+	// . "fmt"
 	// . "strconv"
 	"time"
 )
@@ -50,7 +50,7 @@ func Job_queues(order chan Dict, queues chan Queues) {
 
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
-	the_queue := Queues{job_queue, ext_queue}
+	the_queue := Queues{}
 	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
 
 	for {
@@ -97,7 +97,7 @@ func Job_queues(order chan Dict, queues chan Queues) {
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			}
-			queues <- the_queue
+			queues <- the_queue{job_queue, ext_queue}
 		default:
 			time.Sleep(50 * time.Millisecond)
 		}

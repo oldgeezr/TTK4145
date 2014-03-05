@@ -22,17 +22,16 @@ func TCP_master_connect(order chan Dict, queues chan Queues) {
 func TCP_master_com(conn Conn, order chan Dict, queues chan Queues) {
 
 	for {
-		b := make([]byte, BUF_LEN)
 		select {
-		case length, _ := conn.Read(b):
-			var c Dict
-			json.Unmarshal(b[0:length], &c)
-			order <- c
 		case msg := <-queues:
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
-			time.Sleep(50 * time.Millisecond)
+			b := make([]byte, BUF_LEN)
+			length, _ := conn.Read(b)
+			var c Dict
+			json.Unmarshal(b[0:length], &c)
+			order <- c
 		}
 	}
 }
