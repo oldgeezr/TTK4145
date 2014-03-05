@@ -21,6 +21,11 @@ type Order struct {
 	Floor int
 }
 
+type Queues struct {
+	int_queue []Jobs
+	ext_queue []Dict
+}
+
 // Insert int if unique : FUNKER!
 func Insert_at_pos(this []Dict, value, i int) []Dict {
 

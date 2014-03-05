@@ -46,10 +46,11 @@ import (
 	}
 }*/
 
-func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_request, master_pop chan string, master_order chan Dict, algo_out chan Order) {
+func Job_queues(order chan Dict, queues chan Queues) {
 
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
+	the_queue := Queues{job_queue, ext_queue}
 	// job_queue = append(job_queue, Jobs{"0", []Slice{}})
 
 	for {
@@ -85,7 +86,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 					// Println(job_queue)
 				}
 			}*/
-		case msg := <-master_order:
+		case msg := <-order:
 			if msg.Dir == "int" {
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				for i, job := range job_queue {
@@ -96,9 +97,7 @@ func Job_queues(que chan []Jobs, que_request chan bool, new_job_queue, master_re
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			}
-			que <- job_queue
-			Println(job_queue)
-			Println(ext_queue)
+			queues <- the_queue
 		default:
 			time.Sleep(50 * time.Millisecond)
 		}

@@ -1,10 +1,7 @@
 package udp
 
 import (
-	// . "../.././lift/log"
-	. "../.././functions"
 	. "../.././network"
-	. ".././tcp"
 	. "fmt"
 	. "net"
 	. "strconv"
@@ -21,7 +18,7 @@ func UDP_send(conn Conn, msg string) {
 	_ = err
 }
 
-func IMA(master chan bool, get_array chan []int, job_queue, que chan []Jobs, last_queue chan []Dict, last_floor, master_order chan Dict) {
+func IMA(master chan bool) {
 
 	saddr, _ := ResolveUDPAddr("udp", BROADCAST+UDP_PORT)
 	conn, _ := DialUDP("udp", nil, saddr)
@@ -31,15 +28,11 @@ func IMA(master chan bool, get_array chan []int, job_queue, que chan []Jobs, las
 		select {
 		case state := <-master:
 			if state {
-				go TCP_master_recieve(job_queue, que, last_queue, last_floor, master_order)
-				// Println("Satte masterIP..!")
 				Println("Ble MASTER..!")
 				temp, _ := Atoi(GetMyIP())
 				temp = temp + 255
 				myIP = Itoa(temp) // master IP
 			} else {
-				// go TCP_listen(false)
-				// Println("Starter GetMyIP...")
 				Println("Ble SLAVE..!")
 				myIP = GetMyIP()
 			}
@@ -48,10 +41,9 @@ func IMA(master chan bool, get_array chan []int, job_queue, que chan []Jobs, las
 			UDP_send(conn, myIP)
 		}
 	}
-
 }
 
-func UDP_listen(array_update chan int) {
+func UDP_listen(ip_array_update chan int) {
 
 	// Println("UDP_listen startet..!")
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
@@ -62,6 +54,6 @@ func UDP_listen(array_update chan int) {
 		_, _, err := ln.ReadFromUDP(b)
 		_ = err
 		remoteIP, _ := Atoi(string(b[0:3]))
-		array_update <- remoteIP
+		ip_array_update <- remoteIP
 	}
 }

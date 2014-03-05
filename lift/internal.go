@@ -153,7 +153,7 @@ func KeyboardInput(ch chan int) {
 }
 
 //Handles external button presses
-func Ext_order(ext_order chan Dict) {
+func Ext_order(order chan Dict) {
 
 	i := 0
 
@@ -163,7 +163,7 @@ func Ext_order(ext_order chan Dict) {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				Println("External call up button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
-				ext_order <- Dict{"ext", i, "up"}
+				order <- Dict{"ext", i, "up"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -171,7 +171,7 @@ func Ext_order(ext_order chan Dict) {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				Println("External call down button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
-				ext_order <- Dict{"ext", i, "down"}
+				order <- Dict{"ext", i, "down"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
@@ -184,14 +184,14 @@ func Ext_order(ext_order chan Dict) {
 }
 
 //Handles internal button presses
-func Int_order(int_order chan Dict) {
+func Int_order(order chan Dict) {
 
 	i := 0
 	for {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
-			int_order <- Dict{GetMyIP(), i, "int"}
+			order <- Dict{GetMyIP(), i, "int"}
 			time.Sleep(300 * time.Millisecond)
 		}
 
@@ -203,14 +203,14 @@ func Int_order(int_order chan Dict) {
 }
 
 //Checks which floor the elevator is on and sets the floor-light
-func Floor_indicator(last_floor chan Dict) {
+func Floor_indicator(order chan Dict) {
 	Println("executing floor indicator!")
 	var floor int
 	for {
 		floor = Get_floor_sensor()
 		if floor != -1 {
 			Set_floor_indicator(floor)
-			last_floor <- Dict{"X" + GetMyIP(), floor, "last"}
+			order <- Dict{"X" + GetMyIP(), floor, "last"}
 		}
 		time.Sleep(50 * time.Millisecond)
 	}
@@ -226,7 +226,7 @@ func To_nearest_floor() {
 	}
 }
 
-func Internal(int_order, ext_order, last_floor chan Dict) {
+func Internal(order chan Dict) {
 
 	// Initialize
 	Init()
@@ -248,7 +248,7 @@ func Internal(int_order, ext_order, last_floor chan Dict) {
 		}
 	}()
 
-	go Floor_indicator(last_floor)
-	go Int_order(int_order)
-	go Ext_order(ext_order)
+	go Floor_indicator(order)
+	go Int_order(order)
+	go Ext_order(order)
 }

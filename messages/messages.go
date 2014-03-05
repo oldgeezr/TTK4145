@@ -9,17 +9,17 @@ import (
 	"time"
 )
 
-func IP_array(array_update chan int, get_array chan []int, flush chan bool) {
+func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool) {
 
 	IPaddresses := []int{}
 	// Println("IP_array startet..!")
 	for {
 		select {
-		case ip := <-array_update:
+		case ip := <-ip_array_update:
 			// Println("Oppdaterte arrayet..!")
 			IPaddresses = AIM_ip(IPaddresses, ip)
 			sort.Ints(IPaddresses)
-		case get_array <- IPaddresses:
+		case get_ip_array <- IPaddresses:
 			// Println("Noen leste arrayet..!")
 		case msg := <-flush:
 			// Println("Tømte arrayet..!")
