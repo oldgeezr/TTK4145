@@ -35,7 +35,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			Println("master_err:", err)
 			if err == nil {
 
-			} else if err == "EOF" {
+			} else if err.Error() == "EOF" {
 				Println("close connection")
 				return
 			} else {
@@ -67,7 +67,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			Println("slave_err:", err)
 			if err != nil {
 
-			} else if err == "EOF" {
+			} else if err.Error() == "EOF" {
 				Println("close connection")
 				return
 
