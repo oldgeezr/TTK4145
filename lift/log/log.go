@@ -19,7 +19,7 @@ func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
-						job_queue[i].Dest, _ = AIM_Dict(job_queue[i].Dest, msg.Floor)
+						job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
 					}
 				}
 				the_queue = Queues{job_queue, ext_queue}
