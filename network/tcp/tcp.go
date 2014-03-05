@@ -30,30 +30,19 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			master_order <- msg
 		default:
 			b := make([]byte, BUF_LEN)
-			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
+			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
 			length, err := conn.Read(b)
-			Println("from slave:", err)
 			if err != nil {
 				if err.Error() == "EOF" {
 					Println("closed connection")
 					return
 				}
 			} else {
-				Println("Kanskje jeg kan motta noe?")
 				var c Dict
 				json.Unmarshal(b[0:length], &c)
+				Println(c)
 				master_order <- c
 			}
-			/*if err == nil {
-				Println("err != nil")
-			} else if err.Error() == "EOF" {
-				Println("close connection")
-				return
-			} else {
-				var c Dict
-				json.Unmarshal(b[0:length], &c)
-				master_order <- c
-			}*/
 		}
 	}
 }
@@ -61,20 +50,15 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
-
-	Println("eg var i slave_com!")
-
 	for {
 		select {
 		case msg := <-order:
-			Println(msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 			_, err := conn.Read(b)
-			Println("from slave:", err)
 			// Lukker connection dersom det brytes på andre siden
 			if err != nil {
 				if err.Error() == "EOF" {
@@ -82,30 +66,8 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 					return
 				}
 			} else {
-				Println("Kanskje jeg kan motta noe?")
+				// Do something
 			}
-			/*if err != nil {
-				Println("err != nil")
-				} else if err.Error() == "EOF" {
-				Println("close connection")
-				return
-
-			} else {
-				var c Queues
-				json.Unmarshal(b[0:length], &c)
-				queues <- c
-			}*/
 		}
 	}
 }
-
-/*func TCP_slave_recieve(conn Conn, queues chan Queues) {
-
-	for {
-		b := make([]byte, BUF_LEN)
-		length, _ := conn.Read(b)
-		var c Queues
-		json.Unmarshal(b[0:length], &c)
-		queues <- c
-	}
-}*/
