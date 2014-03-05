@@ -38,6 +38,8 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 					Println("closed connection")
 					return
 				}
+			} else {
+				Println("Kanskje jeg kan motta noe?")
 			}
 			/*if err == nil {
 				Println("err != nil")
@@ -70,11 +72,14 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			conn.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 			_, err := conn.Read(b)
 			Println("from slave:", err)
+			// Lukker connection dersom det brytes på andre siden
 			if err != nil {
 				if err.Error() == "EOF" {
 					Println("closed connection")
 					return
 				}
+			} else {
+				Println("Kanskje jeg kan motta noe?")
 			}
 			/*if err != nil {
 				Println("err != nil")
