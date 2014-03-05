@@ -30,15 +30,16 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			master_order <- msg
 		default:
 			b := make([]byte, BUF_LEN)
+			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
 			length, err := conn.Read(b)
 			Println("master_err:", err)
-			if err != nil {
+			/*if err != nil {
 				Println("closed connection")
 				return
 			}
 			var c Dict
 			json.Unmarshal(b[0:length], &c)
-			master_order <- c
+			master_order <- c*/
 		}
 	}
 }
@@ -73,15 +74,16 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 			conn.Write(b)
 		default:
 			b := make([]byte, BUF_LEN)
+			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
 			length, err := conn.Read(b)
 			Println("slave_err:", err)
-			if err != nil {
+			/*if err != nil {
 				Println("closed connection")
 				return
 			}
 			var c Queues
 			json.Unmarshal(b[0:length], &c)
-			queues <- c
+			queues <- c*/
 		}
 	}
 }
