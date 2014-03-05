@@ -15,7 +15,7 @@ func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 		conn, _ := ln.Accept()
-		go TCP_master_com(conn, master_order, queues)
+		go TCP_master_com(conn, order, master_order, queues)
 	}
 }
 
