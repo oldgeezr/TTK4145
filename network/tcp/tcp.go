@@ -27,7 +27,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-order:
-			master_order <- order
+			master_order <- msg
 		default:
 			b := make([]byte, BUF_LEN)
 			length, err := conn.Read(b)
