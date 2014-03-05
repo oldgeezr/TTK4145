@@ -45,6 +45,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		case msg := <-order:
+			Println("jeg passet")
 			master_order <- msg
 		}
 	}
