@@ -40,6 +40,9 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 				}
 			} else {
 				Println("Kanskje jeg kan motta noe?")
+				var c Dict
+				json.Unmarshal(b[0:length], &c)
+				master_order <- c
 			}
 			/*if err == nil {
 				Println("err != nil")
