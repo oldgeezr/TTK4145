@@ -72,7 +72,7 @@ func AIM_Jobs(steve []Jobs, ip string) ([]Jobs, bool) {
 	return append(steve, Jobs{ip, []Dict{}}), true
 }
 
-func AIM_Dict(slice []Dict, i int) ([]Dict, bool) {
+func AIM_Dic(slice []Dict, i int) ([]Dict, bool) {
 
 	for _, ele := range slice {
 		if ele.Floor == i {

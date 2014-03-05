@@ -6,7 +6,7 @@ import (
 	// . "strconv"
 )
 
-/*func Last_queue(last_floor chan Dict, get_last_queue chan []Dict, get_last_queue_request chan bool, new_job_queue chan string) {
+func Last_queue(order chan Dict) {
 
 	last_queue := []Dict{}
 
@@ -15,38 +15,14 @@ import (
 
 	for {
 		select {
-		case msg := <-last_floor:
-			missing_ip := true
-			for i, last := range last_queue {
-				if msg.Ip[1:] == last.Ip {
-					missing_ip = false
-					// Println("Fantes allerede:", j, "gang")
-					// j++
-					if msg.Floor != last.Floor {
-						last_queue[i].Floor = msg.Floor
-					}
-				}
-			}
-			if missing_ip {
-				msg.Ip = msg.Ip[1:]
-				last_queue = append(last_queue, msg)
-				new_job_queue <- msg.Ip
-				// Println("Appendet:", i, "gang")
-				// i++
-			}
-		case msg := <-get_last_queue_request:
-			if msg {
-				get_last_queue <- last_queue
-			}
-			// Må kanskje ha ein default med time sleep
-		default:
-			time.Sleep(50 * time.Millisecond)
-		}
+		case msg := <-order:
+
 	}
-}*/
+}
 
 func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
 
+	last_queue := []Dict{}
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
 	the_queue := Queues{job_queue, ext_queue}
@@ -100,8 +76,9 @@ func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue}
 				queues <- the_queue
+				do_first <- the_queue
 			} else if msg.Dir == "last" {
-				// Dont care
+				
 			}
 		case msg := <-queues:
 			the_queue = msg
