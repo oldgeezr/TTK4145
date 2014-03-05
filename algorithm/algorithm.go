@@ -7,19 +7,20 @@ import (
 	"time"
 )
 
-func Algo(get_at_floor, algo_out chan Dict, get_int_queue chan []Jobs, get_ext_queue chan []Dict) {
+func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 
 	for {
 		select {
 		case at_floor := <-get_at_floor:
-			int_queue := <-get_int_queue
-			ext_queue := <-get_ext_queue
-			for _, order := range int_queue {
+			queues := <-get_queues
+			int_queue := queues.Int_queue
+			ext_queue := queues.Ext_queue
+			for i, order := range int_queue {
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
 						// Stopp heis
 						Println("queue before remove:", order)
-						order = Remove_order_int_queue(order, at_floor.Floor)
+						int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
 						Println("queue after remove:", order) // Slett alle interne
 						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir)
 						Println("ext_queue after remove:", ext_queue) // Slett alle eksterne i riktig retning
@@ -34,8 +35,8 @@ func Algo(get_at_floor, algo_out chan Dict, get_int_queue chan []Jobs, get_ext_q
 					break // Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 				}
 			}
-		default:
-			time.Sleep(50 * time.Millisecond)
+			queues = Queues{int_queue, ext_queue}
+			get_queues <- queues
 		}
 	}
 }

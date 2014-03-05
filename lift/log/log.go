@@ -5,7 +5,7 @@ import (
 	. "fmt"
 )
 
-func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
+func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
 
 	last_queue := []Dict{}
 	job_queue := []Jobs{}
@@ -31,14 +31,19 @@ func Job_queues(master_order chan Dict, queues, do_first chan Queues) {
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Dir == "last" {
-				last_queue, _ = AIM_Dict(last_queue, msg)
-				Println(last_queue)
+				last_queue, update := AIM_Dict(last_queue, msg)
+				if update {
+					get_at_floor <- msg
+				}
 			}
 		case msg := <-queues:
 			the_queue = msg
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
 			do_first <- the_queue
+		case msg := <-get_queues:
+			the_queue = msg
+		case get_queues <- the_queue:
 		}
 	}
 }

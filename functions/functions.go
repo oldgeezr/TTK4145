@@ -86,7 +86,10 @@ func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 
 	for i, ele := range slice {
 		if ele.Ip_order == last.Ip_order {
-			slice[i] = last
+			if ele.Floor != last.Floor {
+				slice[i] = last
+				return slice, true
+			}
 			return slice, false
 		}
 	}
