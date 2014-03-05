@@ -41,12 +41,11 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 	for {
 		select {
 		case msg := <-queues:
-			Println("queue:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-			/*case msg := <-order:
+		case msg := <-order:
 			Println("order:", msg)
-			master_order <- msg*/
+			master_order <- msg
 		}
 	}
 }
@@ -60,7 +59,6 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 	for {
 		select {
 		case msg := <-order:
-			Println(msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		default:
