@@ -55,14 +55,14 @@ func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 				temp, _ := Atoi(GetMyIP())
 				if temp == array[0] {
 					count++
-					if count == 2 { // SIKKERTHETSGRAD!
+					if count == 1 { // SIKKERTHETSGRAD!
 						// Println("Sender master request...")
 						Println("MASTER forsvant..!")
 						master <- true
 						time.Sleep(50 * time.Microsecond)
 						return
 					}
-					if count1 == 2 {
+					if count1 == 1 {
 						new_master <- true
 					}
 				} else {
