@@ -29,9 +29,7 @@ func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 				} else {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
-					Println("recieve:", c)
 					master_order <- c
-					Println("send to master_order")
 				}
 			}
 		}()
