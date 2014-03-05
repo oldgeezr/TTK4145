@@ -82,15 +82,15 @@ func AIM_Int(slice []Dict, i int) ([]Dict, bool) {
 	return append(slice, Dict{"ip_order", i, "dir"}), true
 }
 
-func AIM_Dict(slice []Dict, i Dict) ([]Dict, bool) {
+func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 
 	for i, ele := range slice {
-		if ele.Ip_order == i.Ip_order {
-			slice[i] = i
+		if ele.Ip_order == last.Ip_order {
+			slice[i] = last
 			return slice, false
 		}
 	}
-	return append(slice, i), true
+	return append(slice, last), true
 }
 
 func AIM_Spice(slice []Dict, i int, G string) ([]Dict, bool) {
