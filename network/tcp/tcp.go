@@ -27,9 +27,9 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			Println("queue:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-		case msg := <-order:
-			Println("order:", msg)
-			master_order <- msg
+		/*case msg := <-order:
+		Println("order:", msg)
+		master_order <- msg*/
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
