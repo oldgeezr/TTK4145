@@ -75,6 +75,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 		default:
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond))
+			Println("I wass herrrrr")
 			_, err := conn.Read(b)
 			Println("slave_err:", err)
 			/*if err != nil {
