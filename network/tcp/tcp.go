@@ -52,9 +52,11 @@ func Connect_to_MASTER(get_ip_array chan []int, new_master chan bool, order chan
 		select {
 		case <-new_master:
 			ip := <-get_ip_array
+			Println("fraa array:", ip)
 			if len(ip) != 0 {
 				if ip[len(ip)-1] > 255 {
 					master_ip := ip[len(ip)-1] - 255
+					Println("mi master_ip:", master_ip)
 					go TCP_slave_com(Itoa(master_ip), order, queues)
 				}
 			}
