@@ -85,4 +85,7 @@ func main() {
 	} else {
 		slave <- true
 	}
+
+	neverQuit := make(chan string)
+	<-neverQuit
 }
