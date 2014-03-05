@@ -3,8 +3,8 @@ package main
 import (
 	//. "./algorithm"
 	. "./functions"
-	// . "./lift"
-	// . "./lift/log"
+	. "./lift"
+	. "./lift/log"
 	. "./messages"
 	. "./network"
 	. "./network/tcp"
@@ -39,7 +39,7 @@ func main() {
 	go Timer(flush)
 	// Println("Starter Timer...")
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
-	// go Job_queues(order, queues)
+	go Job_queues(order, queues)
 	go Internal(order)
 	go IMA(master)
 	go UDP_listen(ip_array_update)
