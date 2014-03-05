@@ -66,6 +66,8 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) {
 
 	conn, _ := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 
+	Println("eg var i slave_com!")
+
 	for {
 		select {
 		case msg := <-order:
