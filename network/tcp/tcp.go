@@ -29,6 +29,7 @@ func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 				} else {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
+					Println("From slave:", c)
 					master_order <- c
 				}
 			}
@@ -56,12 +57,9 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 	if err != nil {
 		return true
 	}
-	for {
-		select {
-		case msg := <-order:
-			b, _ := json.Marshal(msg)
-			conn.Write(b)
-		default:
+
+	go func() {
+		for {
 			b := make([]byte, BUF_LEN)
 			conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 			length, err2 := conn.Read(b)
@@ -77,5 +75,12 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 				Println("from master:", c)
 			}
 		}
+	}()
+
+	for {
+		msg := <-order
+		Println("To master:", msg)
+		b, _ := json.Marshal(msg)
+		conn.Write(b)
 	}
 }
