@@ -44,6 +44,7 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 				json.Unmarshal(b[0:length], &c)
 				Println("recieve:", c)
 				master_order <- c
+				Println("send to master_order")
 			}
 		}
 	}

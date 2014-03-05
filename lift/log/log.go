@@ -95,6 +95,8 @@ func Job_queues(master_order chan Dict, queues chan Queues) {
 				}
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
+			} else if msg.Dir == "last" {
+				// Dont care
 			}
 			queues <- the_queue
 		}
