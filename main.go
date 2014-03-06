@@ -59,8 +59,9 @@ func main() {
 			case <-master:
 				Println("Entered master state")
 				udp <- true
-				go TCP_master_connect(order, master_order, queues)
+				go TCP_master_connect(master_order, queues)
 				go Algo(get_at_floor, get_queues)
+				go func() {for {msg := <- order; master_order <- msg}}()
 			case <-slave:
 				Println("Entered slave state")
 				udp <- false

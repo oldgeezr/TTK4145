@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-// / lol
 func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool) {
 
 	IPaddresses := []int{}

@@ -10,12 +10,12 @@ import (
 	"time"
 )
 
-func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
+func TCP_master_connect(master_order chan Dict, queues chan Queues) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 		conn, _ := ln.Accept()
-		go TCP_master_com(conn, order, master_order, queues)
+		go TCP_master_com(conn, queues)
 		go func() {
 			for {
 				b := make([]byte, BUF_LEN)
@@ -36,7 +36,7 @@ func TCP_master_connect(order, master_order chan Dict, queues chan Queues) {
 	}
 }
 
-func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues) {
+func TCP_master_com(conn Conn, queues chan Queues) {
 
 	for {
 		select {
@@ -44,9 +44,9 @@ func TCP_master_com(conn Conn, order, master_order chan Dict, queues chan Queues
 			Println("To slave:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-		case msg := <-order:
+		/*case msg := <-order:
 			Println("jeg passet")
-			master_order <- msg
+			master_order <- msg*/
 		}
 	}
 }
