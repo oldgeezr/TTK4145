@@ -143,8 +143,8 @@ func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 	for i, orders := range this {
 		if orders.Dir == dir && orders.Floor == floor {
+			Fprintln(Fo, "Deleted from queue: ", orders)
 			this = this[:i+copy(this[i:], this[i+1:])]
-			Fprintln(Fo, "Deleted from queue: ", this)
 		}
 	}
 	return this
@@ -154,8 +154,8 @@ func Remove_order_int_queue(this Jobs, floor int) Jobs {
 
 	for i, orders := range this.Dest {
 		if orders.Floor == floor {
+			Fprintln(Fo, "Deleted from queue: ", orders)
 			this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])]
-			Fprintln(Fo, "Deleted from queue: ", this)
 		}
 	}
 	return this
