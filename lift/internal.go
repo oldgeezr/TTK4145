@@ -12,11 +12,14 @@ import (
 
 func Do_first(do_first chan Queues) {
 
+	var msg Queues
+
 	Fo.WriteString("Entered Do_first\n")
 	for {
 		select {
-		case msg := <-do_first:
-			Println(msg)
+		case msg = <-do_first:
+			
+		default: 
 			job_queue := msg.Int_queue
 			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {

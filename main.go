@@ -22,7 +22,7 @@ func main() {
 
 	Fo, err = os.Create("output.txt")
     if err != nil { panic(err) }
-    // close fo on exit and check for its returned error
+
     defer func() {
         if err := Fo.Close(); err != nil {
             panic(err)
@@ -56,10 +56,7 @@ func main() {
 	// algo_out := make(chan Order)
 
 	go IP_array(ip_array_update, get_ip_array, flush)
-	// Println("Starter IP_array...")
 	go Timer(flush)
-	// Println("Starter Timer...")
-	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
 	go Job_queues(master_order, slave_order, get_at_floor, queues, get_queues, do_first)
 	go Internal(order)
 	go IMA(udp)
@@ -70,20 +67,21 @@ func main() {
 		for {
 			select {
 			case <-master:
-				Println("Entered master state")
-				Fo.WriteString("Entered master state\n")
+				Println("=> State: Entered master state")
+				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
 				go TCP_master_connect(slave_order, queues)
 				go Algo(get_at_floor, get_queues)
 				go func() {for {msg := <- order; master_order <- msg}}()
 			case <-slave:
-				Println("Entered slave state")
-				Fo.WriteString("Entered slave state\n")
+				Println("=> State: Entered slave state")
+				Fo.WriteString("=> State: Entered slave state\n")
 				udp <- false
 				go IMA_master(get_ip_array, master, new_master)
 				go func() { new_master <- true }()
 			case <-new_master:
-				Println("Entered new_master state")
+				Println("=> State: Entered new_master state")
+				Fo.WriteString("=> State: Entered new_master state\n")
 				ip := <-get_ip_array
 				if len(ip) != 0 {
 					if ip[len(ip)-1] > 255 {

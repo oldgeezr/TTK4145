@@ -6,25 +6,10 @@ Entered Internal
 Entered IMA
 Entered UDP_listen
 Entered Do_first
-Entered master state
+=> State: Entered master state
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
 Entered TCP_master_connect
 Entered Algo
 Entered TCP_master_com
-Array Update{[{158 [{ip_order 1 int}]}] []}
-Entered Send_to_floor
-Deleted from queue:  {158 []}
-Array Update{[{158 [{ip_order 0 int}]}] []}
-Entered Send_to_floor
-Deleted from queue:  {158 []}
-Array Update{[{158 [{ip_order 2 int}]}] []}
-Entered Send_to_floor
-Deleted from queue:  {158 []}
-Array Update{[{158 []} {156 [{ip_order 2 int}]}] []}
-Deleted from queue:  {156 []}
-Array Update{[{158 []} {156 [{ip_order 1 int}]}] []}
-Deleted from queue:  {156 []}
-Array Update{[{158 []} {156 [{ip_order 0 int}]}] []}
-Deleted from queue:  {156 []}
