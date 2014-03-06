@@ -79,7 +79,7 @@ func AIM_Int(slice []Dict, i int) ([]Dict, bool) {
 			return slice, false
 		}
 	}
-	return append(slice, Dict{"ip_order", i, "dir"}), true
+	return append(slice, Dict{"ip_order", i, "int"}), true
 }
 
 func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
