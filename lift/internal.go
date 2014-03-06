@@ -17,7 +17,7 @@ func Do_first(do_first chan Queues) {
 			Println(msg)
 			job_queue := msg.Int_queue
 			// ext_queue := msg.Ext_queue
-			if len(job_queue) != 0 {
+			if len(job_queue.Dest) != 0 {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						Send_to_floor(yours.Dest[0].Floor, "int")
