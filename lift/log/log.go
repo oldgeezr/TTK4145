@@ -46,19 +46,26 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				}
 			}
 		case msg := <- slave_order:
+
 			Fprintln(Fo, "Got messag on slave_order: ", msg)
 			if msg.Dir == "int" {
-				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
-				Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
-				for i, job := range job_queue {
-					if job.Ip == msg.Ip_order {
-						job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
-						Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
+				for _, lift := range last_queue {
+					if lift.Ip_order == msg.Ip_order {
+						if lift.Floor != msg.Floor {
+							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+							Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
+							for i, job := range job_queue {
+								if job.Ip == msg.Ip_order &&  {
+									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
+									Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
+								}
+							}
+							the_queue = Queues{job_queue, ext_queue, last_queue}
+							Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
+							queues <- the_queue
+						}
 					}
 				}
-				the_queue = Queues{job_queue, ext_queue, last_queue}
-				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
-				queues <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
