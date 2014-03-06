@@ -19,6 +19,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case msg := <-master_order:
 			Fprintln(Fo, "Got messag on master_order: ", msg)
 			if msg.Dir == "int" {
+				Fprintln(Fo, "TRASE ORDER: Mottok int ordre på master_order")
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
 				for i, job := range job_queue {
@@ -30,6 +31,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				do_first <- the_queue
+				Fprintln(Fo, "TRASE ORDER: Sendte hele the_queue til do_first")
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
