@@ -12,6 +12,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		case at_floor := <-get_at_floor:
 			Println("I triggered!")
 			queues := <-get_queues
+			Println("from algo:", queues)
 			int_queue := queues.Int_queue
 			ext_queue := queues.Ext_queue
 
