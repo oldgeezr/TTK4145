@@ -22,7 +22,7 @@ func main() {
 
 	Fo, err = os.Create("output.txt")
     if err != nil { panic(err) }
-
+    // close fo on exit and check for its returned error
     defer func() {
         if err := Fo.Close(); err != nil {
             panic(err)
@@ -56,12 +56,13 @@ func main() {
 	// algo_out := make(chan Order)
 
 	go IP_array(ip_array_update, get_ip_array, flush)
+	// Println("Starter IP_array...")
 	go Timer(flush)
 	go Job_queues(master_order, slave_order, get_at_floor, queues, get_queues, do_first)
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Do_first(queues)//do_first)
+	go Do_first(do_first)
 
 	go func() {
 		for {

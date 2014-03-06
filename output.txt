@@ -15,5 +15,3 @@ Entered Algo
 Got messag on master_order:  {158 3 last}
 Noen leste på get_queues
 Fikk noe på get_queues
-Got new DO_QUEUE {[] [] []}
-TRASE ORDER: Mottok hele the_queue på do_first
