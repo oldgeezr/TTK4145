@@ -28,7 +28,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							job_queue = ARQ(job_queue, msg)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
-							do_first <- the_queue
+							queues <- the_queue
 							Fprintln(Fo, "TRASE ORDER: Sendte hele the_queue til do_first")
 						}
 					}
@@ -37,7 +37,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
-				do_first <- the_queue
+				queues <- the_queue
 			} else if msg.Dir == "last" {
 				var update bool 
 				last_queue, update = AIM_Dict(last_queue, msg)
