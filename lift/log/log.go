@@ -31,13 +31,12 @@ func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_fir
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Dir == "last" {
-				Println("I wass hererererer")
 				var update bool 
 				last_queue, update = AIM_Dict(last_queue, msg)
-				Println(last_queue)
 				if update {
 					// get_at_floor <- msg
 					Println(update)
+					Println(last_queue)
 				}
 			}
 		case msg := <-queues:
