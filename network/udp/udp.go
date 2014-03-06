@@ -11,8 +11,6 @@ import (
 
 func UDP_send(conn Conn, msg string) {
 
-	Fo.WriteString("Entered UDP_Send\n")
-
 	length, _ := Atoi(msg)
 	if length < 100 {
 		msg = "0" + msg

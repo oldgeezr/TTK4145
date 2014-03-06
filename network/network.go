@@ -2,7 +2,6 @@ package network
 
 import (
 	// . "fmt"
-	. ".././functions"
 	. "net"
 	"strings"
 )
@@ -16,7 +15,6 @@ const (
 )
 
 func GetMyIP() string {
-	Fo.WriteString("Entered GetMyIP\n")
 
 	allIPs, _ := InterfaceAddrs()
 
