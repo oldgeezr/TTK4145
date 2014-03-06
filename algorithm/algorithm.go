@@ -17,7 +17,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			for i, order := range int_queue {
 				Println("ranging")
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
-					Println("found correct queue")
+					Println("found correct queue:", order, at_floor.Floor)
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
 						// Stopp heis
 						Println("queue before remove:", order)
