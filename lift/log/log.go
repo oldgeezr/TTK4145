@@ -5,16 +5,21 @@ import (
 	. "fmt"
 )
 
-func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
+func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
 
 	last_queue := []Dict{}
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
 	the_queue := Queues{job_queue, ext_queue}
+	order := make(chan Dict)
 
 	for {
 		select {
 		case msg := <-master_order:
+			go func() {order<- msg}()
+		case msg := <- slave_order:
+			go func() {order<- msg}()
+		case msg := <- order:
 			if msg.Dir == "int" {
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				for i, job := range job_queue {

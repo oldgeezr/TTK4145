@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func TCP_master_connect(master_order chan Dict, queues chan Queues) {
+func TCP_master_connect(slave_order chan Dict, queues chan Queues) {
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
@@ -29,7 +29,7 @@ func TCP_master_connect(master_order chan Dict, queues chan Queues) {
 				} else {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
-					master_order <- c
+					slave_order <- c
 				}
 			}
 		}()

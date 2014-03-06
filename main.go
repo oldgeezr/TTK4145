@@ -36,6 +36,7 @@ func main() {
 	flush := make(chan bool)
 	order := make(chan Dict)
 	master_order := make(chan Dict)
+	slave_order := make(chan Dict)
 	queues := make(chan Queues)
 	get_queues := make(chan Queues)
 	do_first := make(chan Queues)
@@ -47,7 +48,7 @@ func main() {
 	go Timer(flush)
 	// Println("Starter Timer...")
 	// go Last_queue(last_floor, get_last_queue, get_last_queue_request, new_job_queue)
-	go Job_queues(master_order, get_at_floor, queues, get_queues, do_first)
+	go Job_queues(master_order, slave_order, get_at_floor, queues, get_queues, do_first)
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
@@ -59,7 +60,7 @@ func main() {
 			case <-master:
 				Println("Entered master state")
 				udp <- true
-				go TCP_master_connect(master_order, queues)
+				go TCP_master_connect(slave_order, queues)
 				go Algo(get_at_floor, get_queues)
 				go func() {for {msg := <- order; master_order <- msg}}()
 			case <-slave:
