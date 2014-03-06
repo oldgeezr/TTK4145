@@ -14,6 +14,7 @@ func Do_first(do_first chan Queues) {
 
 	var msg Queues
 	var last_floor int
+	var temp int = 4
 
 	Fo.WriteString("Entered Do_first\n")
 	for {
@@ -35,8 +36,11 @@ func Do_first(do_first chan Queues) {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						if len(yours.Dest) != 0 {
-							Println("sending")
-							Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
+							if temp != yours.Dest[0].Floor {
+								temp = yours.Dest[0].Floor
+								Println("sending")
+								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
+							}
 						} 
 					}
 				}
