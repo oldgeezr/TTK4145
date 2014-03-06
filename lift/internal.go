@@ -3,6 +3,7 @@ package lift
 import (
 	. ".././driver"
 	. ".././network"
+	. ".././formating"
 	// . "./log"
 	. ".././functions"
 	. "fmt"
@@ -39,6 +40,7 @@ func Do_first(do_first chan Queues) {
 							if temp != yours.Dest[0].Floor {
 								temp = yours.Dest[0].Floor
 								Println("sending")
+								Format_queues(msg)
 								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
 							}
 						} 
