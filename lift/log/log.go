@@ -25,12 +25,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							Fprintln(Fo, "TRASE ORDER: Mottok int ordre på master_order")
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
-							for i, job := range job_queue {
-								if job.Ip == msg.Ip_order {
-									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
-									Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
-								}
-							}
+							job_queue = ARQ(job_queue, msg)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 							do_first <- the_queue
@@ -100,4 +95,14 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			Fprintln(Fo, "Noen leste på get_queues")
 		}
 	}
+}
+
+func ARQ(blow []Jobs, msg Dict) []Jobs {
+	for i, job := range blow {
+		if job.Ip == msg.Ip_order {
+			blow[i].Dest, _ = AIM_Int(blow[i].Dest, msg.Floor)
+			Fprintln(Fo, "La til i jobbkøen:", blow[i].Dest)
+		}
+	}
+	return blow
 }
