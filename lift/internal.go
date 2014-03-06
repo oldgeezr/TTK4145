@@ -14,7 +14,7 @@ func Do_first(do_first chan Queues) {
 	for {
 		select {
 		case msg := <-do_first:
-			Println(do_first)
+			Println(msg)
 			job_queue := msg.Int_queue
 			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {
