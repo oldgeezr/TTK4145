@@ -12,3 +12,15 @@ Entered Int_order
 Entered Ext_order
 Entered TCP_master_connect
 Entered Algo
+Entered TCP_master_com
+Array Update{[{158 [{ip_order 1 int}]}] []}
+Entered Send_to_floor
+Array Update{[{158 [{ip_order 0 int}]}] []}
+Entered Send_to_floor
+Array Update{[{158 [{ip_order 1 int}]}] []}
+Entered Send_to_floor
+Array Update{[{158 [{ip_order 2 int}]}] []}
+Entered Send_to_floor
+Array Update{[{158 []} {156 [{ip_order 1 int}]}] []}
+Array Update{[{158 []} {156 [{ip_order 0 int}]}] []}
+Array Update{[{158 []} {156 [{ip_order 3 int}]}] []}
