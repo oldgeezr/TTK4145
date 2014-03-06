@@ -11,10 +11,13 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		select {
 		case at_floor := <-get_at_floor:
 			queues := <-get_queues
+			Println(queues)
 			int_queue := queues.Int_queue
 			ext_queue := queues.Ext_queue
 			for i, order := range int_queue {
+				Println("ranging")
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
+					Println("found correct queue")
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
 						// Stopp heis
 						Println("queue before remove:", order)
