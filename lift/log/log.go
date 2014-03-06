@@ -34,8 +34,7 @@ func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_fir
 				var update bool 
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
-					// get_at_floor <- msg
-					Println(update)
+					get_at_floor <- msg
 					Println(last_queue)
 				}
 			}
