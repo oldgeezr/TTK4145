@@ -13,3 +13,20 @@ Entered Ext_order
 Entered TCP_master_connect
 Entered Algo
 Entered TCP_master_com
+Array Update{[{158 [{ip_order 2 int}]}] []}
+Got new DO_QUEUE
+Entered Send_to_floor
+Array Update{[{158 [{ip_order 2 int} {ip_order 1 int}]}] []}
+Got new DO_QUEUE
+Entered Send_to_floor
+Deleted from queue:  {ip_order 1 int}
+Entered Send_to_floor
+Entered Send_to_floor
+Entered Send_to_floor
+Entered Send_to_floor
+Entered Send_to_floor
+Entered Send_to_floor
+Deleted from queue:  {ip_order 2 int}
+Array Update{[{158 [{ip_order 0 int}]}] []}
+Got new DO_QUEUE
+Entered Send_to_floor

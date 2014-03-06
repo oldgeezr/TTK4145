@@ -18,7 +18,8 @@ func Do_first(do_first chan Queues) {
 	for {
 		select {
 		case msg = <-do_first:
-			
+			Fo.WriteString("Got new DO_QUEUE\n")
+			Println("Got new DO_QUEUE")
 		default: 
 			job_queue := msg.Int_queue
 			// ext_queue := msg.Ext_queue
