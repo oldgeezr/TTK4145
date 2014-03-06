@@ -33,7 +33,7 @@ func Job_queues(master_order, get_at_floor chan Dict, queues, get_queues, do_fir
 			} else if msg.Dir == "last" {
 				Println("I wass hererererer")
 				last_queue, update := AIM_Dict(last_queue, msg)
-				_ = last_queue
+				Println(last_queue)
 				if update {
 					// get_at_floor <- msg
 					Println(update)
