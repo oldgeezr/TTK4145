@@ -119,7 +119,7 @@ func AIM_ip(slice []int, i int) []int {
 func Missing_int_job(job_queue Jobs, floor int) bool {
 
 	for _, orders := range job_queue.Dest {
-		if orders.Floor == floor && orders.Ip_order == "int" {
+		if orders.Floor == floor && orders.Dir == "int" {
 			return false
 		}
 	}
