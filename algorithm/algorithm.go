@@ -10,13 +10,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 	for {
 		select {
 		case at_floor := <-get_at_floor:
-			Println("I triggered!")
 			queues := <-get_queues
-			Println("from algo:", queues)
 			int_queue := queues.Int_queue
 			ext_queue := queues.Ext_queue
-
-			Println("i cant for")
 			for i, order := range int_queue {
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
@@ -38,6 +34,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 				}
 			}
 			queues = Queues{int_queue, ext_queue}
+			Println(queues)
 			get_queues <- queues
 		}
 	}
