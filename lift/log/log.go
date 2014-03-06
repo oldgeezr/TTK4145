@@ -17,24 +17,23 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 	for {
 		select {
 		case msg := <-master_order:
+			Fprintln(Fo, "Got messag on master_order: ", msg)
 			if msg.Dir == "int" {
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+				Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
 						job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
+						Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
 					}
 				}
 				the_queue = Queues{job_queue, ext_queue, last_queue}
-				Fo.WriteString("Array Update")
-				Fprintln(Fo, the_queue)
-				// queues <- the_queue
+				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				do_first <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
-				Fo.WriteString("Array Update")
-				Fprintln(Fo, the_queue)
-				// queues <- the_queue
+				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				do_first <- the_queue
 			} else if msg.Dir == "last" {
 				var update bool 
@@ -45,26 +44,24 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				}
 			}
 		case msg := <- slave_order:
-			Println("got the message:", msg)
+			Fprintln(Fo, "Got messag on slave_order: ", msg)
 			if msg.Dir == "int" {
 				job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+				Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
 				for i, job := range job_queue {
 					if job.Ip == msg.Ip_order {
 						job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
+						Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
 					}
 				}
 				the_queue = Queues{job_queue, ext_queue, last_queue}
-				Fo.WriteString("Array Update")
-				Fprintln(Fo, the_queue)
+				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				queues <- the_queue
-				// do_first <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
-				Fo.WriteString("Array Update")
-				Fprintln(Fo, the_queue)
+				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				queues <- the_queue
-				// do_first <- the_queue
 			} else if msg.Dir == "last" {
 				var update bool 
 				last_queue, update = AIM_Dict(last_queue, msg)
@@ -74,14 +71,17 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				}
 			}
 		case msg := <-queues:
+			Fprintln(Fo, "Fikk noe på kanal \"queues\":", msg)
 			the_queue = msg
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
 			do_first <- the_queue
 		case msg := <-get_queues:
+			Fprintln(Fo, "Fikk noe på get_queues")
 			the_queue = msg
 			do_first <- the_queue
 		case get_queues <- the_queue:
+			Fprintln(Fo, "Noen leste på get_queues")
 		}
 	}
 }
