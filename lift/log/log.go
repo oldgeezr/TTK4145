@@ -79,6 +79,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			do_first <- the_queue
 		case msg := <-get_queues:
 			the_queue = msg
+			do_first <- the_queue
 		case get_queues <- the_queue:
 		}
 	}

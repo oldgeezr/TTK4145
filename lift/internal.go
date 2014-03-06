@@ -18,7 +18,7 @@ func Do_first(do_first chan Queues) {
 	for {
 		select {
 		case msg = <-do_first:
-			Fo.WriteString("Got new DO_QUEUE\n")
+			Fprintln(Fo, "Got new DO_QUEUE", msg)
 			Println("Got new DO_QUEUE")
 		default: 
 			job_queue := msg.Int_queue
@@ -27,8 +27,9 @@ func Do_first(do_first chan Queues) {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						if len(yours.Dest) != 0 {
-						Send_to_floor(yours.Dest[0].Floor, "int")
-						}
+							Println("sending")
+							Send_to_floor(yours.Dest[0].Floor, "int")
+						} 
 					}
 				}
 			} else {
