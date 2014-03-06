@@ -79,6 +79,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case msg := <-get_queues:
 			Fprintln(Fo, "Fikk noe på get_queues")
 			the_queue = msg
+			queues <- the_queue
 			do_first <- the_queue
 		case get_queues <- the_queue:
 			Fprintln(Fo, "Noen leste på get_queues")
