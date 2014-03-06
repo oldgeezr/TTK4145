@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func Do_first(do_first chan Queues) {
+func Do_first(queues chan Queues) {
 
 	var msg Queues
 	var last_floor int
@@ -20,7 +20,7 @@ func Do_first(do_first chan Queues) {
 	Fo.WriteString("Entered Do_first\n")
 	for {
 		select {
-		case msg = <-do_first:
+		case msg = <-queues:
 			Fprintln(Fo, "Got new DO_QUEUE", msg)
 			Println("Got new DO_QUEUE")
 			Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")

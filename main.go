@@ -61,7 +61,7 @@ func main() {
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Do_first(do_first)
+	go Do_first(queues)//do_first)
 
 	go func() {
 		for {
