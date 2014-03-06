@@ -2,6 +2,7 @@ package udp
 
 import (
 	. "../.././network"
+	. "../.././functions"
 	. "fmt"
 	. "net"
 	. "strconv"
@@ -9,6 +10,8 @@ import (
 )
 
 func UDP_send(conn Conn, msg string) {
+
+	Fo.WriteString("Entered UDP_Send\n")
 
 	length, _ := Atoi(msg)
 	if length < 100 {
@@ -18,6 +21,8 @@ func UDP_send(conn Conn, msg string) {
 }
 
 func IMA(udp chan bool) {
+
+	Fo.WriteString("Entered IMA\n")
 
 	saddr, _ := ResolveUDPAddr("udp", BROADCAST+UDP_PORT)
 	conn, _ := DialUDP("udp", nil, saddr)
@@ -43,6 +48,8 @@ func IMA(udp chan bool) {
 }
 
 func UDP_listen(ip_array_update chan int) {
+
+	Fo.WriteString("Entered UDP_listen\n")
 
 	// Println("UDP_listen startet..!")
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)

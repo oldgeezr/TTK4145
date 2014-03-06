@@ -11,6 +11,8 @@ import (
 )
 
 func Do_first(do_first chan Queues) {
+
+	Fo.WriteString("Entered Do_first\n")
 	for {
 		select {
 		case msg := <-do_first:
@@ -33,6 +35,8 @@ func Do_first(do_first chan Queues) {
 
 //Sends elevator to specified floor
 func Send_to_floor(floor int, button string) {
+
+	Fo.WriteString("Entered Send_to_floor\n")
 	current_floor := Get_floor_sensor()
 	Elev_set_door_open_lamp(0)
 	Set_stop_lamp(0)
@@ -101,6 +105,8 @@ func KeyboardInput(ch chan int) {
 //Handles external button presses
 func Ext_order(order chan Dict) {
 
+	Fo.WriteString("Entered Ext_order\n")
+
 	i := 0
 
 	for {
@@ -132,6 +138,8 @@ func Ext_order(order chan Dict) {
 //Handles internal button presses
 func Int_order(order chan Dict) {
 
+	Fo.WriteString("Entered Int_order\n")
+
 	i := 0
 	for {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
@@ -150,6 +158,9 @@ func Int_order(order chan Dict) {
 
 //Checks which floor the elevator is on and sets the floor-light
 func Floor_indicator(order chan Dict) {
+
+	Fo.WriteString("Entered Floor_indicator\n")
+
 	Println("executing floor indicator!")
 	var floor int
 	for {
@@ -163,6 +174,9 @@ func Floor_indicator(order chan Dict) {
 }
 
 func To_nearest_floor() {
+
+	Fo.WriteString("Entered To_nearest_floor\n")
+
 	for {
 		Speed(150)
 		if Get_floor_sensor() != -1 {
@@ -173,6 +187,8 @@ func To_nearest_floor() {
 }
 
 func Internal(order chan Dict) {
+
+	Fo.WriteString("Entered Internal\n")
 
 	// Initialize
 	Init()

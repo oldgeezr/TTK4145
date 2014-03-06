@@ -12,6 +12,8 @@ import (
 
 func TCP_master_connect(slave_order chan Dict, queues chan Queues) {
 
+	Fo.WriteString("Entered TCP_master_connect\n")
+
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 		conn, _ := ln.Accept()
@@ -38,6 +40,8 @@ func TCP_master_connect(slave_order chan Dict, queues chan Queues) {
 
 func TCP_master_com(conn Conn, queues chan Queues) {
 
+	Fo.WriteString("Entered TCP_master_com\n")
+
 	for {
 		select {
 		case msg := <-queues:
@@ -52,6 +56,8 @@ func TCP_master_com(conn Conn, queues chan Queues) {
 }
 
 func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
+
+	Fo.WriteString("Entered TCP_slave_com\n")
 
 	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	if err != nil {

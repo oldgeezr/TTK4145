@@ -13,9 +13,21 @@ import (
 	. "net"
 	. "strconv"
 	"time"
+	"os"
 )
 
 func main() {
+
+	var err error
+
+	Fo, err = os.Create("output.txt")
+    if err != nil { panic(err) }
+    // close fo on exit and check for its returned error
+    defer func() {
+        if err := Fo.Close(); err != nil {
+            panic(err)
+        }
+    }()
 
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
@@ -23,7 +35,7 @@ func main() {
 
 	b := make([]byte, 16)
 
-	_, _, err := ln.ReadFromUDP(b)
+	_, _, err2 := ln.ReadFromUDP(b)
 	ln.Close()
 
 	slave := make(chan bool)
@@ -59,12 +71,14 @@ func main() {
 			select {
 			case <-master:
 				Println("Entered master state")
+				Fo.WriteString("Entered master state\n")
 				udp <- true
 				go TCP_master_connect(slave_order, queues)
 				go Algo(get_at_floor, get_queues)
 				go func() {for {msg := <- order; master_order <- msg}}()
 			case <-slave:
 				Println("Entered slave state")
+				Fo.WriteString("Entered slave state\n")
 				udp <- false
 				go IMA_master(get_ip_array, master, new_master)
 				go func() { new_master <- true }()
@@ -87,9 +101,11 @@ func main() {
 
 	}()
 
-	if err != nil { // MASTER
+	if err2 != nil { // MASTER
+		Fo.WriteString("Ble master\n")
 		master <- true
 	} else {
+		Fo.WriteString("Ble slave\n")
 		slave <- true
 	}
 

@@ -2,6 +2,7 @@ package functions
 
 import (
 // 	. "fmt"
+	"os"
 )
 
 type Dict struct {
@@ -25,6 +26,8 @@ type Queues struct {
 	Int_queue []Jobs
 	Ext_queue []Dict
 }
+
+var Fo *os.File
 
 // Insert int if unique : FUNKER!
 func Insert_at_pos(this []Dict, value, i int) []Dict {

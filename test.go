@@ -1,46 +1,42 @@
 package main
 
 import (
-	. "./algorithm"
-	. "./functions"
-	. "fmt"
+    "io"
+    "os"
 )
 
 func main() {
+    // open input file
+    fi, err := os.Open("input.txt")
+    if err != nil { panic(err) }
+    // close fi on exit and check for its returned error
+    defer func() {
+        if err := fi.Close(); err != nil {
+            panic(err)
+        }
+    }()
 
-	// Last queue
-	// last_queue := []Dict{}
-	// last_queue = append(last_queue, Dict{"147", 1, "up"}, Dict{"154", 3, "down"}, Dict{"161", 0, "standby"})
+    // open output file
+    fo, err := os.Create("output.txt")
+    if err != nil { panic(err) }
+    // close fo on exit and check for its returned error
+    defer func() {
+        if err := fo.Close(); err != nil {
+            panic(err)
+        }
+    }()
 
-	// Internal job queue
-	int_queue := []Jobs{}
-	floor := []Dict{}
-	int_queue = append(int_queue, Jobs{"147", append(floor, Dict{"int", 1, "standby"})}, Jobs{"154", append(floor, Dict{"int", 2, "standby"})})
+    // make a buffer to keep chunks that are read
+    buf := make([]byte, 1024)
+    for {
+        // read a chunk
+        n, err := fi.Read(buf)
+        if err != nil && err != io.EOF { panic(err) }
+        if n == 0 { break }
 
-	// External job queue
-	ext_queue := []Dict{}
-	ext_queue = append(ext_queue, Dict{"ext", 3, "up"}, Dict{"ext", 1, "down"}, Dict{"ext", 1, "up"})
-	// @ floor
-	at_floor := Dict{"147", 1, "down"}
-
-	get_at_floor := make(chan Dict)
-	algo_out := make(chan Dict)
-	get_int_queue := make(chan []Jobs)
-	get_ext_queue := make(chan []Dict)
-
-	go Algo(get_at_floor, algo_out, get_int_queue, get_ext_queue)
-
-	Println("@floor:", at_floor)
-	Println("int_queue:", int_queue)
-	Println("ext_qeueu:", ext_queue)
-
-	get_at_floor <- at_floor
-	get_int_queue <- int_queue
-	get_ext_queue <- ext_queue
-
-	for {
-		Println(<-algo_out)
-		break
-	}
-
+        // write a chunk
+        if _, err := fo.Write(buf[:n]); err != nil {
+            panic(err)
+        }
+    }
 }

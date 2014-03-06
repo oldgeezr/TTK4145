@@ -7,6 +7,8 @@ import (
 
 func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
 
+	Fo.WriteString("Entered Job_queues\n")
+
 	last_queue := []Dict{}
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
@@ -23,11 +25,15 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 					}
 				}
 				the_queue = Queues{job_queue, ext_queue}
+				Fo.WriteString("Array Update")
+				Fprintln(Fo, the_queue)
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue}
+				Fo.WriteString("Array Update")
+				Fprintln(Fo, the_queue)
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Dir == "last" {
@@ -47,11 +53,15 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 					}
 				}
 				the_queue = Queues{job_queue, ext_queue}
+				Fo.WriteString("Array Update")
+				Fprintln(Fo, the_queue)
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue}
+				Fo.WriteString("Array Update")
+				Fprintln(Fo, the_queue)
 				queues <- the_queue
 				do_first <- the_queue
 			} else if msg.Dir == "last" {

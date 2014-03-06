@@ -11,6 +11,8 @@ import (
 
 func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool) {
 
+	Fo.WriteString("Entered IP_array\n")
+
 	IPaddresses := []int{}
 	// Println("IP_array startet..!")
 	for {
@@ -31,6 +33,8 @@ func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool
 
 func Timer(flush chan bool) {
 
+	Fo.WriteString("Entered Timer\n")
+
 	// Println("Timer startet..!")
 	for {
 		for timer := range time.Tick(1 * time.Second) {
@@ -42,6 +46,8 @@ func Timer(flush chan bool) {
 }
 
 func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
+
+	Fo.WriteString("Entered IMA_master\n")
 
 	// Println("IMA_master startet..!")
 	count := 0
