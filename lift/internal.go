@@ -13,6 +13,7 @@ import (
 func Do_first(do_first chan Queues) {
 
 	var msg Queues
+	var last_floor int
 
 	Fo.WriteString("Entered Do_first\n")
 	for {
@@ -22,13 +23,20 @@ func Do_first(do_first chan Queues) {
 			Println("Got new DO_QUEUE")
 		default: 
 			job_queue := msg.Int_queue
+			last_queue := msg.Last_queue
+			for _, lift := range last_queue {
+				if lift.Ip_order == GetMyIP() {
+					last_floor = lift.Floor
+					break
+				}
+			}
 			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						if len(yours.Dest) != 0 {
 							Println("sending")
-							Send_to_floor(yours.Dest[0].Floor, "int")
+							Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
 						} 
 					}
 				}
@@ -39,10 +47,10 @@ func Do_first(do_first chan Queues) {
 }
 
 //Sends elevator to specified floor
-func Send_to_floor(floor int, button string) {
+func Send_to_floor(floor, current_floor int, button string) {
 
 	Fo.WriteString("Entered Send_to_floor\n")
-	current_floor := Get_floor_sensor()
+	// current_floor := Get_floor_sensor()
 	Elev_set_door_open_lamp(0)
 	Set_stop_lamp(0)
 

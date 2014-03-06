@@ -16,6 +16,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			Println(queues)
 			int_queue := queues.Int_queue
 			ext_queue := queues.Ext_queue
+			last_queue := queues.Last_queue
 			for i, order := range int_queue {
 				Println("ranging")
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
@@ -38,7 +39,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 					break // Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 				}
 			}
-			queues = Queues{int_queue, ext_queue}
+			queues = Queues{int_queue, ext_queue, last_queue}
 			Println(queues)
 			get_queues <- queues
 		}

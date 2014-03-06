@@ -25,6 +25,7 @@ type Order struct {
 type Queues struct {
 	Int_queue []Jobs
 	Ext_queue []Dict
+	Last_queue []Dict
 }
 
 var Fo *os.File
