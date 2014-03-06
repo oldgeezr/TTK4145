@@ -55,7 +55,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
 							for i, job := range job_queue {
-								if job.Ip == msg.Ip_order &&  {
+								if job.Ip == msg.Ip_order {
 									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
 									Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
 								}
