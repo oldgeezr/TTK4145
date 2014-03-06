@@ -3,7 +3,7 @@ package lift
 import (
 	. ".././driver"
 	. ".././network"
-	. ".././formating"
+	// . ".././formating"
 	// . "./log"
 	. ".././functions"
 	. "fmt"
