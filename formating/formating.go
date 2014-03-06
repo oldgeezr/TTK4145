@@ -3,7 +3,6 @@ package formating
 import (
 	. ".././functions"
 	. "fmt"
-	"os"
 )
 
 func Format_int_queue(int_queue []Jobs) {
