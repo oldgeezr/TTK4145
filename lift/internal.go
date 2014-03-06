@@ -84,7 +84,7 @@ func Send_to_floor(floor, current_floor int, button string) {
 			}
 			time.Sleep(25 * time.Millisecond)
 		}
-	} else {
+	} else if current_floor > floor {
 		Println("Going down")
 		for {
 			Speed(-150)
@@ -108,6 +108,9 @@ func Send_to_floor(floor, current_floor int, button string) {
 			}
 			time.Sleep(25 * time.Millisecond)
 		}
+	} else {
+		Println("Du er allerede her")
+		Fprintln(Fo, "DU ER ALLEREDE HER!")
 	}
 }
 
