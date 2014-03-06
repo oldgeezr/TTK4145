@@ -213,6 +213,7 @@ func Internal(order chan Dict) {
 	Init()
 	Speed(150)
 	floor := -1
+	Println("UP")
 
 	go func() {
 		for {
@@ -222,7 +223,9 @@ func Internal(order chan Dict) {
 			if floor != -1 {
 
 				Speed(-150)
-				time.Sleep(25 * time.Millisecond)
+				Println("DOWN")
+				time.Sleep(10 * time.Millisecond)
+				Println("STOP")
 				Speed(0)
 				return
 			}
