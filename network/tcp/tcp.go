@@ -31,6 +31,7 @@ func TCP_master_connect(slave_order chan Dict, queues chan Queues) {
 				} else {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
+					Println("From Slave:", c)
 					slave_order <- c
 				}
 			}
