@@ -1,17 +1,17 @@
 Ble master
 Entered IP_array
-Entered Timer
-Entered Job_queues
 Entered Internal
 Entered IMA
 Entered UDP_listen
 Entered Do_first
-=> State: Entered master state
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
+=> State: Entered master state
 Entered TCP_master_connect
 Entered Algo
-Got messag on master_order:  {159 2 last}
-Noen leste på get_queues
-Fikk noe på get_queues
+111/222: btn/@floor -> order -> master ->
+222: @floor -> order -> tcp
+111: @floor -> get_at_floor -> algo
+111/222: queue/btn/@floor -> get_queues -> log
+222: @floor -> order -> tcp

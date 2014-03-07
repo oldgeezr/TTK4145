@@ -163,7 +163,7 @@ func Int_order(order chan Dict) {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
-			Fprintln(Fo, "TRASE ORDER: Sendte int ordre på order")
+			Fprintln(Fo, "111: btn -> order -> tcp")
 			time.Sleep(300 * time.Millisecond)
 		}
 
@@ -186,6 +186,7 @@ func Floor_indicator(order chan Dict) {
 		if floor != -1 {
 			Set_floor_indicator(floor)
 			order <- Dict{GetMyIP(), floor, "last"}
+			Fprintln(Fo, "222: @floor -> order -> tcp")
 		}
 		time.Sleep(200 * time.Millisecond)
 	}

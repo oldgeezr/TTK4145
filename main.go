@@ -74,7 +74,13 @@ func main() {
 				udp <- true
 				go TCP_master_connect(slave_order, slave_queues)
 				go Algo(get_at_floor, get_queues)
-				go func() {for {msg := <- order; master_order <- msg}}()
+				go func() {
+					for {
+						msg := <- order
+						master_order <- msg
+						Fprintln(Fo, "111/222: btn/@floor -> order -> master ->")
+					}
+				}()
 			case <-slave:
 				Println("=> State: Entered slave state")
 				Fo.WriteString("=> State: Entered slave state\n")
@@ -83,7 +89,6 @@ func main() {
 				go func() { new_master <- true }()
 			case <-new_master:
 				Println("=> State: Entered new_master state")
-				Fo.WriteString("=> State: Entered new_master state\n")
 				ip := <-get_ip_array
 				if len(ip) != 0 {
 					if ip[len(ip)-1] > 255 {

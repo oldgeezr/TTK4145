@@ -42,6 +42,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			queues = Queues{int_queue, ext_queue, last_queue}
 			Println(queues)
 			get_queues <- queues
+			Fprintln(Fo, "111/222: queue/btn/@floor -> get_queues -> log")
 		}
 	}
 }
