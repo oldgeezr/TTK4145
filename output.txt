@@ -12,5 +12,5 @@ Entered Int_order
 Entered Ext_order
 Entered TCP_master_connect
 Entered Algo
-	 111: @floor -> get_at_floor -> algo
-	 	 111/222: queue/btn/@floor -> get_queues -> log
+	 LOG: @floor -> get_at_floor -> algo
+	 	 	 	 ALGO: queue -> get_queues -> log
