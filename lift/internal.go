@@ -13,6 +13,8 @@ import (
 
 func Do_first(do_first chan Queues) {
 
+	var last_floor int 
+
 	Fo.WriteString("Entered Do_first\n")
 	for {
 		select {
@@ -25,7 +27,7 @@ func Do_first(do_first chan Queues) {
 
 			for _, last := range last_queue {
 				if last.Ip_order == GetMyIP() {
-					last_floor := last.Floor
+					last_floor = last.Floor
 					break
 				}
 			}
@@ -34,11 +36,9 @@ func Do_first(do_first chan Queues) {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						if len(yours.Dest) != 0 {
-							if temp != yours.Dest[0].Floor {
 								Println("sending")
 								// Fprintln(Fo, "TRASE ORDER: Sendte int ordre til send_to_floor")
 								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
-							}
 						} 
 					}
 				}
