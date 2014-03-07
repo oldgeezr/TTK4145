@@ -83,6 +83,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 		if err2 != nil {
 			if err2.Error() == "EOF" {
 				Println("closed connection")
+				Fprintln(Fo, "CLOSED: TCP_slave_com")
 				return true
 			}
 		} else {

@@ -92,9 +92,13 @@ func main() {
 				ip := <-get_ip_array
 				if len(ip) != 0 {
 					if ip[len(ip)-1] > 255 {
-						master_ip := ip[len(ip)-1] - 255
-						go func() { new_master <- TCP_slave_com(Itoa(master_ip), order, queues) }()
-						// Det som er litt unødvendig er at ny master har en TCP med seg selv..
+						master_ip := Itoa(ip[len(ip)-1] - 255)
+						if master_ip != GetMyIP() {
+							go func() { new_master <- TCP_slave_com(master_ip, order, queues) }()
+							// Det som er litt unødvendig er at ny master har en TCP med seg selv..
+						} else {
+							master <- true
+						}
 					} else {
 						go func() { new_master <- true }()
 					}
