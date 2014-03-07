@@ -9,6 +9,8 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 
 	Fo.WriteString("Entered Algo\n")
 
+	var dir string
+
 	for {
 		select {
 		case at_floor := <-get_at_floor:
@@ -31,10 +33,19 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 					} else { // Ingen skal av
 						Fprintln(Fo, "EXT: ",ext_queue)
 						Fprintln(Fo, "EXT: ",at_floor.Floor, at_floor.Dir)
-						if !Missing_ext_job(ext_queue, at_floor.Floor, at_floor.Dir) { // Noen skal på
+
+						if (ext_queue[0].Floor - at_floor.Floor) > 0 {
+							dir = "up"
+						} else if (ext_queue[0].Floor - at_floor.Floor) < 0 {
+							dir = "down"
+						} else {
+							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, dir)
+						}
+						if !Missing_ext_job(ext_queue, at_floor.Floor, dir) { // Noen skal på
 							// Stopp heis
 							Println("I was here?")
-							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir) // Slett alle eksterne i riktig retning
+							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, dir) // Slett alle eksterne i riktig retning
+							Fprintln(Fo, "Removed from ext_queue")
 						}
 						Println("I was here??")
 					}
