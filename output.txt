@@ -1,17 +1,165 @@
 Ble master
 Entered IP_array
+Entered Timer
+Entered Job_queues
 Entered Internal
 Entered IMA
 Entered UDP_listen
 Entered Do_first
+=> State: Entered master state
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
-=> State: Entered master state
 Entered TCP_master_connect
 Entered Algo
 111/222: btn/@floor -> order -> master ->
 222: @floor -> order -> tcp
 111: @floor -> get_at_floor -> algo
 111/222: queue/btn/@floor -> get_queues -> log
+222: @floor -> order -> tcp
+Entered TCP_master_com
+111/222: queues/btn/@floor -> tcp -> tcp
+111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first
+222: @floor -> get_at_floor -> algo
+Got new DO_QUEUE {[] [] []}
+TRASE ORDER: Mottok hele the_queue på do_first
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: queue/btn/@floor -> get_queues -> log
+111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first
+111/222: queues/btn/@floor -> tcp -> tcp
+Got new DO_QUEUE {[] [] []}
+TRASE ORDER: Mottok hele the_queue på do_first
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111: btn -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111: btn -> do_first -> do_first
+Got new DO_QUEUE {[{159 [{ip_order 1 int}]}] [] [{159 2 last} {161 1 last}]}
+TRASE ORDER: Mottok hele the_queue på do_first
+TRASE ORDER: Sendte int ordre til send_to_floor
+Entered Send_to_floor
+TRASE ORDER: int ordre var skal opp
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+222: @floor -> order -> tcp
+111/222: btn/@floor -> order -> master ->
+111: @floor -> get_at_floor -> algo
+111/222: queue/btn/@floor -> get_queues -> log
+111/222: queues/btn/@floor -> tcp -> tcp
 222: @floor -> order -> tcp

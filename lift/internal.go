@@ -186,7 +186,7 @@ func Floor_indicator(order chan Dict) {
 		if floor != -1 {
 			Set_floor_indicator(floor)
 			order <- Dict{GetMyIP(), floor, "last"}
-			Fprintln(Fo, "222: @floor -> order -> tcp")
+			// Fprintln(Fo, "222: @floor -> order -> tcp")
 		}
 		time.Sleep(200 * time.Millisecond)
 	}
