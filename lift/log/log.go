@@ -26,6 +26,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							// Fprintln(Fo, "Opprettet jobbkø: ", job_queue)
 							job_queue = ARQ(job_queue, msg)
+							last_queue = Determine_dir(job_queue, last_queue) /////////////////!!!!!!!!!!!!!!!!!!
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							// Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 							do_first <- the_queue
@@ -61,6 +62,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 									// Fprintln(Fo, "La til i jobbkøen:", job_queue[i].Dest)
 								}
 							}
+							last_queue = Determine_dir(job_queue, last_queue) /////////////////!!!!!!!!!!!!!!!!!!
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							// Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 							slave_queues <- the_queue
