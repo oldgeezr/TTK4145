@@ -162,3 +162,25 @@ func Remove_order_int_queue(this Jobs, floor int) Jobs {
 	return this
 
 }
+
+func Determine_dir(job_queue []Jobs, last_queue []Dict) []Dict {
+	//Determine direction
+	for _, job := range job_queue {
+		for i, last := range last_queue {
+			if last.Ip_order == job.Ip {
+				if len(job.Dest) != 0 {
+					if job.Dest[0].Floor - last_queue[i].Floor > 0 {
+						last_queue[i].Dir = "up"
+					} else if job.Dest[0].Floor - last_queue[i].Floor < 0 {
+						last_queue[i].Dir = "down"
+					} else {
+						last_queue[i].Dir = "standby"
+					}
+				} else {
+					last_queue[i].Dir = "standby"
+				}
+			}
+		}
+	}
+	return last_queue
+}

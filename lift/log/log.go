@@ -39,27 +39,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 				// Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				do_first <- the_queue
-			} else if msg.Dir == "last" {
-				var update bool 
-
-				//Determine direction
-				for _, job := range job_queue {
-					if msg.Ip_order == job.Ip {
-						if len(job.Dest) != 0 {
-							if job.Dest[0].Floor - msg.Floor > 0 {
-								msg.Dir = "up"
-							} else if job.Dest[0].Floor - msg.Floor < 0 {
-								msg.Dir = "down"
-							} else {
-								msg.Dir = "standby"
-							}
-							//Difference between last and job
-						} else {
-							msg.Dir = "standby"
-						}
-					}
-				}
-
+			} else if msg.Dir == "standby" {
+				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
@@ -92,7 +73,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 				// Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 				slave_queues <- the_queue
-			} else if msg.Dir == "last" {
+			} else if msg.Dir == "standby" {
 				var update bool 
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
@@ -128,3 +109,23 @@ func ARQ(blow []Jobs, msg Dict) []Jobs {
 	}
 	return blow
 }
+/*
+func Determine_dir(job_queue []Jobs, msg Dict) string{
+	//Determine direction
+	for _, job := range job_queue {
+		if msg.Ip_order == job.Ip {
+			if len(job.Dest) != 0 {
+				if job.Dest[0].Floor - msg.Floor > 0 {
+					msg.Dir = "up"
+				} else if job.Dest[0].Floor - msg.Floor < 0 {
+					return "down"
+				} else {
+					return "standby"
+				}
+			} else {
+				return "standby"
+			}
+		}
+	}
+	return "standby"
+}*/

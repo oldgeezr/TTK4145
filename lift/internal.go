@@ -14,17 +14,18 @@ import (
 func Do_first(do_first chan Queues) {
 
 	var last_floor int 
-
 	Fo.WriteString("Entered Do_first\n")
 	for {
 		select {
 		case msg := <-do_first:
 			Fprintln(Fo, "\t \t \t Got new DO_QUEUE", msg)
-			Format_queues(msg)
 			// Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
 			ext_queue := msg.Ext_queue
+			last_queue = Determine_dir(job_queue, last_queue)
+			queues := Queues{job_queue,ext_queue,last_queue}
+			Format_queues(queues)
 
 			for _, last := range last_queue {
 				if last.Ip_order == GetMyIP() {
@@ -193,7 +194,7 @@ func Floor_indicator(order chan Dict) {
 		floor = Get_floor_sensor()
 		if floor != -1 {
 			Set_floor_indicator(floor)
-			order <- Dict{GetMyIP(), floor, "last"}
+			order <- Dict{GetMyIP(), floor, "standby"}
 			// Fprintln(Fo, "222: @floor -> order -> tcp")
 		}
 		time.Sleep(200 * time.Millisecond)
