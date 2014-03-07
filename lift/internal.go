@@ -3,7 +3,7 @@ package lift
 import (
 	. ".././driver"
 	. ".././network"
-	. ".././formating"
+	// . ".././formating"
 	// . "./log"
 	. ".././functions"
 	. "fmt"
@@ -24,9 +24,9 @@ func Do_first(do_first chan Queues) {
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
 			ext_queue := msg.Ext_queue
-			queues := Queues{job_queue,ext_queue,last_queue}
+			/*queues := Queues{job_queue,ext_queue,last_queue}
 			last_queue = Determine_dir(job_queue, last_queue)
-			Format_queues(queues)
+			Format_queues(queues)*/
 
 			for _, last := range last_queue {
 				if last.Ip_order == GetMyIP() {
