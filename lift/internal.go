@@ -3,7 +3,7 @@ package lift
 import (
 	. ".././driver"
 	. ".././network"
-	// . ".././formating"
+	. ".././formating"
 	// . "./log"
 	. ".././functions"
 	. "fmt"
@@ -20,7 +20,7 @@ func Do_first(do_first chan Queues) {
 		select {
 		case msg := <-do_first:
 			Fprintln(Fo, "\t \t \t Got new DO_QUEUE", msg)
-			Println("Got new DO_QUEUE")
+			Format_queues(msg)
 			// Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue

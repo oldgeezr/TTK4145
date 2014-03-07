@@ -29,6 +29,8 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir)
 						Println("ext_queue after remove:", ext_queue) // Slett alle eksterne i riktig retning
 					} else { // Ingen skal av
+						Fprintln(Fo, "EXT: ",ext_queue)
+						Fprintln(Fo, "EXT: ",at_floor.Floor, at_floor.Dir)
 						if !Missing_ext_job(ext_queue, at_floor.Floor, at_floor.Dir) { // Noen skal på
 							// Stopp heis
 							Println("I was here?")

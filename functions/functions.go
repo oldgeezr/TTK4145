@@ -107,7 +107,7 @@ func AIM_Spice(slice []Dict, i int, G string) ([]Dict, bool) {
 			return slice, false
 		}
 	}
-	return append(slice, Dict{"ip_order", i, G}), true
+	return append(slice, Dict{"ext", i, G}), true
 }
 
 func AIM_ip(slice []int, i int) []int {
