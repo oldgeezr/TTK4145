@@ -30,7 +30,10 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 						Println("queue after remove:", order) // Slett alle interne
 						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir)
 						Println("ext_queue after remove:", ext_queue) // Slett alle eksterne i riktig retning
-					} else { // Ingen skal av
+					}
+				}
+			
+					/*} else { // Ingen skal av
 						for _, last := range last_queue {
 							if last.Ip_order == order.Ip {
 								Fprintln(Fo, "EXT: ",ext_queue)
@@ -55,7 +58,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 						}
 					}
 					break // Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
-				}
+				}*/
 			}
 				queues = Queues{int_queue, ext_queue, last_queue}
 				Println(queues)
