@@ -29,7 +29,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							// Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 							do_first <- the_queue
-							Fprintln(Fo, "111: btn -> do_first -> do_first")
+							Fprintln(Fo, "\t btn -> do_first -> do_first")
 							// Fprintln(Fo, "TRASE ORDER: Sendte hele the_queue til do_first")
 						}
 					}
@@ -44,7 +44,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
-					Fprintln(Fo, "111: @floor -> get_at_floor -> algo")
+					Fprintln(Fo, "\t @floor -> get_at_floor -> algo")
 					// Println(last_queue)
 				}
 			}
@@ -64,7 +64,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							// Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
 							slave_queues <- the_queue
-							Fprintln(Fo, "111: queue/btn -> slave_queues -> tcp")
+							Fprintln(Fo, "\t queue -> slave_queues -> tcp")
 						}
 					}
 				}
@@ -78,7 +78,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
-					Fprintln(Fo, "222: @floor -> get_at_floor -> algo")
+					Fprintln(Fo, "\t @floor -> get_at_floor -> algo")
 					// Println(last_queue)
 				}
 			}
@@ -87,12 +87,13 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
 			do_first <- the_queue
-			Fprintln(Fo, "111/222: queues/btn/@floor -> do_first -> do_first")
+			Fprintln(Fo, "queues -> do_first -> do_first")
 		case msg := <-get_queues:
 			the_queue = msg
 			slave_queues <- the_queue
+			Fprintln(Fo, "queues -> slave_queues -> tcp")
 			do_first <- the_queue
-			Fprintln(Fo, "111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first")
+			Fprintln(Fo, "queues -> do_first -> do_first")
 		case get_queues <- the_queue:
 			// Fprintln(Fo, "Noen leste på get_queues")
 		}

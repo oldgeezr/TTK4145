@@ -163,7 +163,7 @@ func Int_order(order chan Dict) {
 			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
-			Fprintln(Fo, "111: btn -> order -> tcp")
+			Fprintln(Fo, "btn -> order -> tcp")
 			time.Sleep(300 * time.Millisecond)
 		}
 

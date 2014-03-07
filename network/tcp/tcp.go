@@ -50,7 +50,7 @@ func TCP_master_com(conn Conn, slave_queues chan Queues) {
 			// Println("To slave:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-			Fprintln(Fo, "111/222: queues/btn/@floor -> tcp -> tcp")
+			Fprintln(Fo, "\t \t 111/222: queues/btn/@floor -> tcp -> tcp")
 		/*case msg := <-order:
 			Println("jeg passet")
 			master_order <- msg*/
@@ -69,7 +69,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 	go func() {
 		for {
 			msg := <-order
-			Fprintln(Fo, "111/222: btn/@floor -> tcp -> master")
+			Fprintln(Fo, "btn/@floor -> tcp -> master")
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		}
@@ -90,7 +90,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 			json.Unmarshal(b[0:length], &c)
 			// Println("Got queues:", c)
 			queues <- c
-			Fprintln(Fo, "111/222: queues/btn/@floor -> queues -> log")
+			Fprintln(Fo, "queues -> queues -> log")
 		}
 	}
 }
