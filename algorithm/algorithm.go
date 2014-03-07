@@ -10,7 +10,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 	Fo.WriteString("Entered Algo\n")
 
 	var last_dir string
-
+	var current_dict int
 
 	for {
 		select {
@@ -29,12 +29,15 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			for i, order := range int_queue {
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
+						current_dict = i
 						int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
+						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
 					}
 				}
 			}
 
 			if !Missing_ext_job(ext_queue, at_floor.Floor, last_dir) {
+				int_queue[current_dict].Dest = Insert_at_pos(int_queue[current_dict].Ip, int_queue[current_dict].Dest, at_floor.Floor, 0)
 				ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
 			}
 

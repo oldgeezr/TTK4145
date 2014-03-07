@@ -1,15 +1,12 @@
 Ble master
-Entered IP_array
-Entered Timer
-Entered Job_queues
 Entered Internal
-Entered IMA
 Entered UDP_listen
 Entered Do_first
 => State: Entered master state
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
+Entered IMA
 Entered TCP_master_connect
 Entered Algo
 	 LOG: @floor -> get_at_floor -> algo
