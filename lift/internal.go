@@ -24,6 +24,7 @@ func Do_first(do_first chan Queues) {
 			// Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
+			ext_queue := msg.Ext_queue
 
 			for _, last := range last_queue {
 				if last.Ip_order == GetMyIP() {
@@ -31,7 +32,7 @@ func Do_first(do_first chan Queues) {
 					break
 				}
 			}
-			// ext_queue := msg.Ext_queue
+			
 			if len(job_queue) != 0 {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
@@ -39,7 +40,11 @@ func Do_first(do_first chan Queues) {
 								Println("sending")
 								// Fprintln(Fo, "TRASE ORDER: Sendte int ordre til send_to_floor")
 								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
-						} 
+						} else {
+							if len(ext_queue) != 0 {
+								Send_to_floor(ext_queue[0].Floor, last_floor, ext_queue[0].Dir)
+							}
+						}
 					}
 				}
 			} else {
