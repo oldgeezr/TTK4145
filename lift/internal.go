@@ -14,7 +14,9 @@ import (
 func Do_first(do_first chan Queues) {
 
 	var last_floor int 
+	// var temp int
 	Fo.WriteString("Entered Do_first\n")
+
 	for {
 		select {
 		case msg := <-do_first:
