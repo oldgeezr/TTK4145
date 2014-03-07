@@ -13,25 +13,28 @@ import (
 
 func Do_first(do_first chan Queues) {
 
-	var msg Queues
-	var last_floor int
-	var temp int = 4
-
 	Fo.WriteString("Entered Do_first\n")
 	for {
 		select {
-		case msg = <-do_first:
+		case msg := <-do_first:
 			Fprintln(Fo, "\t \t \t Got new DO_QUEUE", msg)
 			Println("Got new DO_QUEUE")
 			// Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
 			job_queue := msg.Int_queue
+			last_queue := msg.Last_queue
+
+			for _, last := range last_queue {
+				if last.Ip_order == GetMyIP() {
+					last_floor := last.Floor
+					break
+				}
+			}
 			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						if len(yours.Dest) != 0 {
 							if temp != yours.Dest[0].Floor {
-								temp = yours.Dest[0].Floor
 								Println("sending")
 								// Fprintln(Fo, "TRASE ORDER: Sendte int ordre til send_to_floor")
 								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")

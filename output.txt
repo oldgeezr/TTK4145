@@ -14,3 +14,22 @@ Entered TCP_master_connect
 Entered Algo
 	 LOG: @floor -> get_at_floor -> algo
 	 	 	 	 ALGO: queue -> get_queues -> log
+Entered TCP_master_com
+	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 	 	 LOG: queues -> slave_queues -> tcp
+	 	 	 LOG: queues -> do_first -> do_first
+	 LOG: @floor -> get_at_floor -> algo
+	 	 	 Got new DO_QUEUE {[] [] []}
+	 	 	 LOG: queues -> slave_queues -> tcp
+	 	 	 LOG: queues -> do_first -> do_first
+	 	 	 	 ALGO: queue -> get_queues -> log
+	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 	 	 Got new DO_QUEUE {[] [] []}
+INTERNAL: btn -> order -> tcp
+	 LOG: btn -> do_first -> do_first
+	 	 	 Got new DO_QUEUE {[{159 [{ip_order 1 int}]}] [] [{159 2 last} {161 3 last}]}
+Entered Send_to_floor
+	 LOG: @floor -> get_at_floor -> algo
+	 	 	 LOG: queues -> slave_queues -> tcp
+	 	 	 	 ALGO: queue -> get_queues -> log
+	 	 TCP: queues/btn/@floor -> tcp -> tcp
