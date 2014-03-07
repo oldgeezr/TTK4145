@@ -53,7 +53,7 @@ func main() {
 	get_queues := make(chan Queues)
 	do_first := make(chan Queues)
 	get_at_floor := make(chan Dict)
-	slave_queues := make(chan Dict)
+	slave_queues := make(chan Queues)
 	// algo_out := make(chan Order)
 
 	go IP_array(ip_array_update, get_ip_array, flush)
