@@ -25,7 +25,6 @@ func Do_first(do_first chan Queues) {
 			Println("Got new DO_QUEUE")
 			Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
 			job_queue := msg.Int_queue
-			last_queue := msg.Last_queue
 			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {
 				for _, yours := range job_queue {

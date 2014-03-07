@@ -48,7 +48,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			}
 		case msg := <- slave_order:
 
-			Pritnln("TRACE ORDER: Got messag on slave_order: ")
+			Println("TRACE ORDER: Got messag on slave_order: ")
 			Fprintln(Fo, "TRACE ORDER: Got messag on slave_order: ", msg)
 			if msg.Dir == "int" {
 				for _, lift := range last_queue {
