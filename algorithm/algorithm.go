@@ -50,13 +50,10 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 					break // Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 				}
 			}
-			go func() {
-				time.Sleep(500 * time.Millisecond)
 				queues = Queues{int_queue, ext_queue, last_queue}
 				Println(queues)
 				get_queues <- queues
 				Fprintln(Fo, "\t \t \t \t ALGO: queue -> get_queues -> log")
-			}()
 		}
 	}
 }

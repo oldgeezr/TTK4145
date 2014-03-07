@@ -13,12 +13,12 @@ Entered Ext_order
 Entered TCP_master_connect
 Entered Algo
 	 LOG: @floor -> get_at_floor -> algo
-Entered TCP_master_com
-	 LOG: @floor -> get_at_floor -> algo
 	 	 	 	 ALGO: queue -> get_queues -> log
+Entered TCP_master_com
+	 	 TCP: queues/btn/@floor -> tcp -> tcp
 	 	 	 LOG: queues -> slave_queues -> tcp
 	 	 	 LOG: queues -> do_first -> do_first
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 LOG: @floor -> get_at_floor -> algo
 	 	 	 Got new DO_QUEUE {[] [] []}
 ---------Queues--------
 Int queues:
@@ -32,9 +32,8 @@ Last queue:
 -----------------------
 	   V
 	 	 	 	 ALGO: queue -> get_queues -> log
-	 	 	 LOG: queues -> slave_queues -> tcp
-	 	 	 LOG: queues -> do_first -> do_first
 	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 	 	 LOG: queues -> do_first -> do_first
 	 	 	 Got new DO_QUEUE {[] [] []}
 ---------Queues--------
 Int queues:
@@ -63,28 +62,27 @@ Last queue:
 -----------------------
 	   V
 Entered Send_to_floor
-INTERNAL: btn -> order -> tcp
-	 	 	 Got new DO_QUEUE {[{159 [{ip_order 2 int} {ip_order 1 int}]}] [] [{159 3 down} {161 3 standby}]}
----------Queues--------
-Int queues:
-159:2 1 
-
-Ext queue:
-<empty> 
-
-Last queue:
-159:3:down
-161:3:standby
------------------------
-	   V
-Entered Send_to_floor
-	 LOG: btn -> do_first -> do_first
 	 LOG: @floor -> get_at_floor -> algo
 Deleted from queue:  {ip_order 2 int}
 	 	 	 	 ALGO: queue -> get_queues -> log
 	 	 	 LOG: queues -> slave_queues -> tcp
 	 	 	 LOG: queues -> do_first -> do_first
 	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 	 	 Got new DO_QUEUE {[{159 []}] [] [{159 2 standby} {161 3 standby}]}
+---------Queues--------
+Int queues:
+159:
+
+Ext queue:
+<empty> 
+
+Last queue:
+159:2:standby
+161:3:standby
+-----------------------
+	   V
+INTERNAL: btn -> order -> tcp
+	 LOG: btn -> do_first -> do_first
 	 	 	 Got new DO_QUEUE {[{159 [{ip_order 1 int}]}] [] [{159 2 standby} {161 3 standby}]}
 ---------Queues--------
 Int queues:
@@ -99,13 +97,49 @@ Last queue:
 -----------------------
 	   V
 Entered Send_to_floor
+INTERNAL: btn -> order -> tcp
+	 	 	 Got new DO_QUEUE {[{159 [{ip_order 1 int} {ip_order 0 int}]}] [] [{159 2 down} {161 3 standby}]}
+---------Queues--------
+Int queues:
+159:1 0 
+
+Ext queue:
+<empty> 
+
+Last queue:
+159:2:down
+161:3:standby
+-----------------------
+	   V
+	 LOG: btn -> do_first -> do_first
+Entered Send_to_floor
 	 LOG: @floor -> get_at_floor -> algo
 Deleted from queue:  {ip_order 1 int}
 	 	 	 	 ALGO: queue -> get_queues -> log
 	 	 	 LOG: queues -> slave_queues -> tcp
 	 	 	 LOG: queues -> do_first -> do_first
 	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 	 Got new DO_QUEUE {[{159 []}] [] [{159 1 standby} {161 3 standby}]}
+	 	 	 Got new DO_QUEUE {[{159 [{ip_order 0 int}]}] [] [{159 1 standby} {161 3 standby}]}
+---------Queues--------
+Int queues:
+159:0 
+
+Ext queue:
+<empty> 
+
+Last queue:
+159:1:down
+161:3:standby
+-----------------------
+	   V
+Entered Send_to_floor
+	 LOG: @floor -> get_at_floor -> algo
+Deleted from queue:  {ip_order 0 int}
+	 	 	 	 ALGO: queue -> get_queues -> log
+	 	 	 LOG: queues -> slave_queues -> tcp
+	 	 	 LOG: queues -> do_first -> do_first
+	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 	 	 Got new DO_QUEUE {[{159 []}] [] [{159 0 standby} {161 3 standby}]}
 ---------Queues--------
 Int queues:
 159:
@@ -114,13 +148,50 @@ Ext queue:
 <empty> 
 
 Last queue:
-159:1:standby
+159:0:standby
 161:3:standby
 -----------------------
 	   V
 INTERNAL: btn -> order -> tcp
 	 LOG: btn -> do_first -> do_first
-	 	 	 Got new DO_QUEUE {[{159 [{ip_order 3 int}]}] [] [{159 1 standby} {161 3 standby}]}
+	 	 	 Got new DO_QUEUE {[{159 [{ip_order 3 int}]}] [] [{159 0 standby} {161 3 standby}]}
+---------Queues--------
+Int queues:
+159:3 
+
+Ext queue:
+<empty> 
+
+Last queue:
+159:0:up
+161:3:standby
+-----------------------
+	   V
+Entered Send_to_floor
+	 	 	 Got new DO_QUEUE {[{159 [{ip_order 3 int}]}] [{ext 1 up}] [{159 0 up} {161 3 standby}]}
+---------Queues--------
+Int queues:
+159:3 
+
+Ext queue:
+1->up
+
+Last queue:
+159:0:up
+161:3:standby
+-----------------------
+	   V
+Entered Send_to_floor
+	 LOG: @floor -> get_at_floor -> algo
+EXT:  [{ext 1 up}]
+EXT:  1 up
+Deleted from queue:  {ext 1 up}
+Removed from ext_queue
+	 	 	 	 ALGO: queue -> get_queues -> log
+	 	 	 LOG: queues -> slave_queues -> tcp
+	 	 	 LOG: queues -> do_first -> do_first
+	 	 TCP: queues/btn/@floor -> tcp -> tcp
+	 	 	 Got new DO_QUEUE {[{159 [{ip_order 3 int}]}] [] [{159 1 up} {161 3 standby}]}
 ---------Queues--------
 Int queues:
 159:3 
@@ -130,23 +201,6 @@ Ext queue:
 
 Last queue:
 159:1:up
-161:3:standby
------------------------
-	   V
-Entered Send_to_floor
-	 	 	 Got new DO_QUEUE {[{159 [{ip_order 3 int}]}] [{ext 2 up}] [{159 1 up} {161 3 standby}]}
-	 LOG: @floor -> get_at_Int queues:
-EXT:  [{ext 2 up}]
-EXT:  2 up
-Deleted from queue:  {ext 2 up}
-Removed from ext_queue
-159:3 
-
-Ext queue:
-2->up
-
-Last queue:
-159:2:up
 161:3:standby
 -----------------------
 	   V
@@ -170,45 +224,3 @@ Last queue:
 161:3:standby
 -----------------------
 	   V
-	 	 	 	 ALGO: queue -> get_queues -> log
-	 	 	 LOG: queues -> slave_queues -> tcp
-	 	 	 LOG: queues -> do_first -> do_first
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 	 Got new DO_QUEUE {[{159 []}] [{ext 2 up}] [{159 3 standby} {161 3 standby}]}
----------Queues--------
-Int queues:
-159:
-
-Ext queue:
-2->up
-
-Last queue:
-159:3:standby
-161:3:standby
------------------------
-	   V
-Entered Send_to_floor
-	 LOG: @floor -> get_at_floor -> algo
-EXT:  [{ext 2 up}]
-EXT:  2 standby
-	 	 	 	 ALGO: queue -> get_queues -> log
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 	 LOG: queues -> do_first -> do_first
-	 	 	 Got new DO_QUEUE {[{159 []}] [{ext 2 up}] [{159 2 standby} {161 3 standby}]}
----------Queues--------
-Int queues:
-159:
-
-Ext queue:
-2->up
-
-Last queue:
-159:2:standby
-161:3:standby
------------------------
-	   V
-Entered Send_to_floor
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 TCP: queues/btn/@floor -> tcp -> tcp

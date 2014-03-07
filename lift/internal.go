@@ -18,7 +18,6 @@ func Do_first(do_first chan Queues) {
 	for {
 		select {
 		case msg := <-do_first:
-			Fprintln(Fo, "\t \t \t Got new DO_QUEUE", msg)
 			// Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
@@ -74,6 +73,7 @@ func Send_to_floor(floor, current_floor int, button string) {
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
+				time.Sleep(1500*time.Millisecond)
 				if button == "int" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
@@ -99,6 +99,7 @@ func Send_to_floor(floor, current_floor int, button string) {
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
+				time.Sleep(1500*time.Millisecond)
 				if button == "int" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
