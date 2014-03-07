@@ -2,7 +2,7 @@ package algorithm
 
 import (
 	. "../functions"
-	. "fmt"
+	// . "fmt"
 )
 
 func Algo(get_at_floor chan Dict, get_queues chan Queues) {
