@@ -35,6 +35,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 
 			for _, last := range last_queue {
 				if last.Ip_order == at_floor.Ip_order {
+
+					Println("TEEEEEEEEEEST:", ext_queue, at_floor.Floor, last.Dir)
+
 					if !Missing_ext_job(ext_queue, at_floor.Floor, last.Dir) {
 						Println("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL")
 					}
