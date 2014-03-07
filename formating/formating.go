@@ -43,6 +43,8 @@ func Format_last_queue(last_queue []Dict) {
 			Fprint(Fo, last_queue[j].Ip_order)
 			Fprintf(Fo, ":")
 			Fprint(Fo, last_queue[j].Floor)
+			Fprintf(Fo, ":")
+			Fprint(Fo, last_queue[j].Dir)
 			Fprintf(Fo, "\n")
 		}
 	} else {
