@@ -122,4 +122,6 @@ func main() {
 
 	neverQuit := make(chan string)
 	<-neverQuit
+
+	// YEY
 }
