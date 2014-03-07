@@ -69,7 +69,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 	go func() {
 		for {
 			msg := <-order
-			Fprintln(Fo, "TCP: btn/@floor -> tcp -> master")
+			// Fprintln(Fo, "TCP: btn/@floor -> tcp -> master")
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 		}

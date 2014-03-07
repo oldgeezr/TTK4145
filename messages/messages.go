@@ -45,7 +45,7 @@ func Timer(flush chan bool) {
 	}
 }
 
-func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
+func IMA_master(get_ip_array chan []int, master, new_master, kill_IMA_master chan bool) {
 
 	Fo.WriteString("Entered IMA_master\n")
 
@@ -53,30 +53,36 @@ func IMA_master(get_ip_array chan []int, master, new_master chan bool) {
 	count := 0
 	count1 := 0
 	for {
-		time.Sleep(500 * time.Millisecond)
-		array := <-get_ip_array
-		// Println("Got array: ", array)
-		if len(array) != 0 {
-			if array[len(array)-1] < 255 {
-				temp, _ := Atoi(GetMyIP())
-				if temp == array[0] {
-					count++
-					if count == 2 { // SIKKERTHETSGRAD!
-						// Println("Sender master request...")
-						Println("MASTER forsvant..!")
-						master <- true
-						time.Sleep(50 * time.Microsecond)
-						return
-					}
-					if count1 == 2 {
-						new_master <- true
+		select {
+		case <-kill_IMA_master:
+			Fprintln(Fo, "CLOSED: Killed IMA_master")
+			return 
+		default:
+			time.Sleep(500 * time.Millisecond)
+			array := <-get_ip_array
+			// Println("Got array: ", array)
+			if len(array) != 0 {
+				if array[len(array)-1] < 255 {
+					temp, _ := Atoi(GetMyIP())
+					if temp == array[0] {
+						count++
+						if count == 2 { // SIKKERTHETSGRAD!
+							// Println("Sender master request...")
+							Println("MASTER forsvant..!")
+							master <- true
+							time.Sleep(50 * time.Microsecond)
+							return
+						}
+						if count1 == 2 {
+							new_master <- true
+						}
+					} else {
+						count1++
 					}
 				} else {
-					count1++
+					count = 0
+					count1 = 0
 				}
-			} else {
-				count = 0
-				count1 = 0
 			}
 		}
 	}

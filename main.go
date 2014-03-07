@@ -54,6 +54,7 @@ func main() {
 	do_first := make(chan Queues)
 	get_at_floor := make(chan Dict)
 	slave_queues := make(chan Queues)
+	kill_IMA_master := make(chan bool)
 	// algo_out := make(chan Order)
 
 	go IP_array(ip_array_update, get_ip_array, flush)
@@ -85,7 +86,7 @@ func main() {
 				Println("=> State: Entered slave state")
 				Fo.WriteString("=> State: Entered slave state\n")
 				udp <- false
-				go IMA_master(get_ip_array, master, new_master)
+				go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
 				go func() { new_master <- true }()
 			case <-new_master:
 				Println("=> State: Entered new_master state")
@@ -97,6 +98,7 @@ func main() {
 							go func() { new_master <- TCP_slave_com(master_ip, order, queues) }()
 							// Det som er litt unødvendig er at ny master har en TCP med seg selv..
 						} else {
+							kill_IMA_master <- true
 							master <- true
 						}
 					} else {
