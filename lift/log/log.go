@@ -5,7 +5,7 @@ import (
 	. "fmt"
 )
 
-func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, do_first chan Queues) {
+func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, slave_queues, do_first chan Queues) {
 
 	Fo.WriteString("Entered Job_queues\n")
 
@@ -48,7 +48,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			}
 		case msg := <- slave_order:
 
-			Fprintln(Fo, "Got messag on slave_order: ", msg)
+			Pritnln("TRACE ORDER: Got messag on slave_order: ")
+			Fprintln(Fo, "TRACE ORDER: Got messag on slave_order: ", msg)
 			if msg.Dir == "int" {
 				for _, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
@@ -63,7 +64,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							}
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
-							queues <- the_queue
+							slave_queues <- the_queue
 						}
 					}
 				}
@@ -71,7 +72,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 				Fprintln(Fo, "Oppdaterte The_Queue: ", the_queue)
-				queues <- the_queue
+				slave_queues <- the_queue
 			} else if msg.Dir == "last" {
 				var update bool 
 				last_queue, update = AIM_Dict(last_queue, msg)
@@ -89,6 +90,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case msg := <-get_queues:
 			Fprintln(Fo, "Fikk noe på get_queues")
 			the_queue = msg
+			slave_queues <- the_queue
 			queues <- the_queue
 			do_first <- the_queue
 		case get_queues <- the_queue:

@@ -24,15 +24,8 @@ func Do_first(do_first chan Queues) {
 			Fprintln(Fo, "Got new DO_QUEUE", msg)
 			Println("Got new DO_QUEUE")
 			Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
-		default: 
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
-			for _, lift := range last_queue {
-				if lift.Ip_order == GetMyIP() {
-					last_floor = lift.Floor
-					break
-				}
-			}
 			// ext_queue := msg.Ext_queue
 			if len(job_queue) != 0 {
 				for _, yours := range job_queue {

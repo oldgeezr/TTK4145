@@ -10,14 +10,14 @@ import (
 	"time"
 )
 
-func TCP_master_connect(slave_order chan Dict, queues chan Queues) {
+func TCP_master_connect(slave_order chan Dict, slave_queues chan Queues) {
 
 	Fo.WriteString("Entered TCP_master_connect\n")
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 		conn, _ := ln.Accept()
-		go TCP_master_com(conn, queues)
+		go TCP_master_com(conn, slave_queues)
 		go func() {
 			for {
 				b := make([]byte, BUF_LEN)
@@ -39,13 +39,13 @@ func TCP_master_connect(slave_order chan Dict, queues chan Queues) {
 	}
 }
 
-func TCP_master_com(conn Conn, queues chan Queues) {
+func TCP_master_com(conn Conn, slave_queues chan Queues) {
 
 	Fo.WriteString("Entered TCP_master_com\n")
 
 	for {
 		select {
-		case msg := <-queues:
+		case msg := <-slave_queues:
 			Println("To slave:", msg)
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
