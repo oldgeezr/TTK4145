@@ -13,14 +13,18 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		select {
 		case at_floor := <-get_at_floor:
 
-			Println("------------------------------------")
-			Println("HER ->:", at_floor)
-			Println("------------------------------------")
 			
+
 			queues := <-get_queues
 			int_queue := queues.Int_queue
 			ext_queue := queues.Ext_queue
 			last_queue := queues.Last_queue
+
+			Println("------------------------------------")
+			Println("HER ->:", at_floor, last_queue)
+			Println("------------------------------------")
+
+
 			last_queue = Determine_dir(int_queue, last_queue)
 			Println(queues)
 
