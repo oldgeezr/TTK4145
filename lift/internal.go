@@ -23,7 +23,6 @@ func Do_first(do_first chan Queues) {
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
 			ext_queue := msg.Ext_queue
-			last_queue = Determine_dir(job_queue, last_queue)
 			queues := Queues{job_queue,ext_queue,last_queue}
 			Format_queues(queues)
 
