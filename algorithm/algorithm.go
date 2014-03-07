@@ -23,7 +23,6 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			for _, last := range last_queue {
 				if last.Ip_order == at_floor.Ip_order {
 					last_dir = last.Dir
-					Println("LAAAAAAAAAST:", last_dir)
 				}
 			}
 

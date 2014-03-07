@@ -97,7 +97,7 @@ func Determine_dir(job_queue []Jobs, last Dict) string {
 		if last.Ip_order == job.Ip {
 			if len(job.Dest) != 0 {
 				if job.Dest[0].Floor - last.Floor > 0 {
-					last.Dir = "up"
+					return "up"
 				} else if job.Dest[0].Floor - last.Floor < 0 {
 					return "down"
 				} else {
