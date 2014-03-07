@@ -20,13 +20,10 @@ func Do_first(do_first chan Queues) {
 	for {
 		select {
 		case msg := <-do_first:
-			// Fprintln(Fo, "TRASE ORDER: Mottok hele the_queue på do_first")
+
 			job_queue := msg.Int_queue
 			last_queue := msg.Last_queue
 			ext_queue := msg.Ext_queue
-			/*queues := Queues{job_queue,ext_queue,last_queue}
-			last_queue = Determine_dir(job_queue, last_queue)
-			Format_queues(queues)*/
 
 			for _, last := range last_queue {
 				if last.Ip_order == GetMyIP() {
@@ -39,8 +36,6 @@ func Do_first(do_first chan Queues) {
 				for _, yours := range job_queue {
 					if yours.Ip == GetMyIP() {
 						if len(yours.Dest) != 0 {
-								Println("sending")
-								// Fprintln(Fo, "TRASE ORDER: Sendte int ordre til send_to_floor")
 								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
 						} else {
 							if len(ext_queue) != 0 {
@@ -49,8 +44,7 @@ func Do_first(do_first chan Queues) {
 						}
 					}
 				}
-			} else {
-			}
+			} 
 		}
 	}
 }
@@ -58,18 +52,13 @@ func Do_first(do_first chan Queues) {
 //Sends elevator to specified floor
 func Send_to_floor(floor, current_floor int, button string) {
 
-	Fo.WriteString("Entered Send_to_floor\n")
-	// current_floor := Get_floor_sensor()
 	Elev_set_door_open_lamp(0)
 	Set_stop_lamp(0)
 
 	if current_floor < floor {
-		// Fprintln(Fo, "TRASE ORDER: int ordre var skal opp")
-		Println("Going up")
 		for {
 			Speed(150)
 			if Get_floor_sensor() == floor {
-				Println("I am now at floor: " + Itoa(Get_floor_sensor()))
 				Set_stop_lamp(1)
 				Elev_set_door_open_lamp(1)
 				Speed(-150)
@@ -90,12 +79,9 @@ func Send_to_floor(floor, current_floor int, button string) {
 			time.Sleep(25 * time.Millisecond)
 		}
 	} else if current_floor > floor {
-		// Fprintln(Fo, "TRASE ORDER: int ordre var skal ned")
-		Println("Going down")
 		for {
 			Speed(-150)
 			if Get_floor_sensor() == floor {
-				Println("I am now at floor: " + Itoa(Get_floor_sensor()))
 				Set_stop_lamp(1)
 				Elev_set_door_open_lamp(1)
 				Speed(150)
@@ -115,9 +101,6 @@ func Send_to_floor(floor, current_floor int, button string) {
 			}
 			time.Sleep(25 * time.Millisecond)
 		}
-	} else {
-		Println("Du er allerede her")
-		// Fprintln(Fo, "DU ER ALLEREDE HER!")
 	}
 }
 
