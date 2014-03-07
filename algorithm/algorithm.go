@@ -32,7 +32,17 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 					}
 				}
 			}
+
 			for _, last := range last_queue {
+				if last.Ip_order == at_floor.Ip_order {
+					if !Missing_ext_job(ext_queue, at_floor.Floor, last.Dir) {
+						Println("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL")
+					}
+				}
+			}
+
+
+			/*for _, last := range last_queue {
 				if last.Ip_order == at_floor.Ip_order {
 					Fprintln(Fo, "EXT: ",ext_queue)
 					Fprintln(Fo, "EXT: ",at_floor.Floor, last.Dir)
@@ -51,7 +61,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 					}
 					Println("I was here??")
 				}
-			}
+			}*/
 					// Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 				queues = Queues{int_queue, ext_queue, last_queue}
 				Println(queues)
