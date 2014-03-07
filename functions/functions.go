@@ -31,11 +31,11 @@ type Queues struct {
 var Fo *os.File
 
 // Insert int if unique : FUNKER!
-func Insert_at_pos(this []Dict, value, i int) []Dict {
+func Insert_at_pos(ip string, this []Dict, value, i int) []Dict {
 
 	_, missing := AIM_Int(this, value)
 	if missing {
-		this = append(this[:i], append([]Dict{Dict{"IP_order", value, "dir"}}, this[i:]...)...)
+		this = append(this[:i], append([]Dict{Dict{ip, value, "int"}}, this[i:]...)...)
 	}
 
 	return this
