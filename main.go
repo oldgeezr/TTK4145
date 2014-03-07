@@ -78,7 +78,7 @@ func main() {
 					for {
 						msg := <- order
 						master_order <- msg
-						Fprintln(Fo, "111/222: btn/@floor -> order -> master ->")
+						// Fprintln(Fo, "111/222: btn/@floor -> order -> master ->")
 					}
 				}()
 			case <-slave:
