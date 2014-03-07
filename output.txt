@@ -12,7 +12,6 @@ Entered Int_order
 Entered Ext_order
 Entered TCP_master_connect
 Entered Algo
-111/222: btn/@floor -> order -> master ->
 111: @floor -> get_at_floor -> algo
 111/222: queue/btn/@floor -> get_queues -> log
 Entered TCP_master_com
@@ -22,288 +21,56 @@ Entered TCP_master_com
 Got new DO_QUEUE {[] [] []}
 TRASE ORDER: Mottok hele the_queue på do_first
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first
 111/222: queue/btn/@floor -> get_queues -> log
+111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first
 111/222: queues/btn/@floor -> tcp -> tcp
 Got new DO_QUEUE {[] [] []}
 TRASE ORDER: Mottok hele the_queue på do_first
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
+111/222: btn/@floor -> slave_order -> log
 111: btn -> order -> tcp
-111/222: btn/@floor -> order -> master ->
 111: btn -> do_first -> do_first
-Got new DO_QUEUE {[{159 [{ip_order 0 int}]}] [] [{159 2 last} {161 1 last}]}
+Got new DO_QUEUE {[{159 [{ip_order 1 int}]}] [] [{159 2 last} {161 3 last}]}
 TRASE ORDER: Mottok hele the_queue på do_first
 TRASE ORDER: Sendte int ordre til send_to_floor
 Entered Send_to_floor
-DU ER ALLEREDE HER!
+TRASE ORDER: int ordre var skal opp
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
 111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111: queue/btn -> slave_queues -> tcp
-111/222: queues/btn/@floor -> tcp -> tcp
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-222: @floor -> get_at_floor -> algo
-Deleted from queue:  {ip_order 2 int}
-111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first
+111: @floor -> get_at_floor -> algo
 111/222: queue/btn/@floor -> get_queues -> log
 111/222: queues/btn/@floor -> tcp -> tcp
-Got new DO_QUEUE {[{159 [{ip_order 0 int}]} {161 []}] [] [{159 2 last} {161 2 last}]}
-TRASE ORDER: Mottok hele the_queue på do_first
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111: queue/btn -> slave_queues -> tcp
-111/222: queues/btn/@floor -> tcp -> tcp
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-222: @floor -> get_at_floor -> algo
-111/222: queues/btn/@floor -> slave_queues/do_first -> tcp/do_first
-111/222: queue/btn/@floor -> get_queues -> log
-111/222: queues/btn/@floor -> tcp -> tcp
-Got new DO_QUEUE {[{159 [{ip_order 0 int}]} {161 [{ip_order 1 int}]}] [] [{159 2 last} {161 3 last}]}
-TRASE ORDER: Mottok hele the_queue på do_first
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> slave_order -> log
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
-111/222: btn/@floor -> order -> master ->
