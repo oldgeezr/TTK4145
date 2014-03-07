@@ -163,7 +163,7 @@ func Remove_order_int_queue(this Jobs, floor int) Jobs {
 
 }
 
-func Determine_dir(job_queue []Jobs, last_queue []Dict) []Dict {
+/*func Determine_dir(job_queue []Jobs, last_queue []Dict) []Dict {
 	//Determine direction
 	for _, job := range job_queue {
 		for i, last := range last_queue {
@@ -183,4 +183,4 @@ func Determine_dir(job_queue []Jobs, last_queue []Dict) []Dict {
 		}
 	}
 	return last_queue
-}
+}*/
