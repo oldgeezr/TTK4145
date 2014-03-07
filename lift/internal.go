@@ -24,7 +24,7 @@ func Do_first(do_first chan Queues) {
 			last_queue := msg.Last_queue
 			ext_queue := msg.Ext_queue
 			queues := Queues{job_queue,ext_queue,last_queue}
-			last_queue = Determine_dir(int_queue, last_queue)
+			last_queue = Determine_dir(job_queue, last_queue)
 			Format_queues(queues)
 
 			for _, last := range last_queue {
