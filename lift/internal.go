@@ -44,7 +44,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 					if len(yours.Dest) != 0 {
 						if yours.Dest[0] != doing {
 							doing = yours.Dest[0]
-							Send_to_floor(yours.Dest[0].Floor, last_floor, "int")
+							go Send_to_floor(yours.Dest[0].Floor, last_floor, "int")
 						}
 					} else {
 						if len(ext_queue) != 0 {
