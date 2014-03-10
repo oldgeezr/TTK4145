@@ -14,7 +14,7 @@ import (
 func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan bool) {
 
 	var last_floor int
-	var doing Dict
+	// var doing Dict
 	var running bool = false
 
 	Fo.WriteString("Entered Do_first\n")
@@ -46,22 +46,22 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 			for _, yours := range job_queue {
 				if yours.Ip == GetMyIP() {
 					if len(yours.Dest) != 0 {
-						if yours.Dest[0] != doing {
-							Println("YOU ARE DOING:", doing, yours.Dest[0])
-							Println("Running:", running)
-							doing = yours.Dest[0]
-							go func() {
-								if running {
-									kill_send_to_floor <- true
-								}
-							}()
-							go func() {
-								if !running {
-									running = true
-									running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
-								}
-							}()
-						}
+						// if yours.Dest[0] != doing {
+						// Println("YOU ARE DOING:", doing, yours.Dest[0])
+						// Println("Running:", running)
+						// doing = yours.Dest[0]
+						go func() {
+							if running {
+								kill_send_to_floor <- true
+							}
+						}()
+						go func() {
+							if !running {
+								running = true
+								running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
+							}
+						}()
+						// }
 					} else {
 						if len(ext_queue) != 0 {
 							Println("ext", ext_queue, len(ext_queue))
