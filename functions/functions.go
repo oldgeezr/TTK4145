@@ -23,8 +23,8 @@ type Order struct {
 }
 
 type Queues struct {
-	Int_queue []Jobs
-	Ext_queue []Dict
+	Int_queue  []Jobs
+	Ext_queue  []Dict
 	Last_queue []Dict
 }
 
@@ -93,6 +93,7 @@ func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 			if ele.Floor != last.Floor {
 				slice[i].Ip_order = last.Ip_order
 				slice[i].Floor = last.Floor
+				slice[i].Dir = last.Dir
 				return slice, true
 			}
 			return slice, false
