@@ -54,11 +54,6 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 								}
 							}()
 							go func() {
-								for {
-									if !running {
-										break
-									}
-								}
 								running = true
 								running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 							}()
@@ -94,71 +89,55 @@ func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor c
 	Elev_set_door_open_lamp(0)
 	Set_stop_lamp(0)
 
-	var dir bool
+	var stop bool = false
 
-	for {
-		select {
-		case <-kill_send_to_floor:
-			if dir {
+	if current_floor < floor {
+		for {
+			Speed(150)
+			go func() { stop = <-kill_send_to_floor }()
+			if Get_floor_sensor() == floor || stop {
+				Set_stop_lamp(1)
+				Elev_set_door_open_lamp(1)
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-			} else {
+				time.Sleep(1500 * time.Millisecond)
+				if button == "int" {
+					Set_button_lamp(BUTTON_COMMAND, floor, 0)
+				} else {
+					if button == "up" {
+						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
+					} else {
+						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
+					}
+				}
+				return false
+			}
+			time.Sleep(25 * time.Millisecond)
+		}
+	} else if current_floor > floor {
+		for {
+			Speed(-150)
+			go func() { stop = <-kill_send_to_floor }()
+			if Get_floor_sensor() == floor || stop {
+				Set_stop_lamp(1)
+				Elev_set_door_open_lamp(1)
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-			}
-			return false
-		default:
-			if current_floor < floor {
-				dir = true // up
-				for {
-					Speed(150)
-					if Get_floor_sensor() == floor {
-						Set_stop_lamp(1)
-						Elev_set_door_open_lamp(1)
-						Speed(-150)
-						time.Sleep(25 * time.Millisecond)
-						Speed(0)
-						time.Sleep(1500 * time.Millisecond)
-						if button == "int" {
-							Set_button_lamp(BUTTON_COMMAND, floor, 0)
-						} else {
-							if button == "up" {
-								Set_button_lamp(BUTTON_CALL_UP, floor, 0)
-							} else {
-								Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
-							}
-						}
-						return false
+				time.Sleep(1500 * time.Millisecond)
+				if button == "int" {
+					Set_button_lamp(BUTTON_COMMAND, floor, 0)
+				} else {
+					if button == "up" {
+						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
+					} else {
+						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
 					}
-					time.Sleep(25 * time.Millisecond)
 				}
-			} else if current_floor > floor {
-				dir = false //down
-				for {
-					Speed(-150)
-					if Get_floor_sensor() == floor {
-						Set_stop_lamp(1)
-						Elev_set_door_open_lamp(1)
-						Speed(150)
-						time.Sleep(25 * time.Millisecond)
-						Speed(0)
-						time.Sleep(1500 * time.Millisecond)
-						if button == "int" {
-							Set_button_lamp(BUTTON_COMMAND, floor, 0)
-						} else {
-							if button == "up" {
-								Set_button_lamp(BUTTON_CALL_UP, floor, 0)
-							} else {
-								Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
-							}
-						}
-						return false
-					}
-					time.Sleep(25 * time.Millisecond)
-				}
+				return false
 			}
+			time.Sleep(25 * time.Millisecond)
 		}
 	}
 }
