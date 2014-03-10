@@ -44,7 +44,7 @@ func Do_first(do_first chan Queues) {
 						}
 					} else {
 						if len(ext_queue) != 0 {
-							if yours.Dest[0] != doing {
+							if ext_queue[0] != doing {
 								doing = yours.Dest[0]
 								Send_to_floor(ext_queue[0].Floor, last_floor, ext_queue[0].Dir)
 							}
