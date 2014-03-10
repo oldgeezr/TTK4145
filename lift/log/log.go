@@ -40,6 +40,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				}
 			}
 		case msg := <-slave_order:
+
+			Println("FROM SLAVE:", msg)
 			if msg.Dir == "int" {
 				for j, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
