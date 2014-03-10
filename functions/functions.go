@@ -93,7 +93,7 @@ func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 			if ele.Floor != last.Floor {
 				slice[i].Ip_order = last.Ip_order
 				slice[i].Floor = last.Floor
-				slice[i].Dir = last.Dir
+				// slice[i].Dir = last.Dir
 				return slice, true
 			}
 			return slice, false
