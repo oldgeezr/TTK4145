@@ -91,7 +91,6 @@ func main() {
 				go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
 				go func() { new_master <- true }()
 			case <-new_master:
-				Println("=> State: Entered new_master state")
 				ip := <-get_ip_array
 				if len(ip) != 0 {
 					if ip[len(ip)-1] > 255 {
