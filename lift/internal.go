@@ -52,8 +52,8 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 									kill_send_to_floor <- true
 								}
 							}()
-							running = true
 							go func() {
+								running = true
 								running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 							}()
 						}
@@ -67,8 +67,8 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 										kill_send_to_floor <- true
 									}
 								}()
-								running = true
 								go func() {
+									running = true
 									running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 								}()
 							}
