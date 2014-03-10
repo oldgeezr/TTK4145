@@ -3,6 +3,7 @@ package algorithm
 import (
 	. "../functions"
 	. "fmt"
+	"time"
 )
 
 func Algo(get_at_floor chan Dict, get_queues chan Queues) {
@@ -39,7 +40,10 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 							int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
 							int_queue[i].Dest = Insert_at_pos("ip_order", int_queue[i].Dest, at_floor.Floor, 0)
 							Println("QUEUE2:", int_queue)
-							go func() { get_at_floor <- at_floor }()
+							go func() {
+								time.Sleep(time.Second)
+								get_at_floor <- at_floor
+							}()
 							break
 						}
 					}
