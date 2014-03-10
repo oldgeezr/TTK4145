@@ -11,12 +11,14 @@ import (
 	"time"
 )
 
-func Do_first(do_first chan Queues) {
+func Do_first(do_first chan Queues, order chan Dict) {
 
 	var last_floor int
 	var doing Dict
 	// var temp int
 	Fo.WriteString("Entered Do_first\n")
+
+	myIP := GetMyIP()
 
 	for {
 		time.Sleep(250 * time.Millisecond)
@@ -30,7 +32,7 @@ func Do_first(do_first chan Queues) {
 		ext_queue := do.Ext_queue
 
 		for _, last := range last_queue {
-			if last.Ip_order == GetMyIP() {
+			if last.Ip_order == myIP {
 				last_floor = last.Floor
 				break
 			}
@@ -51,6 +53,8 @@ func Do_first(do_first chan Queues) {
 								doing = yours.Dest[0]
 								Send_to_floor(ext_queue[0].Floor, last_floor, ext_queue[0].Dir)
 							}
+						} else {
+							order <- Dict{myIP, last_floor, "standby"}
 						}
 					}
 				}
