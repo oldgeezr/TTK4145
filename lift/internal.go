@@ -54,8 +54,11 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 								}
 							}()
 							go func() {
-								dontcare := <-kill_send_to_floor
-								_ = dontcare
+								for {
+									if !running {
+										break
+									}
+								}
 								running = true
 								running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 							}()
