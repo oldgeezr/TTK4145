@@ -65,18 +65,18 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 					} else {
 						if len(ext_queue) != 0 {
 							Println("ext", ext_queue, len(ext_queue))
-							if ext_queue[0] != doing {
-								doing = ext_queue[0]
-								go func() {
-									if running {
-										kill_send_to_floor <- true
-									}
-								}()
-								go func() {
-									running = true
-									running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
-								}()
-							}
+							// if ext_queue[0] != doing {
+							// doing = ext_queue[0]
+							go func() {
+								if running {
+									kill_send_to_floor <- true
+								}
+							}()
+							go func() {
+								running = true
+								running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
+							}()
+							// }
 						} else {
 							order <- Dict{myIP, M + 1, "standby"}
 						}
