@@ -23,6 +23,8 @@ func Do_first(do_first chan Queues) {
 
 		do := <-do_first
 
+		Println(do)
+
 		job_queue := do.Int_queue
 		last_queue := do.Last_queue
 		ext_queue := do.Ext_queue
