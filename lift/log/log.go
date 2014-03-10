@@ -33,7 +33,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							last_queue[i].Dir = Determine_dir(job_queue, lift)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							break
-						} else if lift.Floor != msg.Floor && lift.Dir == "standby" {
+						} else if lift.Floor == msg.Floor && lift.Dir != "standby" {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							Println("DA JOB:", job_queue)
 							job_queue = ARQ(job_queue, msg)
