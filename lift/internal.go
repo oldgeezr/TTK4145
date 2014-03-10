@@ -14,6 +14,7 @@ import (
 func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan bool) {
 
 	var last_floor int
+	var last_dir string
 	var doing Dict
 	// var temp int
 	Fo.WriteString("Entered Do_first\n")
@@ -31,9 +32,10 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 		last_queue := do.Last_queue
 		ext_queue := do.Ext_queue
 
-		for _, last := range last_queue {
+		for i, last := range last_queue {
 			if last.Ip_order == myIP {
 				last_floor = last.Floor
+				last_dir = last.Dir
 				break
 			}
 		}
@@ -45,7 +47,11 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 						Println("YOU ARE DOING:", doing, yours.Dest[0])
 						if yours.Dest[0] != doing {
 							doing = yours.Dest[0]
-							go func() { kill_send_to_floor <- true }()
+							go func() {
+								if last_dir != "standby" {
+									kill_send_to_floor <- true
+								}
+							}()
 							go Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 						}
 					} else {
