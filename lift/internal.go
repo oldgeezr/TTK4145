@@ -32,7 +32,7 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 		last_queue := do.Last_queue
 		ext_queue := do.Ext_queue
 
-		for i, last := range last_queue {
+		for _, last := range last_queue {
 			if last.Ip_order == myIP {
 				last_floor = last.Floor
 				last_dir = last.Dir
