@@ -22,7 +22,7 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 	myIP := GetMyIP()
 
 	for {
-		time.Sleep(250 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 
 		do := <-do_first
 
