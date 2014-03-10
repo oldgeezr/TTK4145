@@ -32,6 +32,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
+			} else if msg.Floor >= M {
+				last_queue, update = AIM_Dict2(last_queue, msg)
 			} else if msg.Dir == "standby" {
 				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)

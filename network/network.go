@@ -12,6 +12,7 @@ const (
 	BROADCAST string = "129.241.187.255"
 	IP_BASE   string = "129.241.187."
 	BUF_LEN   int    = 1024
+	M         int    = 4 // Number of floors
 )
 
 func GetMyIP() string {
