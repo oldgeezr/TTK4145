@@ -51,8 +51,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 								Send_to_floor(ext_queue[0].Floor, last_floor, ext_queue[0].Dir)
 							}
 						} else {
-							Println("Jeg sender STANDBY!!!!!!!!!")
-							order <- Dict{myIP, last_floor, "standby"}
+							// order <- Dict{myIP, last_floor, "standby"}
 						}
 					}
 				}
