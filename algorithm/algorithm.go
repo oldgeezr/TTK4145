@@ -32,6 +32,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 						if int_queue[i].Dest[0].Floor == at_floor.Floor {
 							current_dict = i
 							int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
+							Println("I REMOVED!", int_queue)
 							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
 						} else {
 							Println("QUEUE:", int_queue)
@@ -51,8 +52,8 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 
 			// Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 			queues = Queues{int_queue, ext_queue, last_queue}
-			Println("ALGO3:", queues)
 			get_queues <- queues
+			Println("ALGO3:", queues)
 		}
 	}
 }

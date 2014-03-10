@@ -19,14 +19,11 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		select {
 		case msg := <-master_order:
 			if msg.Dir == "int" {
-				Println("EXO: Evaluate int")
 				for i, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
-						Println("EXO: Found IP")
 						Println("lift.Floor = ", lift.Floor, "and msg.FLoor = ", msg.Floor)
 						if lift.Floor != msg.Floor {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
-							Println("DA JOB:", job_queue)
 							job_queue = ARQ(job_queue, msg)
 							Println("DA JOB2:", job_queue)
 							last_queue[i].Dir = Determine_dir(job_queue, lift)
@@ -34,7 +31,6 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 							break
 						} else if lift.Dir != "standby" {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
-							Println("DA JOB:", job_queue)
 							job_queue = ARQ(job_queue, msg)
 							Println("DA JOB2:", job_queue)
 							last_queue[i].Dir = Determine_dir(job_queue, lift)
