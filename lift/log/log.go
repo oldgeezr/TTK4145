@@ -102,6 +102,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 
 		case msg := <-get_queues:
 			the_queue = msg
+			Println("I FUCKING GOT", the_queue)
 			slave_queues <- the_queue
 		case get_queues <- the_queue:
 		}
