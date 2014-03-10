@@ -44,8 +44,9 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 			for _, yours := range job_queue {
 				if yours.Ip == GetMyIP() {
 					if len(yours.Dest) != 0 {
-						Println("YOU ARE DOING:", doing, yours.Dest[0])
 						if yours.Dest[0] != doing {
+							Println("YOU ARE DOING:", doing, yours.Dest[0])
+							Println("Running:", running)
 							doing = yours.Dest[0]
 							go func() {
 								if running {
