@@ -24,9 +24,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		time.Sleep(250 * time.Millisecond)
 
 		do := <-do_first
-
-		Println(do)
-
 		job_queue := do.Int_queue
 		last_queue := do.Last_queue
 		ext_queue := do.Ext_queue
