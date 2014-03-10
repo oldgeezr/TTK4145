@@ -29,9 +29,13 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			for i, order := range int_queue {
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
-						current_dict = i
-						int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
-						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
+						if int_queue[i].Dest[0].Floor == at_floor.Floor {
+							current_dict = i
+							int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
+							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
+						} else {
+							int_queue[i].Dest = Insert_at_pos(int_queue[i].Ip, int_queue[i].Dest, at_floor.Floor, 0)
+						}
 					}
 				}
 			}
@@ -43,26 +47,6 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 				Println("ALGO2:", ext_queue, at_floor.Floor, last_dir)
 			}
 
-			/*for _, last := range last_queue {
-				if last.Ip_order == at_floor.Ip_order {
-					Fprintln(Fo, "EXT: ",ext_queue)
-					Fprintln(Fo, "EXT: ",at_floor.Floor, last.Dir)
-
-					if !Missing_ext_job(ext_queue, at_floor.Floor, last.Dir) { // Noen skal på
-						for i, order := range int_queue {
-							if order.Ip == at_floor.Ip_order {
-								int_queue[i].Dest = Insert_at_pos(order.Ip, int_queue[i].Dest, at_floor.Floor, 0)
-								Println("GGGGGGGGGGGGGGGGGGGGGGG: ", int_queue[i].Dest)
-								queues = Queues{int_queue, ext_queue, last_queue}
-								Println(queues)
-								ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last.Dir) // Slett alle eksterne i riktig retning
-								Fprintln(Fo, "Removed from ext_queue")
-							}
-						}
-					}
-					Println("I was here??")
-				}
-			}*/
 			// Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 			queues = Queues{int_queue, ext_queue, last_queue}
 			Println("ALGO3:", queues)
