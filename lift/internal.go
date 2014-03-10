@@ -54,6 +54,8 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 								}
 							}()
 							go func() {
+								dontcare := <-kill_send_to_floor
+								_ = dontcare
 								running = true
 								running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 							}()
@@ -89,12 +91,24 @@ func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor c
 	Elev_set_door_open_lamp(0)
 	Set_stop_lamp(0)
 
+	var dir bool
+
 	for {
 		select {
 		case <-kill_send_to_floor:
+			if dir {
+				Speed(-150)
+				time.Sleep(25 * time.Millisecond)
+				Speed(0)
+			} else {
+				Speed(150)
+				time.Sleep(25 * time.Millisecond)
+				Speed(0)
+			}
 			return false
 		default:
 			if current_floor < floor {
+				dir = true // up
 				for {
 					Speed(150)
 					if Get_floor_sensor() == floor {
@@ -118,6 +132,7 @@ func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor c
 					time.Sleep(25 * time.Millisecond)
 				}
 			} else if current_floor > floor {
+				dir = false //down
 				for {
 					Speed(-150)
 					if Get_floor_sensor() == floor {
