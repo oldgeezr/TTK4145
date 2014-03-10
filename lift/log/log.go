@@ -41,7 +41,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			}
 		case msg := <-slave_order:
 
-			Println("FROM SLAVE:", msg)
+			Println(the_queue)
+
 			if msg.Dir == "int" {
 				for j, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
@@ -74,9 +75,6 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
 			last_queue = msg.Last_queue
-
-			Println(the_queue)
-
 		case do_first <- the_queue:
 
 		case msg := <-get_queues:
