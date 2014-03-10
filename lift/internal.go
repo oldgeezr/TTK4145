@@ -40,6 +40,8 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 			}
 		}
 
+		Println(running)
+
 		if len(job_queue) != 0 {
 			for _, yours := range job_queue {
 				if yours.Ip == GetMyIP() {
