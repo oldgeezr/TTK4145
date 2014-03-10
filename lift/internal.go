@@ -13,38 +13,45 @@ import (
 
 func Do_first(do_first chan Queues) {
 
-	var last_floor int 
+	var last_floor int
+	var doing Dict
 	// var temp int
 	Fo.WriteString("Entered Do_first\n")
 
 	for {
-		select {
-		case msg := <-do_first:
+		time.Sleep(250 * time.Millisecond)
 
-			job_queue := msg.Int_queue
-			last_queue := msg.Last_queue
-			ext_queue := msg.Ext_queue
+		do := <-do_first
 
-			for _, last := range last_queue {
-				if last.Ip_order == GetMyIP() {
-					last_floor = last.Floor
-					break
-				}
+		job_queue := do.Int_queue
+		last_queue := do.Last_queue
+		ext_queue := do.Ext_queue
+
+		for _, last := range last_queue {
+			if last.Ip_order == GetMyIP() {
+				last_floor = last.Floor
+				break
 			}
-			
-			if len(job_queue) != 0 {
-				for _, yours := range job_queue {
-					if yours.Ip == GetMyIP() {
-						if len(yours.Dest) != 0 {
-								Send_to_floor(yours.Dest[0].Floor, last_floor,  "int")
-						} else {
-							if len(ext_queue) != 0 {
+		}
+
+		if len(job_queue) != 0 {
+			for _, yours := range job_queue {
+				if yours.Ip == GetMyIP() {
+					if len(yours.Dest) != 0 {
+						if yours.Dest[0] != doing {
+							doing = yours.Dest[0]
+							Send_to_floor(yours.Dest[0].Floor, last_floor, "int")
+						}
+					} else {
+						if len(ext_queue) != 0 {
+							if yours.Dest[0] != doing {
+								doing = yours.Dest[0]
 								Send_to_floor(ext_queue[0].Floor, last_floor, ext_queue[0].Dir)
 							}
 						}
 					}
 				}
-			} 
+			}
 		}
 	}
 }
@@ -64,7 +71,7 @@ func Send_to_floor(floor, current_floor int, button string) {
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-				time.Sleep(1500*time.Millisecond)
+				time.Sleep(1500 * time.Millisecond)
 				if button == "int" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
@@ -87,7 +94,7 @@ func Send_to_floor(floor, current_floor int, button string) {
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
 				Speed(0)
-				time.Sleep(1500*time.Millisecond)
+				time.Sleep(1500 * time.Millisecond)
 				if button == "int" {
 					Set_button_lamp(BUTTON_COMMAND, floor, 0)
 				} else {
