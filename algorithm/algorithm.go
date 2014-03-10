@@ -65,6 +65,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			}*/
 			// Avslutt å gå gjennom køen fordi det er unødvendig da det kun finnes en instans av hver heis
 			queues = Queues{int_queue, ext_queue, last_queue}
+			Println("ALGO3:", queues)
 			get_queues <- queues
 		}
 	}

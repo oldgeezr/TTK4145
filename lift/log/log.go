@@ -71,6 +71,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			the_queue = msg
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
+			last_queue = msg.Last_queue
 		case do_first <- the_queue:
 
 		case msg := <-get_queues:
