@@ -26,12 +26,14 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 				}
 			}
 
-			Println("YOYOYYOYOYOYOOYOYO")
-
 			for i, order := range int_queue {
+				Println("YOYOYYOYOYOYOOYOYO")
 				if order.Ip == at_floor.Ip_order { // Finn riktig kø
+					Println("YOYOYYOYOYOYOOYOYO222222")
 					if !Missing_int_job(order, at_floor.Floor) { // Noen skal av
+						Println("YOYOYYOYOYOYOOYOYO333333")
 						if int_queue[i].Dest[0].Floor == at_floor.Floor {
+							Println("YOYOYYOYOYOYOOYOYO44444")
 							current_dict = i
 							int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
 							Println("I REMOVED!", int_queue)
