@@ -51,7 +51,7 @@ func TCP_master_com(conn Conn, slave_queues chan Queues) {
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
 			Fprintln(Fo, "\t \t TCP: queues/btn/@floor -> tcp -> tcp")
-		/*case msg := <-order:
+			/*case msg := <-order:
 			Println("jeg passet")
 			master_order <- msg*/
 		}

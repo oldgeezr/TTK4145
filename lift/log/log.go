@@ -23,9 +23,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 						if lift.Floor != msg.Floor {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							job_queue = ARQ(job_queue, msg)
-							last_queue[i].Dir = Determine_dir(job_queue, lift) 
+							last_queue[i].Dir = Determine_dir(job_queue, lift)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
-							do_first <- the_queue
 							break
 						}
 					}
@@ -33,7 +32,6 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 				the_queue = Queues{job_queue, ext_queue, last_queue}
-				do_first <- the_queue
 			} else if msg.Dir == "standby" {
 				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)
@@ -41,7 +39,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 					get_at_floor <- msg
 				}
 			}
-		case msg := <- slave_order:
+		case msg := <-slave_order:
 			if msg.Dir == "int" {
 				for j, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
@@ -52,7 +50,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
 								}
 							}
-							last_queue[j].Dir = Determine_dir(job_queue, lift) 
+							last_queue[j].Dir = Determine_dir(job_queue, lift)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							slave_queues <- the_queue
 						}
@@ -63,7 +61,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 				slave_queues <- the_queue
 			} else if msg.Dir == "standby" {
-				var update bool 
+				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
@@ -73,11 +71,10 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			the_queue = msg
 			job_queue = msg.Int_queue
 			ext_queue = msg.Ext_queue
-			do_first <- the_queue
+		case do_first <- the_queue:
 		case msg := <-get_queues:
 			the_queue = msg
 			slave_queues <- the_queue
-			do_first <- the_queue
 		case get_queues <- the_queue:
 		}
 	}
@@ -96,9 +93,9 @@ func Determine_dir(job_queue []Jobs, last Dict) string {
 	for _, job := range job_queue {
 		if last.Ip_order == job.Ip {
 			if len(job.Dest) != 0 {
-				if job.Dest[0].Floor - last.Floor > 0 {
+				if job.Dest[0].Floor-last.Floor > 0 {
 					return "up"
-				} else if job.Dest[0].Floor - last.Floor < 0 {
+				} else if job.Dest[0].Floor-last.Floor < 0 {
 					return "down"
 				} else {
 					return "standby"
