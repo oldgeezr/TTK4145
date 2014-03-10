@@ -18,7 +18,6 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 	for {
 		select {
 		case msg := <-master_order:
-			Println("EXO: Got msg")
 			if msg.Dir == "int" {
 				Println("EXO: Evaluate int")
 				for i, lift := range last_queue {

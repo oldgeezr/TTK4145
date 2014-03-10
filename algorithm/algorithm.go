@@ -34,7 +34,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 							int_queue[i] = Remove_order_int_queue(int_queue[i], at_floor.Floor)
 							ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
 						} else {
+							Println("QUEUE:", int_queue[i].Dest)
 							int_queue[i].Dest = Insert_at_pos(int_queue[i].Ip, int_queue[i].Dest, at_floor.Floor, 0)
+							Println("QUEUE2:", int_queue[i].Dest)
 						}
 					}
 				}
