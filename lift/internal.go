@@ -94,7 +94,10 @@ func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor c
 	if current_floor < floor {
 		for {
 			Speed(150)
-			go func() { stop = <-kill_send_to_floor }()
+			go func() {
+				stop = <-kill_send_to_floor
+				Println("recieved kill")
+			}()
 			if Get_floor_sensor() == floor || stop {
 				Set_stop_lamp(1)
 				Elev_set_door_open_lamp(1)
@@ -118,7 +121,10 @@ func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor c
 	} else if current_floor > floor {
 		for {
 			Speed(-150)
-			go func() { stop = <-kill_send_to_floor }()
+			go func() {
+				stop = <-kill_send_to_floor
+				Println("recieved kill")
+			}()
 			if Get_floor_sensor() == floor || stop {
 				Set_stop_lamp(1)
 				Elev_set_door_open_lamp(1)
