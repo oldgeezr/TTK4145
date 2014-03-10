@@ -34,7 +34,7 @@ var Fo *os.File
 func Insert_at_pos(ip string, this []Dict, value, i int) []Dict {
 
 	// _, missing := AIM_Int(this, value)
-	missing = true // temps
+	missing := true // temps
 	if missing {
 		this = append(this[:i], append([]Dict{Dict{ip, value, "int"}}, this[i:]...)...)
 	}
