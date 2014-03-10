@@ -140,6 +140,7 @@ func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor c
 			time.Sleep(25 * time.Millisecond)
 		}
 	}
+	return false
 }
 
 //Keyboard terminal input (For testing)
