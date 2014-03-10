@@ -23,7 +23,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 						if lift.Floor != msg.Floor {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							job_queue = ARQ(job_queue, msg)
-							// last_queue[i].Dir = Determine_dir(job_queue, lift)
+							last_queue[i].Dir = Determine_dir(job_queue, lift)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							break
 						}
@@ -50,7 +50,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
 								}
 							}
-							// last_queue[j].Dir = Determine_dir(job_queue, lift)
+							last_queue[j].Dir = Determine_dir(job_queue, lift)
 							the_queue = Queues{job_queue, ext_queue, last_queue}
 							slave_queues <- the_queue
 						}
