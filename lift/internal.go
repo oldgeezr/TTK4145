@@ -45,6 +45,7 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 						Println("YOU ARE DOING:", doing, yours.Dest[0])
 						if yours.Dest[0] != doing {
 							doing = yours.Dest[0]
+							go func() { kill_send_to_floor <- true }()
 							go Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 						}
 					} else {
@@ -52,6 +53,7 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 							Println("ext", ext_queue, len(ext_queue))
 							if ext_queue[0] != doing {
 								doing = ext_queue[0]
+								go func() { kill_send_to_floor <- true }()
 								go Send_to_floor(ext_queue[0].Floor, last_floor, ext_queue[0].Dir, kill_send_to_floor)
 							}
 						} else {
