@@ -11,9 +11,9 @@ import (
 	. "./network/udp"
 	. "fmt"
 	. "net"
+	"os"
 	. "strconv"
 	"time"
-	"os"
 )
 
 func main() {
@@ -21,13 +21,15 @@ func main() {
 	var err error
 
 	Fo, err = os.Create("output.txt")
-    if err != nil { panic(err) }
-    // close fo on exit and check for its returned error
-    defer func() {
-        if err := Fo.Close(); err != nil {
-            panic(err)
-        }
-    }()
+	if err != nil {
+		panic(err)
+	}
+	// close fo on exit and check for its returned error
+	defer func() {
+		if err := Fo.Close(); err != nil {
+			panic(err)
+		}
+	}()
 
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
@@ -64,7 +66,7 @@ func main() {
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Do_first(do_first)
+	go Do_first(do_first, order)
 
 	go func() {
 		for {
@@ -77,7 +79,7 @@ func main() {
 				go Algo(get_at_floor, get_queues)
 				go func() {
 					for {
-						msg := <- order
+						msg := <-order
 						master_order <- msg
 						// Fprintln(Fo, "111/222: btn/@floor -> order -> master ->")
 					}
