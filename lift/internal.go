@@ -66,7 +66,7 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 					} else {
 						if len(ext_queue) != 0 {
 							Println("ext", ext_queue, len(ext_queue))
-							if ext_queue[0] != doing_floor || !running {
+							if ext_queue[0].Floor != doing_floor || !running {
 								doing_floor = ext_queue[0].Floor
 								go func() {
 									if running {
