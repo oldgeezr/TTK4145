@@ -54,9 +54,9 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 							}()
 							go func() {
 								if !running {
-									Println("YOU ARE DOING:", doing, yours.Dest[0])
+									Println("YOU ARE DOING:", doing_floor, yours.Dest[0].Floor)
 									Println("Running:", running)
-									doing = yours.Dest[0].Floor
+									doing_floor = yours.Dest[0].Floor
 									running = true
 									running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
 									Println("FEEDBACK FROM SENDTO:", running)
@@ -66,8 +66,8 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 					} else {
 						if len(ext_queue) != 0 {
 							Println("ext", ext_queue, len(ext_queue))
-							if ext_queue[0] != doing || !running {
-								doing = ext_queue[0].Floor
+							if ext_queue[0] != doing_floor || !running {
+								doing_floor = ext_queue[0].Floor
 								go func() {
 									if running {
 										kill_send_to_floor <- true
