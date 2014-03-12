@@ -2,8 +2,8 @@ package lift
 
 import (
 	. ".././driver"
+	. ".././formating"
 	. ".././network"
-	// . ".././formating"
 	// . "./log"
 	. ".././functions"
 	. "fmt"
@@ -25,6 +25,9 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		job_queue := queues.Int_queue
 		last_queue := queues.Last_queue
 		ext_queue := queues.Ext_queue
+
+		Println("TO DO FIRST:")
+		Format_queues_term(queues)
 
 		for _, last := range last_queue {
 			if last.Ip_order == myIP {

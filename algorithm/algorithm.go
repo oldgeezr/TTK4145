@@ -1,9 +1,8 @@
 package algorithm
 
 import (
-	. ".././formating"
+	// . ".././formating"
 	. "../functions"
-	. "fmt"
 )
 
 func Algo(get_at_floor chan Dict, get_queues chan Queues) {
@@ -17,9 +16,6 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 	for {
 		at_floor := <-get_at_floor
 		queues := <-get_queues
-
-		Println("Before algo:")
-		Format_queues_term(queues)
 
 		int_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
@@ -56,10 +52,6 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		}
 
 		queues = Queues{int_queue, ext_queue, last_queue}
-
-		Println("After algo:")
-		Format_queues_term(queues)
-
 		get_queues <- queues
 
 	}
