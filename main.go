@@ -57,7 +57,6 @@ func main() {
 	get_at_floor := make(chan Dict)
 	slave_queues := make(chan Queues)
 	kill_IMA_master := make(chan bool)
-	kill_send_to_floor := make(chan bool)
 	// algo_out := make(chan Order)
 
 	go IP_array(ip_array_update, get_ip_array, flush)
@@ -67,7 +66,7 @@ func main() {
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Do_first(do_first, order, kill_send_to_floor)
+	go Do_first(do_first, order)
 
 	go func() {
 		for {
