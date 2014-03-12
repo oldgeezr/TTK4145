@@ -55,9 +55,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		if !Missing_int_job(current_queue, at_floor.Floor) { // Noen skal av
 			Println("STAGE 2")
 			if current_queue.Dest[0].Floor == at_floor.Floor {
-				Println("STAGE 3: current_index:", current_index)
+				Println("STAGE 3:", int_queue[current_index])
 				// Skal fjerne etg fra internjobbkø
-				if current_index != -1 {
+				if len(int_queue[current_index]) {
 					int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
 				}
 				Println("INT: before remove:", ext_queue)
