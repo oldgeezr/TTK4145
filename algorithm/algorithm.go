@@ -11,7 +11,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 	Fo.WriteString("Entered Algo\n")
 
 	var last_dir string
-	var current_index int
+	var current_index int = -1
 	var current_queue Jobs
 
 	for {
@@ -56,7 +56,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			if current_queue.Dest[0].Floor == at_floor.Floor {
 				Println("STAGE 3")
 				// Skal fjerne etg fra internjobbkø
-				int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
+				if current_index != -1 {
+					int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
+				}
 				Println("INT: before remove:", ext_queue)
 				if len(ext_queue) != 0 {
 					Println("STAGE 4")
