@@ -150,7 +150,7 @@ func Missing_int_job(job_queue Jobs, floor int) bool {
 func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
 
 	for _, orders := range job_queue {
-		if orders.Dir == dir && orders.Floor == floor {
+		if (orders.Dir == dir || dir == "standby") && orders.Floor == floor {
 			return false
 		}
 	}
