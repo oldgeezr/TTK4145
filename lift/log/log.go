@@ -3,6 +3,7 @@ package log
 import (
 	. "../.././functions"
 	. "../.././network"
+	. "fmt"
 )
 
 func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, slave_queues, do_first chan Queues) {
@@ -105,6 +106,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			the_queue = msg
 		case msg := <-get_queues:
 			the_queue = msg
+			Println("TO SLAVE:", the_queue)
 			the_queue.Ext_queue = msg.Ext_queue
 			slave_queues <- the_queue
 		case do_first <- the_queue: // DO FIRST
