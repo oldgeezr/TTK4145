@@ -14,10 +14,10 @@ import (
 func Do_first(do_first chan Queues, order chan Dict) {
 
 	var last_floor int
-	myIp := GetMyIP()
+	myIP := GetMyIP()
 	state := make(chan string)
 
-	go Send_to_floor(state)
+	go Send_to_floor(state, order)
 
 	for {
 		time.Sleep(100 * time.Millisecond)
