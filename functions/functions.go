@@ -160,7 +160,7 @@ func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
 func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 	for i, orders := range this {
-		if orders.Dir == dir && orders.Floor == floor {
+		if (orders.Dir == dir || orders.Dir == "standby") && orders.Floor == floor {
 			Fprintln(Fo, "Deleted from queue: ", orders)
 			this = this[:i+copy(this[i:], this[i+1:])]
 		}
