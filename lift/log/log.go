@@ -38,6 +38,15 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			} else if msg.Floor >= M {
 				last_queue, _ = AIM_Dict2(last_queue, msg)
 			} else if msg.Dir == "standby" {
+				if len(last_queue) != 0 {
+					for _, last := range last_queue {
+						if last.Ip_order != msg.Ip_order {
+							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+						}
+					}
+				} else {
+					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+				}
 				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
@@ -75,6 +84,15 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			} else if msg.Floor >= M {
 				last_queue, _ = AIM_Dict2(last_queue, msg)
 			} else if msg.Dir == "standby" {
+				if len(last_queue) != 0 {
+					for _, last := range last_queue {
+						if last.Ip_order != msg.Ip_order {
+							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+						}
+					}
+				} else {
+					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+				}
 				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
