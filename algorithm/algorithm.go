@@ -1,7 +1,7 @@
 package algorithm
 
 import (
-	// . ".././formating"
+	. ".././formating"
 	. "../functions"
 	. "fmt"
 )
@@ -34,6 +34,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 				current_index = i
 			}
 		}
+
+		Println("ALGO:")
+		Format_queues_term(queues)
 
 		Println("ALGO:", ext_queue, at_floor.Floor, last_dir)
 
