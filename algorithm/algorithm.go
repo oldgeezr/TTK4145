@@ -2,13 +2,15 @@ package algorithm
 
 import (
 	. "../functions"
-	. "fmt"
-	"time"
 )
 
 func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 
 	Fo.WriteString("Entered Algo\n")
+
+	var last_dir string
+	var current_index int
+	var current_queue Jobs
 
 	for {
 		at_floor := <-get_at_floor
@@ -25,9 +27,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		}
 
 		for i, yours := range int_queue { // Gå gjennom alle jobbkøene
-			if yours.Ip_order == at_floor.Ip_order { // Finn riktig jobbkø
-				current_queue := yours
-				current_index := i
+			if yours.Ip == at_floor.Ip_order { // Finn riktig jobbkø
+				current_queue = yours
+				current_index = i
 			}
 		}
 
