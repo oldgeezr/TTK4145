@@ -37,8 +37,11 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		}
 
 		if len(job_queue) != 0 {
+			Println("STAGE 1")
 			for _, yours := range job_queue {
+				Println("STAGE 2")
 				if yours.Ip == myIP {
+					Println("STAGE 3")
 					if len(yours.Dest) != 0 {
 						if yours.Dest[0].Floor > last_floor {
 							state <- "up"
@@ -48,6 +51,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							state <- "standby"
 						}
 					} else {
+						Println("STAGE 4")
 						if len(ext_queue) != 0 {
 							Println("Jeg har en ekstern kø")
 							if ext_queue[0].Floor > last_floor {
@@ -62,6 +66,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							}
 						} else {
 							state <- "standby"
+							Println("Jeg går opp")
 						}
 					}
 				}
