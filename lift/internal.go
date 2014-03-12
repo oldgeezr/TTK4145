@@ -122,7 +122,7 @@ func Ext_order(order chan Dict) {
 
 		if i < 3 {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
-				Println("External call up button nr: " + Itoa(i) + " has been pressed!")
+				// Println("External call up button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
 				order <- Dict{"ext", i, "up"}
 				time.Sleep(300 * time.Millisecond)
@@ -130,7 +130,7 @@ func Ext_order(order chan Dict) {
 		}
 		if i > 0 {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
-				Println("External call down button nr: " + Itoa(i) + " has been pressed!")
+				// Println("External call down button nr: " + Itoa(i) + " has been pressed!")
 				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
 				order <- Dict{"ext", i, "down"}
 				time.Sleep(300 * time.Millisecond)
@@ -152,7 +152,7 @@ func Int_order(order chan Dict) {
 	i := 0
 	for {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
-			Println("Internal button nr: " + Itoa(i) + " has been pressed!")
+			// Println("Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
 			Fprintln(Fo, "INTERNAL: btn -> order -> tcp")
