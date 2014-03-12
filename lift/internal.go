@@ -11,75 +11,51 @@ import (
 	"time"
 )
 
-func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan bool) {
+func Do_first(do_first chan Queues, order chan Dict) {
 
 	var last_floor int
-	var doing_floor int = -1
-	var running bool = false
+	myIp := GetMyIP()
+	state := make(chan string)
 
-	Fo.WriteString("Entered Do_first\n")
-
-	myIP := GetMyIP()
+	go Send_to_floor(state)
 
 	for {
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(100 * time.Millisecond)
+		queues := <-do_first
 
-		do := <-do_first
-
-		Println("TODOLIST:", do)
-
-		job_queue := do.Int_queue
-		last_queue := do.Last_queue
-		ext_queue := do.Ext_queue
+		job_queue := queues.Int_queue
+		last_queue := queues.Last_queue
+		ext_queue := queues.Ext_queue
 
 		for _, last := range last_queue {
 			if last.Ip_order == myIP {
 				last_floor = last.Floor
-				// last_dir = last.Dir
 				break
 			}
 		}
 
-		Println(running)
-
 		if len(job_queue) != 0 {
 			for _, yours := range job_queue {
-				if yours.Ip == GetMyIP() {
+				if yours.Ip == myIP {
 					if len(yours.Dest) != 0 {
-						if yours.Dest[0].Floor != doing_floor || !running {
-							go func() {
-								if running {
-									kill_send_to_floor <- true
-								}
-							}()
-							go func() {
-								if !running {
-									Println("YOU ARE DOING:", doing_floor, yours.Dest[0].Floor)
-									Println("Running:", running)
-									doing_floor = yours.Dest[0].Floor
-									running = true
-									running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
-									Println("FEEDBACK FROM SENDTO:", running)
-								}
-							}()
+						if yours.Dest[0].Floor > last_floor {
+							state <- "up"
+						} else if yours.Dest[0].Floor < last_floor {
+							state <- "down"
+						} else {
+							state <- "standby"
 						}
 					} else {
 						if len(ext_queue) != 0 {
-							Println("ext", ext_queue, len(ext_queue))
-							if ext_queue[0].Floor != doing_floor || !running {
-								doing_floor = ext_queue[0].Floor
-								go func() {
-									if running {
-										kill_send_to_floor <- true
-									}
-								}()
-								go func() {
-									running = true
-									running = Send_to_floor(yours.Dest[0].Floor, last_floor, "int", kill_send_to_floor)
-								}()
+							if ext_queue[0].Floor > last_floor {
+								state <- "up"
+							} else if ext_queue[0].Floor < last_floor {
+								state <- "down"
+							} else {
+								state <- "standby"
 							}
 						} else {
-							order <- Dict{myIP, M + 1, "standby"}
+							state <- "standby"
 						}
 					}
 				}
@@ -89,69 +65,40 @@ func Do_first(do_first chan Queues, order chan Dict, kill_send_to_floor chan boo
 }
 
 //Sends elevator to specified floor
-func Send_to_floor(floor, current_floor int, button string, kill_send_to_floor chan bool) bool {
+func Send_to_floor(state chan string, order chan Dict) {
+
+	var last_dir string
+	myIP := GetMyIP()
 
 	Elev_set_door_open_lamp(0)
 	Set_stop_lamp(0)
 
-	var stop bool = false
+	for {
+		st := <-state
 
-	if current_floor < floor {
-		for {
+		if st == "up" {
 			Speed(150)
-			go func() {
-				stop = <-kill_send_to_floor
-				Println("recieved kill")
-			}()
-			if Get_floor_sensor() == floor || stop {
-				Set_stop_lamp(1)
-				Elev_set_door_open_lamp(1)
-				Speed(-150)
-				time.Sleep(25 * time.Millisecond)
-				Speed(0)
-				time.Sleep(1500 * time.Millisecond)
-				if button == "int" {
-					Set_button_lamp(BUTTON_COMMAND, floor, 0)
-				} else {
-					if button == "up" {
-						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
-					} else {
-						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
-					}
-				}
-				return false
-			}
-			time.Sleep(25 * time.Millisecond)
-		}
-	} else if current_floor > floor {
-		for {
+			last_dir = "up"
+		} else if st == "down" {
 			Speed(-150)
-			go func() {
-				stop = <-kill_send_to_floor
-				Println("recieved kill")
-			}()
-			if Get_floor_sensor() == floor || stop {
-				Set_stop_lamp(1)
-				Elev_set_door_open_lamp(1)
-				Speed(150)
-				time.Sleep(25 * time.Millisecond)
-				Speed(0)
-				time.Sleep(1500 * time.Millisecond)
-				if button == "int" {
-					Set_button_lamp(BUTTON_COMMAND, floor, 0)
-				} else {
-					if button == "up" {
-						Set_button_lamp(BUTTON_CALL_UP, floor, 0)
-					} else {
-						Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
-					}
+			last_dir = "down"
+		} else {
+			if last_dir != "standby" {
+				if last_dir == "up" {
+					Speed(-150)
+					time.Sleep(25 * time.Millisecond)
+				} else if last_dir == "down" {
+					Speed(150)
+					time.Sleep(25 * time.Millisecond)
 				}
-				return false
+				Speed(0)
+				order <- Dict{myIP, Get_floor_sensor(), "remove"}
+				time.Sleep(1500 * time.Millisecond)
+				last_dir = "standby"
+
 			}
-			time.Sleep(25 * time.Millisecond)
 		}
 	}
-	return false
 }
 
 //Keyboard terminal input (For testing)
