@@ -102,13 +102,13 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 			slave_queues <- the_queue
-		case msg := <-queues:
-			the_queue = msg
 		case msg := <-get_queues:
 			the_queue = msg
 			Println("TO SLAVE:", the_queue)
 			the_queue.Ext_queue = msg.Ext_queue
 			slave_queues <- the_queue
+		case msg := <-queues:
+			the_queue = msg
 		case do_first <- the_queue: // DO FIRST
 		case get_queues <- the_queue: // ALGO
 		}
