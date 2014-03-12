@@ -26,8 +26,8 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		last_queue := queues.Last_queue
 		ext_queue := queues.Ext_queue
 
-		Println("TO DO FIRST:")
-		Format_queues_term(queues)
+		// Println("TO DO FIRST:")
+		// Format_queues_term(queues)
 
 		for _, last := range last_queue {
 			if last.Ip_order == myIP {
