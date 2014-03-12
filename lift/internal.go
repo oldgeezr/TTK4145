@@ -66,10 +66,28 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							}
 						} else {
 							state <- "standby"
-							Println("Jeg går opp")
+							Println("Jeg står i ro")
 						}
 					}
 				}
+			}
+		} else {
+			Println("STAGE 4")
+			if len(ext_queue) != 0 {
+				Println("Jeg har en ekstern kø")
+				if ext_queue[0].Floor > last_floor {
+					state <- "up"
+					Println("Jeg går opp")
+				} else if ext_queue[0].Floor < last_floor {
+					state <- "down"
+					Println("Jeg går ned")
+				} else {
+					state <- "standby"
+					Println("Jeg går opp")
+				}
+			} else {
+				state <- "standby"
+				Println("Jeg står i ro")
 			}
 		}
 	}
