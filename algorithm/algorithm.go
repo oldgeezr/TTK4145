@@ -4,7 +4,7 @@ import (
 	. ".././formating"
 	. "../functions"
 	. "fmt"
-	"time"
+	// "time"
 )
 
 func Algo(get_at_floor chan Dict, get_queues chan Queues) {
@@ -83,7 +83,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 
 		queues = Queues{int_queue, ext_queue, last_queue}
 		get_queues <- queues
-		time.Sleep(200 * time.Millisecond)
+		// time.Sleep(200 * time.Millisecond)
 		Println("STAGE 13.5:")
 		Format_queues_term(queues)
 	}
