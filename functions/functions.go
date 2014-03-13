@@ -35,6 +35,8 @@ func Insert_at_pos(ip string, this []Dict, value, i int) []Dict {
 
 	if len(this) != 0 {
 		this = append(this[:i], append([]Dict{Dict{ip, value, "int"}}, this[i:]...)...)
+	} else {
+		this = append(Dict{ip, value, "int"})
 	}
 	return this
 }
