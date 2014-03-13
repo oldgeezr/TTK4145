@@ -39,7 +39,9 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		Println("ALGO:")
 		Format_queues_term(queues)
 
-		Println("ALGO:", ext_queue, at_floor.Floor, last_dir)
+		Println("ALGO:", int_queue)
+		Println("ALGO:", current_index)
+		Println("ALGO:", int_queue[current_index])
 		Println("ALGO:", int_queue[current_index].Dest, at_floor.Floor)
 		Println("ALGO:", int_queue[current_index].Dest[0].Floor, at_floor.Floor)
 
