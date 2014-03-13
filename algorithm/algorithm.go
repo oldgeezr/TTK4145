@@ -40,6 +40,8 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		Format_queues_term(queues)
 
 		Println("ALGO:", ext_queue, at_floor.Floor, last_dir)
+		Println("ALGO:", int_queue[current_index].Dest[0].Floor, at_floor.Floor)
+		Println("ALGO:", int_queue[current_index].Dest, at_floor.Floor)
 
 		if !Missing_ext_job(ext_queue, at_floor.Floor, last_dir) { // Noen skal på
 			if int_queue[current_index].Dest[0].Floor != at_floor.Floor {
@@ -49,6 +51,10 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 				ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
 			}*/
 		}
+
+		Println("ALGO:", ext_queue, at_floor.Floor, last_dir)
+		Println("ALGO:", int_queue[current_index].Dest[0].Floor, at_floor.Floor)
+		Println("ALGO:", int_queue[current_index].Dest, at_floor.Floor)
 
 		/*if !Missing_int_job(current_queue, at_floor.Floor) { // Noen skal av
 			if current_queue.Dest[0].Floor == at_floor.Floor {
