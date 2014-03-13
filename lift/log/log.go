@@ -20,7 +20,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		select {
 		case msg := <-master_order: // MASTER
 			if msg.Dir == "int" { // Fikk internordre
-				for i, lift := range last_queue {
+				for _, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
 						if lift.Floor != msg.Floor {
 							job_queue = ARQ(job_queue, msg)
@@ -59,7 +59,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 		case msg := <-slave_order:
 			if msg.Dir == "int" {
-				for j, lift := range last_queue {
+				for _, lift := range last_queue {
 					if lift.Ip_order == msg.Ip_order {
 						if lift.Floor != msg.Floor {
 							for i, job := range job_queue {
