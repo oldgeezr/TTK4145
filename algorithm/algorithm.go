@@ -42,7 +42,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		if !Missing_ext_job(ext_queue, at_floor.Floor, last_dir) { // Noen skal på
 			if len(int_queue[current_index].Dest) != 0 {
 				if int_queue[current_index].Dest[0].Floor != at_floor.Floor {
-					if len(int_queue[current_index]) != 0 {
+					if len(int_queue[current_index].Dest) != 0 {
 						int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
 					}
 				}
@@ -58,7 +58,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			if len(current_queue.Dest) != 0 {
 				if current_queue.Dest[0].Floor == at_floor.Floor {
 					// Skal fjerne etg fra internjobbkø
-					if len(int_queue[current_index]) != 0 {
+					if len(int_queue[current_index].Dest) != 0 {
 						int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
 					}
 					if len(ext_queue) != 0 {
