@@ -79,7 +79,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 		st := <-state
 
 		Elev_set_door_open_lamp(0)
-		floor = Get_floor_sensor()
+		floor := Get_floor_sensor()
 
 		if st == "up" {
 			Speed(150)
