@@ -24,6 +24,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 		job_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
+		last_queue := queues.Last_queue
 
 		// Println("TO DO FIRST:")
 		// Format_queues_term(queues)
@@ -45,7 +46,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						}
 					} else {
 						if len(ext_queue) != 0 {
-							if Determine_best_elevator(ext_queue, last_floor, myIP) {
+							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
 									state <- "up"
 								} else if ext_queue[0].Floor < last_floor {
