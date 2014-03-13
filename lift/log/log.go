@@ -4,7 +4,7 @@ import (
 	. "../.././formating"
 	. "../.././functions"
 	. "../.././network"
-	// . "fmt"
+	. "fmt"
 )
 
 func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, slave_queues, do_first chan Queues) {
@@ -111,6 +111,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			// Format_queues_term(the_queue)
 			slave_queues <- the_queue
 		case msg := <-queues:
+			Println("FROM ALGO:")
 			Format_queues_term(msg)
 			the_queue.Int_queue = msg.Int_queue
 			the_queue.Ext_queue = msg.Ext_queue
