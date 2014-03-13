@@ -180,24 +180,21 @@ func Remove_order_int_queue(this Jobs, floor int) Jobs {
 
 }
 
-/*func Determine_dir(job_queue []Jobs, last_queue []Dict) []Dict {
-	//Determine direction
-	for _, job := range job_queue {
-		for i, last := range last_queue {
-			if last.Ip_order == job.Ip {
-				if len(job.Dest) != 0 {
-					if job.Dest[0].Floor - last_queue[i].Floor > 0 {
-						last_queue[i].Dir = "up"
-					} else if job.Dest[0].Floor - last_queue[i].Floor < 0 {
-						last_queue[i].Dir = "down"
-					} else {
-						last_queue[i].Dir = "standby"
-					}
-				} else {
-					last_queue[i].Dir = "standby"
-				}
-			}
+func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) bool {
+	
+	best var int = 100
+	best_IP var string
+	for _, last := range Last_queue {
+		temp := Ext_queue[0].Floor - last.Floor
+		if temp < best {
+			best = temp
+			best_IP = last.Ip_order
 		}
 	}
-	return last_queue
-}*/
+	if best_IP == myIP {
+		return true
+	} else {
+		return false
+	}
+
+}
