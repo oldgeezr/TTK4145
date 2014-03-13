@@ -101,7 +101,7 @@ func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 			return slice, false
 		}
 	}
-	return append(slice, last), true
+	return append(slice, last), false
 }
 
 func AIM_Dict2(slice []Dict, last Dict) ([]Dict, bool) {

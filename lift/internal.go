@@ -54,10 +54,10 @@ func Do_first(do_first chan Queues, order chan Dict) {
 									state <- "standby"
 								}
 							} else {
-								state <- "standby"
+								// state <- "standby"
 							}
 						} else {
-							state <- "standby"
+							// state <- "standby"
 						}
 					}
 				}
@@ -79,14 +79,18 @@ func Send_to_floor(state chan string, order chan Dict) {
 		st := <-state
 
 		Elev_set_door_open_lamp(0)
-		floor := Get_floor_sensor()
+		if Get_floor_sensor() != -1 {
+			floor = Get_floor_sensor()
+		}
 
 		if st == "up" {
 			Speed(150)
 			last_dir = "up"
+			order <- Dict{myIP, floor, "up"}
 		} else if st == "down" {
 			Speed(-150)
 			last_dir = "down"
+			order <- Dict{myIP, floor, "down"}
 		} else {
 			if last_dir != "standby" {
 				if last_dir == "up" {
@@ -103,7 +107,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				order <- Dict{myIP, floor, "remove"}
 				time.Sleep(1500 * time.Millisecond)
 				last_dir = "standby"
-				order <- Dict{myIP, M + 1, "standby"}
+				order <- Dict{myIP, floor, "standby"}
 			}
 		}
 	}

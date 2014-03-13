@@ -24,12 +24,12 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 					if lift.Ip_order == msg.Ip_order {
 						if lift.Floor != msg.Floor {
 							job_queue = ARQ(job_queue, msg)
-							last_queue[i].Dir = Determine_dir(job_queue, lift)
+							// last_queue[i].Dir = Determine_dir(job_queue, lift)
 							break
 						} else if lift.Dir != "standby" {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							job_queue = ARQ(job_queue, msg)
-							last_queue[i].Dir = Determine_dir(job_queue, lift)
+							// last_queue[i].Dir = Determine_dir(job_queue, lift)
 							break
 						}
 					}
@@ -67,7 +67,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
 								}
 							}
-							last_queue[j].Dir = Determine_dir(job_queue, lift)
+							// last_queue[j].Dir = Determine_dir(job_queue, lift)
 						} else if lift.Dir != "standby" {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							for i, job := range job_queue {
@@ -75,7 +75,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
 								}
 							}
-							last_queue[j].Dir = Determine_dir(job_queue, lift)
+							// last_queue[j].Dir = Determine_dir(job_queue, lift)
 						}
 					}
 				}
