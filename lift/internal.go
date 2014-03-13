@@ -23,7 +23,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		queues := <-do_first
 
 		job_queue := queues.Int_queue
-		last_queue := queues.Last_queue
+		//last_queue := queues.Last_queue
 		ext_queue := queues.Ext_queue
 
 		// Println("TO DO FIRST:")
