@@ -92,11 +92,11 @@ func Send_to_floor(state chan string, order chan Dict) {
 				if last_dir == "up" {
 					Speed(-150)
 					time.Sleep(25 * time.Millisecond)
-					Set_button_lamp(BUTTON_CALL_UP, floor, 0)
+					// Set_button_lamp(BUTTON_CALL_UP, floor, 0)
 				} else if last_dir == "down" {
 					Speed(150)
 					time.Sleep(25 * time.Millisecond)
-					Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
+					// Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
 				}
 				Speed(0)
 				Elev_set_door_open_lamp(1)
