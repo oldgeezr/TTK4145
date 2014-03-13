@@ -7,7 +7,7 @@ import (
 	// "time"
 )
 
-func Algo(get_at_floor chan Dict, get_queues chan Queues) {
+func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
 
 	Fo.WriteString("Entered Algo\n")
 
@@ -82,7 +82,7 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 		}
 
 		queues = Queues{int_queue, ext_queue, last_queue}
-		get_queues <- queues
+		set_queues <- queues
 		// time.Sleep(200 * time.Millisecond)
 		// Println("STAGE 13.5:")
 		// Format_queues_term(queues)
