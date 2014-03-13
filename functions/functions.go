@@ -181,9 +181,9 @@ func Remove_order_int_queue(this Jobs, floor int) Jobs {
 }
 
 func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) bool {
-	
-	best var int = 100
-	best_IP var string
+
+	var best int = 100
+	var best_IP string
 	for _, last := range Last_queue {
 		temp := Ext_queue[0].Floor - last.Floor
 		if temp < best {
