@@ -87,11 +87,11 @@ func Send_to_floor(state chan string, order chan Dict) {
 		if st == "up" {
 			Speed(150)
 			last_dir = "up"
-			order <- Dict{myIP, floor, "up"}
+			order <- Dict{myIP, M + 1, "up"}
 		} else if st == "down" {
 			Speed(-150)
 			last_dir = "down"
-			order <- Dict{myIP, floor, "down"}
+			order <- Dict{myIP, M + 1, "down"}
 		} else {
 			if last_dir != "standby" {
 				if last_dir == "up" {
@@ -108,7 +108,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				order <- Dict{myIP, floor, "remove"}
 				time.Sleep(1500 * time.Millisecond)
 				last_dir = "standby"
-				order <- Dict{myIP, floor, "standby"}
+				order <- Dict{myIP, M + 1, "standby"}
 			}
 		}
 	}
