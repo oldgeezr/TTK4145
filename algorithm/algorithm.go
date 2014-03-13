@@ -36,8 +36,8 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 			}
 		}
 
-		Println("ALGO:")
-		Format_queues_term(queues)
+		//Println("ALGO:")
+		// Format_queues_term(queues)
 
 		if !Missing_ext_job(ext_queue, at_floor.Floor, last_dir) { // Noen skal på
 			if len(int_queue[current_index].Dest) != 0 {
