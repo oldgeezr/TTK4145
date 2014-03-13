@@ -29,11 +29,17 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		// Println("TO DO FIRST:")
 		// Format_queues_term(queues)
 
-		for _, last := range last_queue {
-			if last.Ip_order == myIP {
-				last_floor = last.Floor
-				break
+		/*
+			for _, last := range last_queue {
+				if last.Ip_order == myIP {
+					last_floor = last.Floor
+					break
+				}
 			}
+		*/
+
+		if Get_floor_sensor() != -1 {
+			last_floor = Get_floor_sensor()
 		}
 
 		if len(job_queue) != 0 {
