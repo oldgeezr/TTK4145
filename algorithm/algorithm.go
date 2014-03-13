@@ -44,56 +44,35 @@ func Algo(get_at_floor chan Dict, get_queues chan Queues) {
 				Println("STAGE 2")
 				if int_queue[current_index].Dest[0].Floor != at_floor.Floor {
 					Println("STAGE 3")
-					if len(int_queue[current_index].Dest) != 0 {
-						Println("STAGE 4")
-						int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
-						Println("STAGE 5")
-					}
+					int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
+					Println("STAGE 4")
 				}
 			} else {
-				if len(int_queue[current_index].Dest) != 0 {
-					Println("STAGE 6")
-					int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
-					Println("STAGE 7")
-				}
+				int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+				Println("STAGE 5")
 			}
-			if len(ext_queue) != 0 {
-				Println("STAGE 8")
-				ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
-				Println("STAGE 9")
-			}
+			ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
+			Println("STAGE 6")
 		}
 
 		if !Missing_int_job(current_queue, at_floor.Floor) { // Noen skal av
-			Println("STAGE 10")
+			Println("STAGE 7")
 			if len(current_queue.Dest) != 0 {
-				Println("STAGE 11")
+				Println("STAGE 8")
 				if current_queue.Dest[0].Floor == at_floor.Floor {
-					Println("STAGE 12")
+					Println("STAGE 9")
 					// Skal fjerne etg fra internjobbkø
-					if len(int_queue[current_index].Dest) != 0 {
-						Println("STAGE 13")
-						int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
-						Println("STAGE 14")
-					}
-					if len(ext_queue) != 0 {
-						Println("STAGE 15")
-						ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
-						Println("STAGE 16")
-					}
+					int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
+					Println("STAGE 10")
+					ext_queue = Remove_order_ext_queue(ext_queue, at_floor.Floor, last_dir)
+					Println("STAGE 11")
 				}
 			} else {
 				// Re arrange
-				if len(int_queue[current_index].Dest) != 0 {
-					Println("STAGE 1")
-					int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
-					Println("STAGE 1")
-				}
-				if len(int_queue[current_index].Dest) != 0 {
-					Println("STAGE 1")
-					int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
-					Println("STAGE 1")
-				}
+				int_queue[current_index] = Remove_order_int_queue(int_queue[current_index], at_floor.Floor)
+				Println("STAGE 12")
+				int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+				Println("STAGE 13")
 			}
 		}
 

@@ -33,12 +33,9 @@ var Fo *os.File
 // Insert int if unique : FUNKER!
 func Insert_at_pos(ip string, this []Dict, value, i int) []Dict {
 
-	// _, missing := AIM_Int(this, value)
-	missing := true // temps
-	if missing {
+	if len(this) != 0 {
 		this = append(this[:i], append([]Dict{Dict{ip, value, "int"}}, this[i:]...)...)
 	}
-
 	return this
 }
 
@@ -79,9 +76,11 @@ func AIM_Jobs(steve []Jobs, ip string) ([]Jobs, bool) {
 
 func AIM_Int(slice []Dict, i int) ([]Dict, bool) {
 
-	for _, ele := range slice {
-		if ele.Floor == i {
-			return slice, false
+	if len(slice) != 0 {
+		for _, ele := range slice {
+			if ele.Floor == i {
+				return slice, false
+			}
 		}
 	}
 	return append(slice, Dict{"ip_order", i, "int"}), true
@@ -139,9 +138,11 @@ func AIM_ip(slice []int, i int) []int {
 
 func Missing_int_job(job_queue Jobs, floor int) bool {
 
-	for _, orders := range job_queue.Dest {
-		if orders.Floor == floor && orders.Dir == "int" {
-			return false
+	if len(job_queue.Dest) != 0 {
+		for _, orders := range job_queue.Dest {
+			if orders.Floor == floor && orders.Dir == "int" {
+				return false
+			}
 		}
 	}
 	return true
@@ -149,20 +150,25 @@ func Missing_int_job(job_queue Jobs, floor int) bool {
 
 func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
 
-	for _, orders := range job_queue {
-		if (orders.Dir == dir || dir == "standby") && orders.Floor == floor {
-			return false
+	if len(job_queue) != 0 {
+		for _, orders := range job_queue {
+			if (orders.Dir == dir || dir == "standby") && orders.Floor == floor {
+				return false
+			}
 		}
+
 	}
 	return true
 }
 
 func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 
-	for i, orders := range this {
-		if (orders.Dir == dir || dir == "standby") && orders.Floor == floor {
-			Fprintln(Fo, "Deleted from queue: ", orders)
-			this = this[:i+copy(this[i:], this[i+1:])]
+	if len(this) != 0 {
+		for i, orders := range this {
+			if (orders.Dir == dir || dir == "standby") && orders.Floor == floor {
+				Fprintln(Fo, "Deleted from queue: ", orders)
+				this = this[:i+copy(this[i:], this[i+1:])]
+			}
 		}
 	}
 	return this
@@ -170,10 +176,14 @@ func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 func Remove_order_int_queue(this Jobs, floor int) Jobs {
 
-	for i, orders := range this.Dest {
-		if orders.Floor == floor {
-			Fprintln(Fo, "Deleted from queue: ", orders)
-			this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])]
+	if len(this.Dest) != 0 {
+		for i, orders := range this.Dest {
+			if orders.Floor == floor {
+				Fprintln(Fo, "Deleted from queue: ", orders)
+				if len(this.Dest) != 0 {
+					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])]
+				}
+			}
 		}
 	}
 	return this
