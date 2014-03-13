@@ -1,6 +1,7 @@
 package log
 
 import (
+	. "../.././formatting"
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
@@ -110,11 +111,11 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case msg := <-queues:
 			the_queue = msg
 			Println("FROM LOG:")
-			Format_queues_term(the_queues)
+			Format_queues_term(the_queue)
 		case do_first <- the_queue: // DO FIRST
 		case get_queues <- the_queue: // ALGO
 			Println("TO ALGO:")
-			Format_queues_term(the_queues)
+			Format_queues_term(the_queue)
 		}
 	}
 }
