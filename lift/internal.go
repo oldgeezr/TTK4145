@@ -45,10 +45,14 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						}
 					} else {
 						if len(ext_queue) != 0 {
-							if ext_queue[0].Floor > last_floor {
-								state <- "up"
-							} else if ext_queue[0].Floor < last_floor {
-								state <- "down"
+							if Determine_best_elevator(ext_queue, last_floor, myIP) {
+								if ext_queue[0].Floor > last_floor {
+									state <- "up"
+								} else if ext_queue[0].Floor < last_floor {
+									state <- "down"
+								} else {
+									state <- "standby"
+								}
 							} else {
 								state <- "standby"
 							}
