@@ -47,6 +47,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						if len(ext_queue) != 0 {
 							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
+									Println("GOING UP")
 									state <- "up"
 								} else if ext_queue[0].Floor < last_floor {
 									state <- "down"
