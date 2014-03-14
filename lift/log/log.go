@@ -56,9 +56,11 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
+					Println("Lastfloor update")
 				}
 			} else if msg.Dir == "remove" {
 				get_at_floor <- msg
+				Println("Removing")
 			}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 		case msg := <-slave_order:
@@ -105,21 +107,21 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
+					Println("Lastfloor update")
 				}
 			} else if msg.Dir == "remove" {
-				Println("I REMOVED")
 				get_at_floor <- msg
+				Println("Removing")
 			}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 			slave_queues <- the_queue
 		case msg := <-set_queues:
-			Println("TO LOG:")
-			Format_queues_term(msg)
+			// Println("TO LOG:")
+			// Format_queues_term(msg)
 			the_queue.Int_queue = msg.Int_queue
 			the_queue.Ext_queue = msg.Ext_queue
 			the_queue.Last_queue = msg.Last_queue
 			slave_queues <- the_queue
-			Println("I SENDT TO SLAVE")
 		case msg := <-queues:
 			the_queue.Int_queue = msg.Int_queue
 			the_queue.Ext_queue = msg.Ext_queue
