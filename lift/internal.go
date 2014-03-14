@@ -53,6 +53,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 									state <- "down"
 								} else {
 									state <- "standby"
+									Println("IM AT THIS FLOOR")
 								}
 							}
 						} else {
