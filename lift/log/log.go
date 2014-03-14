@@ -116,6 +116,9 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			Format_queues_term(msg)
 			the_queue.Int_queue = msg.Int_queue
 			the_queue.Ext_queue = msg.Ext_queue
+			Println("CHECK:")
+			Format_ext_queue_term(the_queue.Ext_queue)
+			Format_ext_queue_term(msg.Ext_queue)
 			the_queue.Last_queue = msg.Last_queue
 			// Println("TO LOG:")
 			// Format_queues_term(the_queue)
