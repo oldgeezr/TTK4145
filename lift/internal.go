@@ -107,6 +107,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				// order <- Dict{myIP, M + 1, "standby"}
 			} else {
 				order <- Dict{myIP, M + 1, "standby"}
+				// HUSK AT DEN GÅR LITT FOR OFTE INN HER
 			}
 		}
 	}

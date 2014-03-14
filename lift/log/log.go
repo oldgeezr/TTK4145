@@ -48,11 +48,12 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				} else {
 					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				}
-				var update bool
-				last_queue, update = AIM_Dict(last_queue, msg)
-				if update {
+				// var update bool
+				last_queue, _ = AIM_Dict(last_queue, msg)
+				/*if update {
 					get_at_floor <- msg
-				}
+				}*/
+				get_at_floor <- msg
 			} else if msg.Dir == "remove" {
 				get_at_floor <- msg
 			}
@@ -93,11 +94,12 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 				} else {
 					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				}
-				var update bool
-				last_queue, update = AIM_Dict(last_queue, msg)
-				if update {
+				// var update bool
+				last_queue, _ = AIM_Dict(last_queue, msg)
+				/*if update {
 					get_at_floor <- msg
-				}
+				}*/
+				get_at_floor <- msg
 			} else if msg.Dir == "remove" {
 				get_at_floor <- msg
 			}
