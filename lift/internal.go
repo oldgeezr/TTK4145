@@ -109,6 +109,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				time.Sleep(1500 * time.Millisecond)
 				last_dir = "standby"
 				order <- Dict{myIP, M + 1, "standby"}
+				Println("AND I CAME HERE")
 			}
 		}
 	}
