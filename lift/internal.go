@@ -105,7 +105,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				}
 				Speed(0)
 				Elev_set_door_open_lamp(1)
-				// order <- Dict{myIP, floor, "remove"}
+				order <- Dict{myIP, floor, "remove"}
 				time.Sleep(1500 * time.Millisecond)
 				last_dir = "standby"
 				order <- Dict{myIP, M + 1, "standby"}
