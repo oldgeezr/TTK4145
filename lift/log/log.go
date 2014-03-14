@@ -1,7 +1,7 @@
 package log
 
 import (
-	. "../.././formating"
+	// . "../.././formating"
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
