@@ -3,7 +3,7 @@ package algorithm
 import (
 	. ".././formating"
 	. "../functions"
-	™. "fmt"
+	. "fmt"
 	// "time"
 )
 
