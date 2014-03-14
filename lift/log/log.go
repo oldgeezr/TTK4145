@@ -118,6 +118,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			the_queue.Ext_queue = msg.Ext_queue
 			the_queue.Last_queue = msg.Last_queue
 			slave_queues <- the_queue
+			Println("I SENDT TO SLAVE")
 		case msg := <-queues:
 			the_queue.Int_queue = msg.Int_queue
 			the_queue.Ext_queue = msg.Ext_queue
