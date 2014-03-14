@@ -114,7 +114,9 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case msg := <-set_queues:
 			Println("TO LOG:")
 			Format_queues_term(msg)
-			the_queue = msg
+			the_queue.Int_queue = msg.Int_queue
+			the_queue.Ext_queue = msg.Ext_queue
+			the_queue.Last_queue = msg.Last_queue
 			slave_queues <- the_queue
 		case msg := <-queues:
 			the_queue.Int_queue = msg.Int_queue

@@ -104,10 +104,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				// order <- Dict{myIP, floor, "remove"}
 				time.Sleep(1500 * time.Millisecond)
 				last_dir = "standby"
-				// order <- Dict{myIP, M + 1, "standby"}
-			} else {
 				order <- Dict{myIP, M + 1, "standby"}
-				// HUSK AT DEN GÅR LITT FOR OFTE INN HER
 			}
 		}
 	}
