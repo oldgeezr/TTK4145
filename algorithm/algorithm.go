@@ -1,7 +1,7 @@
 package algorithm
 
 import (
-	. ".././formating"
+	// . ".././formating"
 	. "../functions"
 	// . "fmt"
 	// "time"
