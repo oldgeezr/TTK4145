@@ -66,7 +66,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 func Send_to_floor(state chan string, order chan Dict) {
 
 	var last_dir string
-	var floor int
+	// var floor int
 	myIP := GetMyIP()
 
 	Elev_set_door_open_lamp(0)
