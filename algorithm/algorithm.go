@@ -1,9 +1,9 @@
 package algorithm
 
 import (
-	// . ".././formating"
+	. ".././formating"
 	. "../functions"
-	// . "fmt"
+	. "fmt"
 	// "time"
 )
 
@@ -81,6 +81,8 @@ func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
 			}
 		}
 
+		Println("FROM ALGO:")
+		Format_queues_term(queues)
 		queues = Queues{int_queue, ext_queue, last_queue}
 		set_queues <- queues
 		// time.Sleep(200 * time.Millisecond)
