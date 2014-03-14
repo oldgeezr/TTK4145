@@ -45,6 +45,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						}
 					} else {
 						if len(ext_queue) != 0 {
+							Println(Determine_best_elevator(ext_queue, last_queue, myIP))
 							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
 									Println("GOING UP")
