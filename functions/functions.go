@@ -167,7 +167,7 @@ func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 	if len(this) != 0 {
 		for i, orders := range this {
-			if (orders.Dir == dir || dir == "standby") && orders.Floor == floor {
+			if orders.Floor == floor {
 				Fprintln(Fo, "Deleted from queue: ", orders)
 				this = this[:i+copy(this[i:], this[i+1:])]
 			}
