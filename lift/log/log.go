@@ -107,6 +107,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 					get_at_floor <- msg
 				}
 			} else if msg.Dir == "remove" {
+				Println("I REMOVED")
 				get_at_floor <- msg
 			}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
