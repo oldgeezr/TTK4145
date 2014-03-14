@@ -58,7 +58,7 @@ func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
 
 		queues = Queues{int_queue, ext_queue, last_queue}
 		// Println("STAGE 6.5:")
-		Format_queues_term(queues)
+		// Format_queues_term(queues)
 
 		if !Missing_int_job(current_queue, at_floor.Floor) { // Noen skal av
 			// Println("STAGE 7")
