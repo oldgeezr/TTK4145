@@ -12,7 +12,7 @@ import (
 
 func Do_first(do_first chan Queues, order chan Dict) {
 
-	var last_floor int
+	var last_floor int2
 	myIP := GetMyIP()
 	state := make(chan string)
 
@@ -59,7 +59,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 									Println("STAGE 5")
 								} else {
 									state <- "standby"
-									Println("STAGE 6")
+									Println("STAGE 6", ext_queue[0].Floor, last_floor)
 								}
 							}
 						}
