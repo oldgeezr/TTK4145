@@ -2,7 +2,7 @@ package lift
 
 import (
 	. ".././driver"
-	. ".././formating"
+	// . ".././formating"
 	. ".././functions"
 	. ".././network"
 	// . "./log"
@@ -61,6 +61,8 @@ func Do_first(do_first chan Queues, order chan Dict) {
 									state <- "standby"
 									Println("STAGE 6", ext_queue[0].Floor, last_floor)
 								}
+							} else {
+								state <- "standby"
 							}
 						}
 					}
