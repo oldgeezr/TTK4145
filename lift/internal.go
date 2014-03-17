@@ -13,6 +13,7 @@ import (
 func Do_first(do_first chan Queues, order chan Dict) {
 
 	var last_floor int
+	var current_job int = -1
 	myIP := GetMyIP()
 	state := make(chan string)
 
@@ -36,34 +37,37 @@ func Do_first(do_first chan Queues, order chan Dict) {
 			for _, yours := range job_queue {
 				if yours.Ip == myIP {
 					if len(yours.Dest) != 0 {
-						if yours.Dest[0].Floor > last_floor {
-							state <- "up"
-							Println("STAGE 1")
-						} else if yours.Dest[0].Floor < last_floor {
-							state <- "down"
-							Println("STAGE 2")
-						} else {
-							state <- "standby"
-							Println("STAGE 3")
-						}
-					} else {
-						if len(ext_queue) != 0 {
-
-							if Determine_best_elevator(ext_queue, last_queue, myIP) {
-								if ext_queue[0].Floor > last_floor {
-									state <- "up"
-									Println("STAGE 4")
-								} else if ext_queue[0].Floor < last_floor {
-									state <- "down"
-									Println("STAGE 5")
-								} else {
-									state <- "standby"
-									Println("STAGE 6")
-								}
+						if yours.Dest[0] != current_job {
+							current_job = yours.Dest[0]
+							if yours.Dest[0].Floor > last_floor {
+								state <- "up"
+								Println("STAGE 1")
+							} else if yours.Dest[0].Floor < last_floor {
+								state <- "down"
+								Println("STAGE 2")
+							} else {
+								state <- "standby"
+								Println("STAGE 3")
 							}
 						} else {
-							state <- "standby"
-							Println("STAGE 7")
+							if len(ext_queue) != 0 {
+
+								if Determine_best_elevator(ext_queue, last_queue, myIP) {
+									if ext_queue[0].Floor > last_floor {
+										state <- "up"
+										Println("STAGE 4")
+									} else if ext_queue[0].Floor < last_floor {
+										state <- "down"
+										Println("STAGE 5")
+									} else {
+										state <- "standby"
+										Println("STAGE 6")
+									}
+								}
+							} else {
+								state <- "standby"
+								Println("STAGE 7")
+							}
 						}
 					}
 				}
