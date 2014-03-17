@@ -168,6 +168,7 @@ func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 	if len(this) != 0 {
 		for i, orders := range this {
 			if orders.Floor == floor {
+				Println("Deleted from ext_queue", orders)
 				Fprintln(Fo, "Deleted from queue: ", orders)
 				this = this[:i+copy(this[i:], this[i+1:])]
 			}
