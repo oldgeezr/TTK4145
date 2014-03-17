@@ -1,9 +1,9 @@
 package algorithm
 
 import (
-	. ".././formating"
+	// . ".././formating"
 	. "../functions"
-	. "fmt"
+	// . "fmt"
 	// "time"
 )
 
