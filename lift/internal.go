@@ -3,9 +3,9 @@ package lift
 import (
 	. ".././driver"
 	. ".././formating"
-	. ".././network"
-	// . "./log"
 	. ".././functions"
+	// . ".././network"
+	. "./log"
 	. "fmt"
 	"time"
 )
@@ -22,7 +22,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		time.Sleep(100 * time.Millisecond)
 		queues := <-do_first
 
-		Format_queues_term(queues)
+		// Format_queues_term(queues)
 
 		job_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
@@ -38,10 +38,13 @@ func Do_first(do_first chan Queues, order chan Dict) {
 					if len(yours.Dest) != 0 {
 						if yours.Dest[0].Floor > last_floor {
 							state <- "up"
+							Println("STAGE 1")
 						} else if yours.Dest[0].Floor < last_floor {
 							state <- "down"
+							Println("STAGE 2")
 						} else {
 							state <- "standby"
+							Println("STAGE 3")
 						}
 					} else {
 						if len(ext_queue) != 0 {
@@ -49,14 +52,18 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
 									state <- "up"
+									Println("STAGE 4")
 								} else if ext_queue[0].Floor < last_floor {
 									state <- "down"
+									Println("STAGE 5")
 								} else {
 									state <- "standby"
+									Println("STAGE 6")
 								}
 							}
 						} else {
 							state <- "standby"
+							Println("STAGE 7")
 						}
 					}
 				}
@@ -87,20 +94,24 @@ func Send_to_floor(state chan string, order chan Dict) {
 			Speed(150)
 			last_dir = "up"
 			order <- Dict{myIP, M + 1, "up"}
+			Println("STAGE 8")
 		} else if st == "down" {
 			Speed(-150)
 			last_dir = "down"
 			order <- Dict{myIP, M + 1, "down"}
+			Println("STAGE 9")
 		} else {
 			if last_dir != "standby" {
 				if last_dir == "up" {
 					Speed(-150)
 					time.Sleep(25 * time.Millisecond)
 					// Set_button_lamp(BUTTON_CALL_UP, floor, 0)
+					Println("STAGE 10")
 				} else if last_dir == "down" {
 					Speed(150)
 					time.Sleep(25 * time.Millisecond)
 					// Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
+					Println("STAGE 11")
 				}
 				Speed(0)
 				Elev_set_door_open_lamp(1)
@@ -108,6 +119,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 				time.Sleep(1500 * time.Millisecond)
 				last_dir = "standby"
 				order <- Dict{myIP, M + 1, "standby"}
+				Println("STAGE 12")
 			}
 		}
 	}
