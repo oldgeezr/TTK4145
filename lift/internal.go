@@ -26,7 +26,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 		job_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
-		//last_queue := queues.Last_queue
+		last_queue := queues.Last_queue
 
 		if Get_floor_sensor() != -1 {
 			last_floor = Get_floor_sensor()
