@@ -45,16 +45,8 @@ func TCP_master_com(conn Conn, slave_queues chan Queues) {
 	Fo.WriteString("Entered TCP_master_com\n")
 
 	for {
-		select {
-		case msg := <-slave_queues:
-			// Println("To slave:", msg)
-			b, _ := json.Marshal(msg)
-			conn.Write(b)
-			Fprintln(Fo, "\t \t TCP: queues/btn/@floor -> tcp -> tcp")
-			/*case msg := <-order:
-			Println("jeg passet")
-			master_order <- msg*/
-		}
+		b, _ := json.Marshal(msg)
+		conn.Write(b)
 	}
 }
 
@@ -91,7 +83,6 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 			json.Unmarshal(b[0:length], &c)
 			// Println("Got queues:", c)
 			queues <- c
-			Fprintln(Fo, "TCP: queues -> queues -> log")
 		}
 	}
 }

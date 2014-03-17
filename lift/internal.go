@@ -117,7 +117,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			order <- Dict{myIP, floor, "stop"}
 			time.Sleep(1500 * time.Millisecond)
 			last_dir = "stop"
-		case st == "standby" && last_dir != "standby":
+		case st == "standby":
 			Speed(0)
 			last_dir = "standby"
 			order <- Dict{myIP, M + 1, "standby"}
