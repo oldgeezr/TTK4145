@@ -1,7 +1,7 @@
 package algorithm
 
 import (
-	//. ".././formating"
+	. ".././formating"
 	. "../functions"
 	//. "fmt"
 )
@@ -17,7 +17,7 @@ func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
 		at_floor := <-get_at_floor
 		queues := <-get_queues
 
-		//Format_queues_term(queues, "TO ALGO")
+		Format_queues_term(queues, "TO ALGO")
 
 		int_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
