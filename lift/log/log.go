@@ -16,7 +16,6 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	ext_queue := []Dict{}
 
 	var the_queue Queues
-	var algo_queue Queues
 
 	for {
 		select {
@@ -63,8 +62,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 		case get_queues <- the_queue: // ALGO
 			//the_queue = Queues{} //tømmer
 		case msg := <-set_queues:
-			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
-			the_queue = algo_queue
+			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 			slave_queues <- the_queue
 		}
 	}
