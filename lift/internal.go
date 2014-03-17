@@ -44,7 +44,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							state <- "down"
 							Println("STAGE 2")
 						} else {
-							state <- "standby"
+							state <- "stop"
 							Println("STAGE 3")
 						}
 					} else {
@@ -58,7 +58,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 									state <- "down"
 									Println("STAGE 5")
 								} else {
-									state <- "standby"
+									state <- "stop"
 									Println("STAGE 6", ext_queue[0].Floor, last_floor)
 								}
 							} else {
@@ -92,37 +92,39 @@ func Send_to_floor(state chan string, order chan Dict) {
 			floor = Get_floor_sensor()
 		}
 
-		if st == "up" {
+		switch {
+		case st == "up":
 			Speed(150)
 			last_dir = "up"
 			order <- Dict{myIP, M + 1, "up"}
 			Println("STAGE 8")
-		} else if st == "down" {
+		case st == "down":
 			Speed(-150)
 			last_dir = "down"
 			order <- Dict{myIP, M + 1, "down"}
 			Println("STAGE 9")
-		} else {
-			if last_dir != "standby" {
-				if last_dir == "up" {
-					Speed(-150)
-					time.Sleep(25 * time.Millisecond)
-					// Set_button_lamp(BUTTON_CALL_UP, floor, 0)
-					Println("STAGE 10")
-				} else if last_dir == "down" {
-					Speed(150)
-					time.Sleep(25 * time.Millisecond)
-					// Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
-					Println("STAGE 11")
-				}
-				Speed(0)
-				Elev_set_door_open_lamp(1)
-				order <- Dict{myIP, floor, "remove"}
-				time.Sleep(1500 * time.Millisecond)
-				last_dir = "standby"
-				order <- Dict{myIP, M + 1, "standby"}
-				Println("STAGE 12")
+		case st == "stop":
+			if last_dir == "up" {
+				Speed(-150)
+				time.Sleep(25 * time.Millisecond)
+				// Set_button_lamp(BUTTON_CALL_UP, floor, 0)
+				Println("STAGE 10")
+			} else if last_dir == "down" {
+				Speed(150)
+				time.Sleep(25 * time.Millisecond)
+				// Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
+				Println("STAGE 11")
 			}
+			Speed(0)
+			Elev_set_door_open_lamp(1)
+			order <- Dict{myIP, floor, "stop"}
+			time.Sleep(1500 * time.Millisecond)
+			last_dir = "stop"
+			Println("STAGE 12")
+		case st == "standby" && last_dir != "standby":
+			Speed(0)
+			last_dir = "standby"
+			order <- Dict{myIP, M + 1, "standby"}
 		}
 	}
 }

@@ -47,7 +47,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 					get_at_floor <- msg
 					Println("Lastfloor update")
 				}
-			case msg.Dir == "remove":
+			case msg.Dir == "stop":
 				get_at_floor <- msg
 				Println("Removing")
 			}
@@ -58,7 +58,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			slave_queues <- the_queue
 		case msg := <-queues:
 			the_queue = msg
-			Println("UPDATEING MYE VERSION OF LOG")
+			Println("UPDATEING MY VERSION OF LOG")
 		case do_first <- the_queue: // DO FIRST
 			Println("TRYING TO FETCH QUEUES")
 		case get_queues <- the_queue: // ALGO
