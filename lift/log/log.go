@@ -18,7 +18,7 @@ func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, s
 
 	for {
 		select {
-		case msg := <-slave_order:
+		case msg := <-order:
 			switch {
 			case msg.Dir == "int":
 				job_queue = ARQ(job_queue, msg)
