@@ -19,7 +19,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 	go Send_to_floor(state, order)
 
 	for {
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 		queues := <-do_first
 
 		Format_queues_term(queues)
@@ -38,13 +38,13 @@ func Do_first(do_first chan Queues, order chan Dict) {
 					if len(yours.Dest) != 0 {
 						if yours.Dest[0].Floor > last_floor {
 							state <- "up"
-							Fprintf(Fo, "STAGE 1:\n")
+							Fprintf(Fo, "JOB:up 1:\n")
 						} else if yours.Dest[0].Floor < last_floor {
 							state <- "down"
-							Fprintf(Fo, "STAGE 2:\n")
+							Fprintf(Fo, "JOB:down:\n")
 						} else {
 							state <- "stop"
-							Fprintf(Fo, "STAGE 3:\n")
+							Fprintf(Fo, "JOB:stop 3:\n")
 						}
 					} else {
 						if len(ext_queue) != 0 {
@@ -52,17 +52,17 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
 									state <- "up"
-									Fprintf(Fo, "STAGE 4:\n")
+									Fprintf(Fo, "Ext:up\n")
 								} else if ext_queue[0].Floor < last_floor {
 									state <- "down"
-									Fprintf(Fo, "STAGE 5:\n")
+									Fprintf(Fo, "Ext:down:\n")
 								} else {
 									state <- "stop"
-									Fprintf(Fo, "STAGE 6:\n")
+									Fprintf(Fo, "Ext:stop\n")
 								}
 							} else {
 								state <- "standby"
-								Fprintf(Fo, "STAGE 7:\n")
+								Fprintf(Fo, "standby\n")
 							}
 						}
 					}
