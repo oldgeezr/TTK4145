@@ -1,7 +1,7 @@
 package log
 
 import (
-	. "../.././formating"
+	//. "../.././formating"
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
@@ -59,7 +59,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			mutex.Lock()
 			*the_queue = Queues{job_queue, ext_queue, last_queue}
 			mutex.Unlock()
-			Format_queues_term(*the_queue, "FROM ALGO")
+			//Format_queues_term(*the_queue, "FROM ALGO")
 			slave_queues <- *the_queue //Send the_queue to all slaves
 		case msg := <-set_queues:
 			mutex.Lock()
