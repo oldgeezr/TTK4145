@@ -2,7 +2,7 @@ package lift
 
 import (
 	. ".././driver"
-	// . ".././formating"
+	. ".././formating"
 	. ".././functions"
 	. ".././network"
 	// . "./log"
@@ -22,7 +22,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		time.Sleep(100 * time.Millisecond)
 		queues := <-do_first
 
-		// Format_queues_term(queues)
+		Format_queues_term(queues)
 
 		job_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
@@ -97,18 +97,15 @@ func Send_to_floor(state chan string, order chan Dict) {
 			Speed(150)
 			last_dir = "up"
 			order <- Dict{myIP, M + 1, "up"}
-			Println("STAGE 8")
 		case st == "down":
 			Speed(-150)
 			last_dir = "down"
 			order <- Dict{myIP, M + 1, "down"}
-			Println("STAGE 9")
 		case st == "stop":
 			if last_dir == "up" {
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
 				// Set_button_lamp(BUTTON_CALL_UP, floor, 0)
-				Println("STAGE 10")
 			} else if last_dir == "down" {
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
@@ -120,7 +117,6 @@ func Send_to_floor(state chan string, order chan Dict) {
 			order <- Dict{myIP, floor, "stop"}
 			time.Sleep(1500 * time.Millisecond)
 			last_dir = "stop"
-			Println("STAGE 12")
 		case st == "standby" && last_dir != "standby":
 			Speed(0)
 			last_dir = "standby"
@@ -233,7 +229,6 @@ func Internal(order chan Dict) {
 	Init()
 	Speed(150)
 	floor := -1
-	Println("UP")
 
 	go func() {
 		for {
@@ -243,9 +238,7 @@ func Internal(order chan Dict) {
 			if floor != -1 {
 
 				Speed(-150)
-				Println("DOWN")
 				time.Sleep(10 * time.Millisecond)
-				Println("STOP")
 				Speed(0)
 				return
 			}

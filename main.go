@@ -115,10 +115,10 @@ func main() {
 	}()
 
 	if err2 != nil { // MASTER
-		Fo.WriteString("Ble master\n")
+		Fo.WriteString("I am master\n")
 		master <- true
 	} else {
-		Fo.WriteString("Ble slave\n")
+		Fo.WriteString("I am slave\n")
 		slave <- true
 	}
 
