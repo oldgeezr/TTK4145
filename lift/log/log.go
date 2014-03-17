@@ -5,7 +5,6 @@ import (
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
-	"sync"
 )
 
 func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
@@ -18,8 +17,6 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	the_queue := Queues{job_queue, ext_queue, last_queue}
 
 	var algo_queue Queues
-
-	var mutex = &sync.Mutex{}
 
 	for {
 		select {
@@ -57,9 +54,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 				get_at_floor <- msg
 				//Println("Removing from job_queue")
 			}
-			mutex.Lock()
 			the_queue = Queues{job_queue, ext_queue, last_queue}
-			mutex.Unlock()
 			Format_queues_term(algo_queue, "LOG")
 			slave_queues <- the_queue //Send the_queue to all slaves
 		case msg := <-queues:
@@ -68,9 +63,8 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 		case get_queues <- the_queue: // ALGO
 			//the_queue = Queues{} //tømmer
 		case msg := <-set_queues:
-			mutex.Lock()
 			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
-			mutex.Unlock()
+			the_queue = algo_queue
 			slave_queues <- the_queue
 		}
 	}
