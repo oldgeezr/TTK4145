@@ -14,8 +14,8 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	last_queue := []Dict{}
 	job_queue := []Jobs{}
 	ext_queue := []Dict{}
-	the_queue := Queues{job_queue, ext_queue, last_queue}
 
+	var the_queue Queues
 	var algo_queue Queues
 
 	for {
