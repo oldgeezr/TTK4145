@@ -7,7 +7,7 @@ import (
 	. "fmt"
 )
 
-func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
+func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
 
 	Fo.WriteString("Entered Job_queues\n")
 
@@ -18,7 +18,7 @@ func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, s
 
 	for {
 		select {
-		case msg := <-order:
+		case msg := <-log_order:
 			switch {
 			case msg.Dir == "int":
 				job_queue = ARQ(job_queue, msg)
