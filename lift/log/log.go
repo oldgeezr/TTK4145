@@ -1,7 +1,7 @@
 package log
 
 import (
-	. "../.././formating"
+	// . "../.././formating"
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
@@ -24,12 +24,10 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 					if lift.Ip_order == msg.Ip_order {
 						if lift.Floor != msg.Floor {
 							job_queue = ARQ(job_queue, msg)
-							// last_queue[i].Dir = Determine_dir(job_queue, lift)
 							break
 						} else if lift.Dir != "standby" {
 							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 							job_queue = ARQ(job_queue, msg)
-							// last_queue[i].Dir = Determine_dir(job_queue, lift)
 							break
 						}
 					}
@@ -130,7 +128,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case get_queues <- the_queue: // ALGO
 			the_queue = Queues{}
 		}
-		Format_queues_term(the_queue)
+		// Format_queues_term(the_queue)
 	}
 }
 
