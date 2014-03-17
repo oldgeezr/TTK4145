@@ -22,10 +22,10 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 
 	for {
 		select {
+		case <-algo_update:
+			the_queue = algo_queue
 		case msg := <-log_order:
 			switch {
-			case <-algo_update:
-				the_queue = algo_queue
 			case msg.Dir == "int":
 				//Append to Correct Job_Queue
 				job_queue = ARQ(job_queue, msg)
