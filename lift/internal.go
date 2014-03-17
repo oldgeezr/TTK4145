@@ -57,8 +57,8 @@ func Do_first(do_first chan Queues, order chan Dict) {
 								Fprintf(Fo, "Ext:stop\n")
 							}
 							//} else {
-							state <- "standby"
-							Fprintf(Fo, "standby\n")
+							//state <- "standby"
+							//Fprintf(Fo, "standby\n")
 							//}
 						}
 					}
