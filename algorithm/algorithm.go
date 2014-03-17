@@ -11,7 +11,7 @@ func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
 	Fo.WriteString("Entered Algo\n")
 
 	var last_dir string
-	var current_queue Jobs
+	//var current_queue Jobs
 
 	for {
 		at_floor := <-get_at_floor
