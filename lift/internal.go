@@ -5,7 +5,7 @@ import (
 	// . ".././formating"
 	. ".././functions"
 	. ".././network"
-	. "./log"
+	// . "./log"
 	. "fmt"
 	"time"
 )
