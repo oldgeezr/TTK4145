@@ -2,7 +2,7 @@ package lift
 
 import (
 	. ".././driver"
-	// . ".././formating"
+	. ".././formating"
 	. ".././functions"
 	. ".././network"
 	// . "./log"
