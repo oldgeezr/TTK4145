@@ -1,7 +1,7 @@
 package log
 
 import (
-	// . "../.././formating"
+	. "../.././formating"
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
@@ -61,17 +61,17 @@ func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, s
 		case get_queues <- the_queue: // ALGO
 			the_queue = Queues{}
 		}
-		// Format_queues_term(the_queue)
+		Format_queues_term(the_queue)
 	}
 }
 
-func ARQ(blow []Jobs, msg Dict) []Jobs {
-	for i, job := range blow {
+func ARQ(queue []Jobs, msg Dict) []Jobs {
+	for i, job := range queue {
 		if job.Ip == msg.Ip_order {
-			blow[i].Dest, _ = AIM_Int(blow[i].Dest, msg.Floor)
+			queue[i].Dest, _ = AIM_Int(queue[i].Dest, msg.Floor)
 		}
 	}
-	return blow
+	return queue
 }
 
 func Determine_dir(job_queue []Jobs, last Dict) string {
