@@ -47,19 +47,19 @@ func Do_first(do_first chan Queues, order chan Dict) {
 					} else {
 						if len(ext_queue) != 0 {
 
-							if Determine_best_elevator(ext_queue, last_queue, myIP) {
-								if ext_queue[0].Floor > last_floor {
-									state <- "up"
-								} else if ext_queue[0].Floor < last_floor {
-									state <- "down"
-								} else {
-									state <- "stop"
-									Fprintf(Fo, "Ext:stop\n")
-								}
+							//if Determine_best_elevator(ext_queue, last_queue, myIP) {
+							if ext_queue[0].Floor > last_floor {
+								state <- "up"
+							} else if ext_queue[0].Floor < last_floor {
+								state <- "down"
 							} else {
-								state <- "standby"
-								Fprintf(Fo, "standby\n")
+								state <- "stop"
+								Fprintf(Fo, "Ext:stop\n")
 							}
+							//} else {
+							state <- "standby"
+							Fprintf(Fo, "standby\n")
+							//}
 						}
 					}
 				}
