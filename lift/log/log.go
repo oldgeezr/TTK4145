@@ -5,6 +5,7 @@ import (
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
+	"sync"
 )
 
 func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
