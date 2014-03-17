@@ -33,7 +33,7 @@ func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
 
 		for i, yours := range int_queue { // Gå gjennom alle jobbkøene
 			if yours.Ip == at_floor.Ip_order { // Finn riktig jobbkø
-				current_queue = yours
+				//current_queue = yours
 				current_index = i
 			}
 		}
