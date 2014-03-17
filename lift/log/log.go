@@ -57,7 +57,9 @@ func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, s
 			slave_queues <- the_queue
 		case msg := <-queues:
 			the_queue = msg
+			Println("UPDATEING MYE VERSION OF LOG")
 		case do_first <- the_queue: // DO FIRST
+			Println("TRYING TO FETCH QUEUES")
 		case get_queues <- the_queue: // ALGO
 			the_queue = Queues{}
 		}
