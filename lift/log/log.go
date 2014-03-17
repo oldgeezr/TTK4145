@@ -130,8 +130,8 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		case get_queues <- the_queue: // ALGO
 			the_queue = Queues{}
 		}
+		Format_queues_term(the_queue)
 	}
-	Format_queues_term(the_queue)
 }
 
 func ARQ(blow []Jobs, msg Dict) []Jobs {
