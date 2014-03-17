@@ -19,7 +19,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 	go Send_to_floor(state, order)
 
 	for {
-		time.Sleep(50 * time.Millisecond)
+		//time.Sleep(50 * time.Millisecond)
 		queues := <-do_first
 
 		//Format_queues_term(queues)
