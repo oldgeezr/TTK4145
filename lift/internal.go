@@ -13,7 +13,6 @@ import (
 func Do_first(do_first chan Queues, order chan Dict) {
 
 	var last_floor int
-	var current_job int = -1
 	myIP := GetMyIP()
 	state := make(chan string)
 
