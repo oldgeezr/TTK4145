@@ -54,7 +54,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			case msg.Dir == "stop":
 				//Remove from job_queue
 				get_at_floor <- msg
-				Println("Removing from job_queue")
+				//Println("Removing from job_queue")
 			}
 			mutex.Lock()
 			*the_queue = Queues{job_queue, ext_queue, last_queue}
