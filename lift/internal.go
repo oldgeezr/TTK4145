@@ -38,7 +38,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 				if yours.Ip == myIP {
 					if len(yours.Dest) != 0 {
 						if yours.Dest[0].Floor != current_job {
-							current_job = yours.Dest[0]
+							current_job = yours.Dest[0].Floor
 							if yours.Dest[0].Floor > last_floor {
 								state <- "up"
 								Println("STAGE 1")
