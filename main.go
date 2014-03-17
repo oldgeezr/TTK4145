@@ -49,8 +49,6 @@ func main() {
 	new_master := make(chan bool)
 	flush := make(chan bool)
 	order := make(chan Dict)
-	master_order := make(chan Dict)
-	slave_order := make(chan Dict)
 	queues := make(chan Queues)
 	get_queues := make(chan Queues)
 	do_first := make(chan Queues)
@@ -63,7 +61,7 @@ func main() {
 	go IP_array(ip_array_update, get_ip_array, flush)
 	// Println("Starter IP_array...")
 	go Timer(flush)
-	go Job_queues(master_order, slave_order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
+	go Job_queues(order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
@@ -76,15 +74,8 @@ func main() {
 				Println("=> State: Entered master state")
 				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
-				go TCP_master_connect(slave_order, slave_queues)
+				go TCP_master_connect(order, slave_queues)
 				go Algo(get_at_floor, get_queues, set_queues)
-				go func() {
-					for {
-						msg := <-order
-						slave_order <- msg
-						// Fprintln(Fo, "111/222: btn/@floor -> order -> master ->")
-					}
-				}()
 			case <-slave:
 				Println("=> State: Entered slave state")
 				Fo.WriteString("=> State: Entered slave state\n")

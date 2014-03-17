@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func TCP_master_connect(slave_order chan Dict, slave_queues chan Queues) {
+func TCP_master_connect(order chan Dict, slave_queues chan Queues) {
 
 	Fo.WriteString("Entered TCP_master_connect\n")
 
@@ -32,7 +32,7 @@ func TCP_master_connect(slave_order chan Dict, slave_queues chan Queues) {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
 					//Println("From Slave:", c)
-					slave_order <- c
+					order <- c
 					// Fprintln(Fo, "111/222: btn/@floor -> slave_order -> log")
 				}
 			}

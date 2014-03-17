@@ -7,7 +7,7 @@ import (
 	. "fmt"
 )
 
-func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
+func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
 
 	Fo.WriteString("Entered Job_queues\n")
 
