@@ -1,7 +1,7 @@
 package log
 
 import (
-	. "../.././formating"
+	// . "../.././formating"
 	. "../.././functions"
 	. "../.././network"
 	. "fmt"
@@ -31,6 +31,7 @@ func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, s
 					get_at_floor <- msg
 				}
 			case msg.Dir == "standby":
+				Println("UPDATE LASTFLOOR")
 				if len(last_queue) != 0 {
 					for _, last := range last_queue {
 						if last.Ip_order != msg.Ip_order {
@@ -63,7 +64,6 @@ func Job_queues(order, get_at_floor chan Dict, queues, get_queues, set_queues, s
 		case get_queues <- the_queue: // ALGO
 			the_queue = Queues{}
 		}
-		Format_queues_term(the_queue)
 	}
 }
 
