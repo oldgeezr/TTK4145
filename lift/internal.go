@@ -36,7 +36,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 			for _, yours := range job_queue {
 				if yours.Ip == myIP {
 					if len(yours.Dest) != 0 {
-
 						if yours.Dest[0].Floor > last_floor {
 							state <- "up"
 							Fprintf(Fo, "STAGE 1:\n")
@@ -102,6 +101,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			last_dir = "down"
 			order <- Dict{myIP, M + 1, "down"}
 		case st == "stop":
+			Println("STOP!")
 			if last_dir == "up" {
 				Speed(-150)
 				time.Sleep(25 * time.Millisecond)
