@@ -16,11 +16,16 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	ext_queue := []Dict{}
 
 	var the_queue Queues
+	var algo_queue Queues
+
+	algo_update := make(chan Queues)
 
 	for {
 		select {
 		case msg := <-log_order:
 			switch {
+			case <-algo_update:
+				the_queue = algo_queue
 			case msg.Dir == "int":
 				//Append to Correct Job_Queue
 				job_queue = ARQ(job_queue, msg)
@@ -62,8 +67,8 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			Format_queues_term(the_queue, "LOG")
 			//the_queue = Queues{} //tømmer
 		case msg := <-set_queues:
-			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
-			slave_queues <- the_queue
+			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
+			slave_queues <- algo_queue
 		}
 	}
 }
