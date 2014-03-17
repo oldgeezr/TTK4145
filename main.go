@@ -81,7 +81,7 @@ func main() {
 				go func() {
 					for {
 						msg := <-order
-						master_order <- msg
+						slave_order <- msg
 						// Fprintln(Fo, "111/222: btn/@floor -> order -> master ->")
 					}
 				}()
