@@ -62,7 +62,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			the_queue = msg
 		case do_first <- the_queue: // DO FIRST
 		case get_queues <- the_queue: // ALGO
-			//the_queue = Queues{}
+			the_queue = Queues{} //tømmer
 		}
 	}
 }
