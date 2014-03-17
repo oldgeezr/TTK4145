@@ -107,7 +107,6 @@ func Send_to_floor(state chan string, order chan Dict) {
 				Speed(150)
 				time.Sleep(25 * time.Millisecond)
 				// Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
-				Println("STAGE 11")
 			}
 			Speed(0)
 			Elev_set_door_open_lamp(1)
