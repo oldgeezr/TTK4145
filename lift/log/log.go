@@ -16,6 +16,8 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	ext_queue := []Dict{}
 	the_queue := Queues{job_queue, ext_queue, last_queue}
 
+	var mutex = &sync.Mutex{}
+
 	for {
 		select {
 		case msg := <-log_order:
@@ -52,10 +54,14 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 				get_at_floor <- msg
 				Println("Removing from job_queue")
 			}
+			mutex.Lock()
 			the_queue = Queues{job_queue, ext_queue, last_queue}
+			mutex.Unlock()
 			slave_queues <- the_queue //Send the_queue to all slaves
 		case msg := <-set_queues:
+			mutex.Lock()
 			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
+			mutex.Unlock()
 			slave_queues <- the_queue
 			Format_queues_term(the_queue, "FROM ALGO")
 		case msg := <-queues:
