@@ -20,18 +20,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 		select {
 		case msg := <-master_order: // MASTER
 			if msg.Dir == "int" { // Fikk internordre
-				for _, lift := range last_queue {
-					if lift.Ip_order == msg.Ip_order {
-						if lift.Floor != msg.Floor {
-							job_queue = ARQ(job_queue, msg)
-							break
-						} else if lift.Dir != "standby" {
-							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
-							job_queue = ARQ(job_queue, msg)
-							break
-						}
-					}
-				}
+				job_queue = ARQ(job_queue, msg)
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			} else if msg.Floor >= M {
@@ -63,26 +52,7 @@ func Job_queues(master_order, slave_order, get_at_floor chan Dict, queues, get_q
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 		case msg := <-slave_order:
 			if msg.Dir == "int" {
-				for _, lift := range last_queue {
-					if lift.Ip_order == msg.Ip_order {
-						if lift.Floor != msg.Floor {
-							for i, job := range job_queue {
-								if job.Ip == msg.Ip_order {
-									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
-								}
-							}
-							// last_queue[j].Dir = Determine_dir(job_queue, lift)
-						} else if lift.Dir != "standby" {
-							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
-							for i, job := range job_queue {
-								if job.Ip == msg.Ip_order {
-									job_queue[i].Dest, _ = AIM_Int(job_queue[i].Dest, msg.Floor)
-								}
-							}
-							// last_queue[j].Dir = Determine_dir(job_queue, lift)
-						}
-					}
-				}
+				job_queue = ARQ(job_queue, msg)
 			} else if msg.Ip_order == "ext" {
 				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
 			} else if msg.Floor >= M {
