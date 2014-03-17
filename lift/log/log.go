@@ -21,17 +21,16 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 		case msg := <-log_order:
 			switch {
 			case msg.Dir == "int":
+				//Append to Correct Job_Queue
 				job_queue = ARQ(job_queue, msg)
 			case msg.Ip_order == "ext":
-				ext_queue, _ = AIM_Spice(ext_queue, msg.Floor, msg.Dir)
+				//Append if missing to Ext_queue
+				ext_queue, _ = AIM_Ext(ext_queue, msg.Floor, msg.Dir)
 			case msg.Floor >= M:
-				var update bool
-				last_queue, update = AIM_Dict2(last_queue, msg)
-				if update {
-					get_at_floor <- msg
-				}
+				//Update last_queue direction
+				last_queue, _ = Update_Direction(last_queue, msg)
 			case msg.Dir == "standby":
-				Println("UPDATE LASTFLOOR")
+				//Creating job-queues
 				if len(last_queue) != 0 {
 					for _, last := range last_queue {
 						if last.Ip_order != msg.Ip_order {
@@ -41,26 +40,26 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 				} else {
 					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				}
+				//Updates last_queue if new floor
 				var update bool
 				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
-					Println("Lastfloor update")
+					Println("Lastfloor updated")
 				}
 			case msg.Dir == "stop":
+				//Remove from job_queue
 				get_at_floor <- msg
-				Println("Removing")
+				Println("Removing from job_queue")
 			}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
-			slave_queues <- the_queue
+			slave_queues <- the_queue //Send the_queue to all slaves
 		case msg := <-set_queues:
 			the_queue = msg
 			slave_queues <- the_queue
 		case msg := <-queues:
 			the_queue = msg
-			Println("UPDATEING MY VERSION OF LOG")
 		case do_first <- the_queue: // DO FIRST
-			Println("TRYING TO FETCH QUEUES")
 		case get_queues <- the_queue: // ALGO
 			the_queue = Queues{}
 		}

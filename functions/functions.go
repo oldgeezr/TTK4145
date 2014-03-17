@@ -104,7 +104,7 @@ func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 	return append(slice, last), false
 }
 
-func AIM_Dict2(slice []Dict, last Dict) ([]Dict, bool) {
+func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 
 	for i, ele := range slice {
 		if ele.Ip_order == last.Ip_order {
@@ -118,7 +118,7 @@ func AIM_Dict2(slice []Dict, last Dict) ([]Dict, bool) {
 	return append(slice, last), true
 }
 
-func AIM_Spice(slice []Dict, i int, G string) ([]Dict, bool) {
+func AIM_Ext(slice []Dict, i int, G string) ([]Dict, bool) {
 
 	for _, ele := range slice {
 		if ele.Floor == i && ele.Dir == G {
