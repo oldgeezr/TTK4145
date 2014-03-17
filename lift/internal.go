@@ -66,7 +66,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 					}
 				}
 			}
-
 		}
 	}
 }
