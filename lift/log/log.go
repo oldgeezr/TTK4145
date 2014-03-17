@@ -18,7 +18,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	var the_queue Queues
 	var algo_queue Queues
 
-	algo_update := make(chan Queues)
+	algo_update := make(chan bool)
 
 	for {
 		select {
@@ -69,6 +69,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 		case msg := <-set_queues:
 			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 			slave_queues <- algo_queue
+			algo_update <- true
 		}
 	}
 }
