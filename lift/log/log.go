@@ -24,6 +24,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 		select {
 		case <-algo_update:
 			the_queue = algo_queue
+			Format_queues_term(the_queue, "LOG")
 		case msg := <-log_order:
 			switch {
 			case msg.Dir == "int":
@@ -64,7 +65,6 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 		case do_first <- the_queue: // DO FIRST
 		case get_queues <- the_queue: // ALGO
-			Format_queues_term(the_queue, "LOG")
 			//the_queue = Queues{} //tømmer
 		case msg := <-set_queues:
 			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
