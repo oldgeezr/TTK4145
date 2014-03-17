@@ -69,7 +69,7 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			//the_queue = Queues{} //tømmer
 		case msg := <-set_queues:
 			mutex.Lock()
-			algo_queue := Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
+			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 			mutex.Unlock()
 			slave_queues <- the_queue
 		}
