@@ -3,7 +3,7 @@ package algorithm
 import (
 	//. ".././formating"
 	. "../functions"
-	. "fmt"
+	//. "fmt"
 )
 
 func Algo(get_at_floor chan Dict, get_queues, set_queues chan Queues) {
