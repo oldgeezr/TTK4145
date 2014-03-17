@@ -39,13 +39,13 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 						if yours.Dest[0].Floor > last_floor {
 							state <- "up"
-							Println("STAGE 1")
+							Fprintf(Fo, "STAGE 1:\n")
 						} else if yours.Dest[0].Floor < last_floor {
 							state <- "down"
-							Println("STAGE 2")
+							Fprintf(Fo, "STAGE 2:\n")
 						} else {
 							state <- "stop"
-							Println("STAGE 3")
+							Fprintf(Fo, "STAGE 3:\n")
 						}
 					} else {
 						if len(ext_queue) != 0 {
@@ -53,17 +53,17 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
 									state <- "up"
-									Println("STAGE 4")
+									Fprintf(Fo, "STAGE 4:\n")
 								} else if ext_queue[0].Floor < last_floor {
 									state <- "down"
-									Println("STAGE 5")
+									Fprintf(Fo, "STAGE 5:\n")
 								} else {
 									state <- "stop"
-									Println("STAGE 6", ext_queue[0].Floor, last_floor)
+									Fprintf(Fo, "STAGE 6:\n")
 								}
 							} else {
 								state <- "standby"
-								Println("STAGE 7")
+								Fprintf(Fo, "STAGE 7:\n")
 							}
 						}
 					}

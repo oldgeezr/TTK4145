@@ -204,6 +204,7 @@ func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) b
 		}
 	}
 	if best_IP == myIP {
+		Fprintln(Fo, "I was the best elevator!")
 		return true
 	} else {
 		return false

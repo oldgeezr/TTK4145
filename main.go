@@ -2,6 +2,7 @@ package main
 
 import (
 	. "./algorithm"
+	. "./formating"
 	. "./functions"
 	. "./lift"
 	. "./lift/log"
@@ -18,6 +19,7 @@ import (
 
 func main() {
 
+	Elevator_art()
 	var err error
 
 	Fo, err = os.Create("output.txt")
