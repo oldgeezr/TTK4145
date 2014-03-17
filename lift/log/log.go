@@ -12,11 +12,10 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 
 	Fo.WriteString("Entered Job_queues\n")
 
-	last_queue := new(Dict)
-	job_queue := new([]Jobs)
-	ext_queue := new([]Dict)
-	the_queue := new(Queues)
-	the_queue = Queues{job_queue, ext_queue, last_queue}
+	last_queue := []Dict{}
+	job_queue := []Jobs{}
+	ext_queue := []Dict{}
+	the_queue := Queues{job_queue, ext_queue, last_queue}
 
 	var mutex = &sync.Mutex{}
 
@@ -26,27 +25,27 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 			switch {
 			case msg.Dir == "int":
 				//Append to Correct Job_Queue
-				*job_queue = ARQ(job_queue, msg)
+				job_queue = ARQ(job_queue, msg)
 			case msg.Ip_order == "ext":
 				//Append if missing to Ext_queue
-				*ext_queue, _ = AIM_Ext(ext_queue, msg.Floor, msg.Dir)
+				ext_queue, _ = AIM_Ext(ext_queue, msg.Floor, msg.Dir)
 			case msg.Floor >= M:
 				//Update last_queue direction
-				*last_queue, _ = Update_Direction(last_queue, msg)
+				last_queue, _ = Update_Direction(last_queue, msg)
 			case msg.Dir == "standby":
 				//Creating job-queues
-				if len(*last_queue) != 0 {
-					for _, last := range *last_queue {
+				if len(last_queue) != 0 {
+					for _, last := range last_queue {
 						if last.Ip_order != msg.Ip_order {
-							*job_queue, _ = AIM_Jobs(*job_queue, msg.Ip_order)
+							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 						}
 					}
 				} else {
-					*job_queue, _ = AIM_Jobs(*job_queue, msg.Ip_order)
+					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				}
 				//Updates last_queue if new floor
 				var update bool
-				*last_queue, update = AIM_Dict(*last_queue, msg)
+				last_queue, update = AIM_Dict(last_queue, msg)
 				if update {
 					get_at_floor <- msg
 					Println("Lastfloor updated")
@@ -57,19 +56,20 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 				//Println("Removing from job_queue")
 			}
 			mutex.Lock()
-			*the_queue = Queues{job_queue, ext_queue, last_queue}
+			the_queue = Queues{job_queue, ext_queue, last_queue}
 			mutex.Unlock()
-			slave_queues <- *the_queue //Send the_queue to all slaves
+			slave_queues <- the_queue //Send the_queue to all slaves
 		case msg := <-queues:
-			*the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
-		case do_first <- *the_queue: // DO FIRST
-		case get_queues <- *the_queue: // ALGO
+			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
+		case do_first <- the_queue: // DO FIRST
+		case get_queues <- the_queue: // ALGO
+			//the_queue = Queues{} //tømmer
 		case msg := <-set_queues:
 			mutex.Lock()
-			*the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
+			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 			mutex.Unlock()
-			slave_queues <- *the_queue
-			Format_queues_term(*the_queue, "FROM ALGO")
+			slave_queues <- the_queue
+			Format_queues_term(the_queue, "FROM ALGO")
 		}
 	}
 }
