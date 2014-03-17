@@ -2,7 +2,7 @@ package lift
 
 import (
 	. ".././driver"
-	. ".././formating"
+	//. ".././formating"
 	. ".././functions"
 	. ".././network"
 	// . "./log"
@@ -23,7 +23,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		//time.Sleep(50 * time.Millisecond)
 		queues := <-do_first
 
-		Format_queues_term(queues, "Do_first")
+		//Format_queues_term(queues, "Do_first")
 
 		job_queue := queues.Int_queue
 		ext_queue := queues.Ext_queue
