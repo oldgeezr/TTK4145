@@ -18,15 +18,11 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	var the_queue Queues
 	var algo_queue Queues
 
-	algo_update := make(chan bool)
-
 	for {
 		select {
-		case <-algo_update:
-			the_queue = algo_queue
-			Format_queues_term(the_queue, "LOG")
 		case msg := <-log_order:
 			switch {
+
 			case msg.Dir == "int":
 				//Append to Correct Job_Queue
 				job_queue = ARQ(job_queue, msg)
@@ -47,29 +43,20 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 				} else {
 					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
 				}
-				//Updates last_queue if new floor
-				var update bool
-				last_queue, update = AIM_Dict(last_queue, msg)
-				if update {
-					get_at_floor <- msg
-					Println("Lastfloor updated")
-				}
-			case msg.Dir == "stop":
-				//Remove from job_queue
-				get_at_floor <- msg
-				//Println("Removing from job_queue")
+				//Update last queue
+				last_queue, _ = AIM_Dict(last_queue, msg)
 			}
-			the_queue = Queues{job_queue, ext_queue, last_queue}
+
+			if msg.Dir == "standby" || msg.Dir == "stop" {
+				the_queue = Algo(the_queue, msg)
+			} else {
+				the_queue = Queues{job_queue, ext_queue, last_queue}
+			}
 			slave_queues <- the_queue //Send the_queue to all slaves
+
 		case msg := <-queues:
 			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 		case do_first <- the_queue: // DO FIRST
-		case get_queues <- the_queue: // ALGO
-			//the_queue = Queues{} //tømmer
-		case msg := <-set_queues:
-			algo_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
-			slave_queues <- algo_queue
-			algo_update <- true
 		}
 	}
 }
