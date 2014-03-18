@@ -1,8 +1,7 @@
 package lift
 
-/*
 import (
-	// . ".././driver"
+	. ".././driver"
 	//. ".././formating"
 	. ".././functions"
 	. ".././network"
@@ -10,6 +9,10 @@ import (
 	. "fmt"
 	. "strconv"
 	"time"
+)
+
+const (
+	M int = 4 // Number of floors
 )
 
 func Do_first(do_first chan Queues, order chan Dict) {
@@ -218,5 +221,3 @@ func Lift_init(order chan Dict) {
 	go Internal_btn_order(order)
 	go External_btn_order(order)
 }
-
-*/
