@@ -6,6 +6,6 @@ By Christoffer Ramstad-Evensen & Erlend Hestnes
 The elevator queue system
 --------------------------
 
-![](https://raw.github.com/klasbo/TTK4145/master/Project/ElevatorHardware.jpg)
+![](https://github.com/oldgeezr/sanntid/blob/coffee/elevator_queues.png)
 
-The queue system works likes this.
+Every elevator know what each elevator is doing. Great. Librarys and such!
