@@ -12,7 +12,6 @@ const (
 	BROADCAST string = "78.91.11.255"
 	IP_BASE   string = "78.91.11.183"
 	BUF_LEN   int    = 1024
-	M         int    = 4 // Number of floors
 	IP_LEN    int    = 9
 )
 
