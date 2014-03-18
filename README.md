@@ -1,4 +1,11 @@
-sanntid
-=======
+Go!Elevator
+===========
+By Christoffer Ramstad-Evensen & Erlend Hestnes
 
-Heis prosjekt
+
+The elevator queue system
+--------------------------
+
+![](https://raw.github.com/klasbo/TTK4145/master/Project/ElevatorHardware.jpg)
+
+The queue system works likes this.
