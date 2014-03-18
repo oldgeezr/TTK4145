@@ -3,7 +3,7 @@ package algorithm
 import (
 	//. ".././formating"
 	. "../functions"
-	//. "fmt"
+	. "fmt"
 )
 
 func Algo(algo_queues Queues, at_floor Dict) Queues {
@@ -62,5 +62,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	}
 
 	algo_queues = Queues{int_queue, ext_queue, last_queue}
+	Println(algo_queues)
 	return algo_queues
 }

@@ -42,7 +42,7 @@ func IMA(udp chan bool) {
 			time.Sleep(100 * time.Millisecond)
 			UDP_send(conn, myIP)
 		}
-		Fprintln(Fo, "Running, IMA")
+		// Fprintln(Fo, "Running, IMA")
 	}
 }
 
