@@ -91,12 +91,16 @@ func Send_to_floor(state chan string, order chan Dict) {
 		switch {
 		case st == "up":
 			Speed(150)
+			if last_dir != "up" {
+				order <- Dict{myIP, M + 1, "up"}
+			}
 			last_dir = "up"
-			order <- Dict{myIP, M + 1, "up"}
 		case st == "down":
 			Speed(-150)
+			if last_dir != "down" {
+				order <- Dict{myIP, M + 1, "down"}
+			}
 			last_dir = "down"
-			order <- Dict{myIP, M + 1, "down"}
 		case st == "stop":
 			Println("STOP!")
 			if last_dir == "up" {
@@ -115,8 +119,10 @@ func Send_to_floor(state chan string, order chan Dict) {
 			last_dir = "stop"
 		case st == "standby":
 			Speed(0)
+			if last_dir != "standby" {
+				order <- Dict{myIP, M + 1, "standby"}
+			}
 			last_dir = "standby"
-			order <- Dict{myIP, M + 1, "standby"}
 		}
 	}
 }
@@ -193,11 +199,13 @@ func Floor_indicator(order chan Dict) {
 
 	Println("executing floor indicator!")
 	var floor int
+	var last_floor int = 100
 	for {
 		floor = Get_floor_sensor()
-		if floor != -1 {
+		if floor != -1 && floor != last_floor {
 			Set_floor_indicator(floor)
 			order <- Dict{GetMyIP(), floor, "standby"}
+			last_floor = floor
 			// Fprintln(Fo, "222: @floor -> order -> tcp")
 		}
 		time.Sleep(200 * time.Millisecond)
