@@ -3,7 +3,7 @@ package main
 import (
 	. "./formating"
 	. "./functions"
-	. "./lift"
+	// . "./lift"
 	. "./lift/log"
 	. "./network"
 	. "./network/tcp"
