@@ -22,17 +22,20 @@ func main() {
 	Elevator_art()
 	var err error
 
+	// --------------------------------- Start: Create error log ------------------------------------------------
 	Fo, err = os.Create("output.txt")
 	if err != nil {
 		panic(err)
 	}
-	// close fo on exit and check for its returned error
+
 	defer func() {
 		if err := Fo.Close(); err != nil {
 			panic(err)
 		}
 	}()
+	// --------------------------------- End: Create error log --------------------------------------------------
 
+	// --------------------------------- Start: Listen for network activity -------------------------------------
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
 	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
@@ -41,10 +44,11 @@ func main() {
 
 	_, _, err2 := ln.ReadFromUDP(b)
 	ln.Close()
+	// --------------------------------- End: Listen for network activity ---------------------------------------
 
+	// --------------------------------- Start: Create system channels ------------------------------------------
 	slave := make(chan bool)
 	master := make(chan bool)
-
 	udp := make(chan bool)
 	ip_array_update := make(chan int)
 	get_ip_array := make(chan []int)
@@ -59,17 +63,19 @@ func main() {
 	slave_queues := make(chan Queues)
 	kill_IMA_master := make(chan bool)
 	set_queues := make(chan Queues)
-	// algo_out := make(chan Order)
+	// --------------------------------- End: Create system channels --------------------------------------------
 
+	// --------------------------------- Start: Common program threads ------------------------------------------
 	go IP_array(ip_array_update, get_ip_array, flush)
-	// Println("Starter IP_array...")
 	go Timer(flush)
 	go Job_queues(log_order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
 	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
 	go Do_first(do_first, order)
+	// --------------------------------- End: Common program threads --------------------------------------------
 
+	// --------------------------------- Start: System state maching --------------------------------------------
 	go func() {
 		for {
 			select {
@@ -113,17 +119,18 @@ func main() {
 		}
 
 	}()
+	// --------------------------------- End: System state maching -----------------------------------------------
 
-	if err2 != nil { // MASTER
-		Fo.WriteString("I am master\n")
+	// --------------------------------- Start: Set state --------------------------------------------------------
+	if err2 != nil {
 		master <- true
+		Fo.WriteString("I am master\n")
 	} else {
-		Fo.WriteString("I am slave\n")
 		slave <- true
+		Fo.WriteString("I am slave\n")
 	}
+	// --------------------------------- End: Set state ----------------------------------------------------------
 
 	neverQuit := make(chan string)
 	<-neverQuit
-
-	// YEY
 }
