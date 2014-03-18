@@ -12,4 +12,3 @@ Entered Ext_order
 I am master
 Entered TCP_master_connect
 INTERNAL: btn -> order -> tcp
-Entered Algo
