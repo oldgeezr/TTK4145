@@ -66,11 +66,11 @@ func main() {
 	// --------------------------------- Start: Common program threads ------------------------------------------
 	go IP_array(ip_array_update, get_ip_array, flush)
 	go Timer(flush)
-	go Job_queues(log_order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
+	// go Job_queues(log_order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Lift_init(order)
-	go Do_first(do_first, order)
+	// go Lift_init(order)
+	// go Do_first(do_first, order)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state maching --------------------------------------------
@@ -81,7 +81,7 @@ func main() {
 				Println("=> State: Entered master state")
 				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
-				go TCP_master_connect(log_order, slave_queues)
+				// go TCP_master_connect(log_order, slave_queues)
 				go func() {
 					for {
 						msg := <-order
@@ -92,7 +92,7 @@ func main() {
 				Println("=> State: Entered slave state")
 				Fo.WriteString("=> State: Entered slave state\n")
 				udp <- false
-				go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
+				// go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
 				go func() { new_master <- true }()
 			case <-new_master:
 				ip := <-get_ip_array
