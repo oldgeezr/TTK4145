@@ -5,8 +5,8 @@ import (
 	. "../.././algorithm"
 	. "../.././functions"
 	. "../.././lift"
+	. "fmt"
 	"sort"
-	// . "fmt"
 )
 
 func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
@@ -78,5 +78,6 @@ func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool
 			_ = msg
 			IPaddresses = IPaddresses[:0]
 		}
+		Fprintln(Fo, "Running, IP_array")
 	}
 }

@@ -12,7 +12,7 @@ const (
 	BROADCAST string = "78.91.11.255"
 	IP_BASE   string = "78.91.11.183"
 	BUF_LEN   int    = 1024
-	IP_LEN    int    = 9
+	IP_LEN    int    = 12
 )
 
 func GetMyIP() string {
