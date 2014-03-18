@@ -89,7 +89,7 @@ func main() {
 				Println("=> State: Entered slave state")
 				Fo.WriteString("=> State: Entered slave state\n")
 				udp <- false
-				// go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
+				go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
 				go func() { new_master <- true }()
 			case <-new_master:
 				ip := <-get_ip_array
