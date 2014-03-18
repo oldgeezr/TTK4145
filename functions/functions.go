@@ -30,69 +30,63 @@ type Queues struct {
 
 var Fo *os.File
 
-// Insert int if unique : FUNKER!
-func Insert_at_pos(ip string, this []Dict, value, i int) []Dict {
+func Dict_array_insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 
 	if len(this) != 0 {
-		this = append(this[:i], append([]Dict{Dict{ip, value, "int"}}, this[i:]...)...)
+		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
 	} else {
 		this = append(this, Dict{ip, value, "int"})
 	}
 	return this
 }
 
-// Pop first int : FUNKER!
-func Pop_first(this []Dict) []Dict {
+func Dict_array_pop_first(this []Dict) []Dict {
 
 	return this[1:len(this)]
 }
 
-// Read first ; FUNKER!
-func Read_first(this []Dict) int {
+func Dict_array_read_first(this []Dict) int {
 
 	return this[len(this)-1].Floor
 }
 
-// Remove int : FUNKER!
-func Remove_from_pos(this []Dict, value int) []Dict {
+func Dict_array_remove_from_pos(this []Dict, floor int) []Dict {
 
 	for i, floor := range this {
-		if floor.Floor == value {
+		if floor.Floor == floor {
 			this = this[:i+copy(this[i:], this[i+1:])]
 		}
 	}
 	return this
 }
 
-// Insert at pos (ext)
+func Jobs_append_if_missing_queue(queues []Jobs, ip string) ([]Jobs, bool) {
 
-func AIM_Jobs(steve []Jobs, ip string) ([]Jobs, bool) {
-
-	for _, ele := range steve {
-		if ele.Ip == ip {
-			return steve, false
+	for _, yours := range queues {
+		if yours.Ip == ip {
+			return queues, false
 		}
 	}
-	return append(steve, Jobs{ip, []Dict{}}), true
+	return append(queues, Jobs{ip, []Dict{}}), true
 }
 
-func AIM_Int(slice []Dict, i int) ([]Dict, bool) {
+func Dict_array_append_if_missing_floor(slice []Dict, floor int) ([]Dict, bool) {
 
 	if len(slice) != 0 {
-		for _, ele := range slice {
-			if ele.Floor == i {
+		for _, queue := range slice {
+			if queue.Floor == floor {
 				return slice, false
 			}
 		}
 	}
-	return append(slice, Dict{"ip_order", i, "int"}), true
+	return append(slice, Dict{"ip_order", floor, "int"}), true
 }
 
-func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
+func Dict_array_append_if_missing_dict(slice []Dict, last Dict) ([]Dict, bool) {
 
-	for i, ele := range slice {
-		if ele.Ip_order == last.Ip_order {
-			if ele.Floor != last.Floor {
+	for i, yours := range slice {
+		if yours.Ip_order == last.Ip_order {
+			if yours.Floor != last.Floor {
 				slice[i].Ip_order = last.Ip_order
 				slice[i].Floor = last.Floor
 				// slice[i].Dir = last.Dir
@@ -106,9 +100,9 @@ func AIM_Dict(slice []Dict, last Dict) ([]Dict, bool) {
 
 func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 
-	for i, ele := range slice {
-		if ele.Ip_order == last.Ip_order {
-			if ele.Floor != last.Floor {
+	for i, yours := range slice {
+		if yours.Ip_order == last.Ip_order {
+			if yours.Floor != last.Floor {
 				slice[i].Dir = last.Dir
 				return slice, true
 			}
@@ -118,20 +112,20 @@ func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 	return append(slice, last), true
 }
 
-func AIM_Ext(slice []Dict, i int, G string) ([]Dict, bool) {
+func Dict_array_append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
 
-	for _, ele := range slice {
-		if ele.Floor == i && ele.Dir == G {
+	for _, yours := range slice {
+		if yours.Floor == floor && yours.Dir == dir {
 			return slice, false
 		}
 	}
-	return append(slice, Dict{"ext", i, G}), true
+	return append(slice, Dict{"ext", floor, dir}), true
 }
 
-func AIM_ip(slice []int, i int) []int {
+func Append_if_missing_ip(slice []int, i int) []int {
 
-	for _, ele := range slice {
-		if ele == i {
+	for _, yours := range slice {
+		if yours == i {
 			return slice
 		}
 	}
@@ -163,7 +157,7 @@ func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
 	return true
 }
 
-func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
+func Dict_array_remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 	if len(this) != 0 {
 		for i, orders := range this {
@@ -177,7 +171,7 @@ func Remove_order_ext_queue(this []Dict, floor int, dir string) []Dict {
 	return this
 }
 
-func Remove_order_int_queue(this Jobs, floor int) Jobs {
+func Jobs_remove_int_queue(this Jobs, floor int) Jobs {
 
 	if len(this.Dest) != 0 {
 		for i, orders := range this.Dest {
