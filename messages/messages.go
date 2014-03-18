@@ -14,17 +14,14 @@ func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool
 	Fo.WriteString("Entered IP_array\n")
 
 	IPaddresses := []int{}
-	// Println("IP_array startet..!")
+
 	for {
 		select {
 		case ip := <-ip_array_update:
-			// Println("Oppdaterte arrayet..!")
 			IPaddresses = AIM_ip(IPaddresses, ip)
 			sort.Ints(IPaddresses)
 		case get_ip_array <- IPaddresses:
-			// Println("Noen leste arrayet..!")
 		case msg := <-flush:
-			// Println("Tømte arrayet..!")
 			_ = msg
 			IPaddresses = IPaddresses[:0]
 		}
@@ -35,7 +32,6 @@ func Timer(flush chan bool) {
 
 	Fo.WriteString("Entered Timer\n")
 
-	// Println("Timer startet..!")
 	for {
 		for timer := range time.Tick(1 * time.Second) {
 			_ = timer
@@ -49,25 +45,22 @@ func IMA_master(get_ip_array chan []int, master, new_master, kill_IMA_master cha
 
 	Fo.WriteString("Entered IMA_master\n")
 
-	// Println("IMA_master startet..!")
 	count := 0
 	count1 := 0
 	for {
 		select {
 		case <-kill_IMA_master:
 			Fprintln(Fo, "CLOSED: Killed IMA_master")
-			return 
+			return
 		default:
 			time.Sleep(500 * time.Millisecond)
 			array := <-get_ip_array
-			// Println("Got array: ", array)
 			if len(array) != 0 {
 				if array[len(array)-1] < 255 {
 					temp, _ := Atoi(GetMyIP())
 					if temp == array[0] {
 						count++
 						if count == 2 { // SIKKERTHETSGRAD!
-							// Println("Sender master request...")
 							Println("MASTER forsvant..!")
 							master <- true
 							time.Sleep(50 * time.Microsecond)
