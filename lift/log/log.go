@@ -9,7 +9,7 @@ import (
 	"sort"
 )
 
-func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
+func Job_queues(log_order chan Dict, queues, slave_queues, do_first chan Queues) {
 
 	Fo.WriteString("Entered Job_queues\n")
 

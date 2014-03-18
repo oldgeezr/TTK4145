@@ -55,18 +55,15 @@ func main() {
 	order := make(chan Dict)
 	log_order := make(chan Dict)
 	queues := make(chan Queues)
-	get_queues := make(chan Queues)
 	do_first := make(chan Queues)
-	get_at_floor := make(chan Dict)
 	slave_queues := make(chan Queues)
 	kill_IMA_master := make(chan bool)
-	set_queues := make(chan Queues)
 	// --------------------------------- End: Create system channels --------------------------------------------
 
 	// --------------------------------- Start: Common program threads ------------------------------------------
 	go IP_array(ip_array_update, get_ip_array, flush)
 	go Timer(flush)
-	// go Job_queues(log_order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
+	go Job_queues(log_order, queues, slave_queues, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
 	// go Lift_init(order)
@@ -81,7 +78,7 @@ func main() {
 				Println("=> State: Entered master state")
 				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
-				// go TCP_master_connect(log_order, slave_queues)
+				go TCP_master_connect(log_order, slave_queues)
 				go func() {
 					for {
 						msg := <-order
