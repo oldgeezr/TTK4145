@@ -1,8 +1,8 @@
 package udp
 
 import (
-	. "../.././network"
 	. "../.././functions"
+	. "../.././network"
 	. "fmt"
 	. "net"
 	. "strconv"
@@ -58,5 +58,45 @@ func UDP_listen(ip_array_update chan int) {
 		ln.ReadFromUDP(b)
 		remoteIP, _ := Atoi(string(b[0:3]))
 		ip_array_update <- remoteIP
+	}
+}
+
+func IMA_master(get_ip_array chan []int, master, new_master, kill_IMA_master chan bool) {
+
+	Fo.WriteString("Entered IMA_master\n")
+
+	count := 0
+	count1 := 0
+	for {
+		select {
+		case <-kill_IMA_master:
+			Fprintln(Fo, "CLOSED: Killed IMA_master")
+			return
+		default:
+			time.Sleep(500 * time.Millisecond)
+			array := <-get_ip_array
+			if len(array) != 0 {
+				if array[len(array)-1] < 255 {
+					temp, _ := Atoi(GetMyIP())
+					if temp == array[0] {
+						count++
+						if count == 2 { // SIKKERTHETSGRAD!
+							Println("MASTER forsvant..!")
+							master <- true
+							time.Sleep(50 * time.Microsecond)
+							return
+						}
+						if count1 == 2 {
+							new_master <- true
+						}
+					} else {
+						count1++
+					}
+				} else {
+					count = 0
+					count1 = 0
+				}
+			}
+		}
 	}
 }

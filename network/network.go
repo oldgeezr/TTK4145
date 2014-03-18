@@ -9,10 +9,11 @@ import (
 const (
 	UDP_PORT  string = ":39777"
 	TCP_PORT  string = ":27731"
-	BROADCAST string = "129.241.187.255"
-	IP_BASE   string = "129.241.187."
+	BROADCAST string = "78.91.11.255"
+	IP_BASE   string = "78.91.11.183"
 	BUF_LEN   int    = 1024
 	M         int    = 4 // Number of floors
+	IP_LEN    int    = 9
 )
 
 func GetMyIP() string {
@@ -33,5 +34,5 @@ func GetMyIP() string {
 		}
 	}
 
-	return myIP[12:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
+	return myIP[IP_LEN:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
 }

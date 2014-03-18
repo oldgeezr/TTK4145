@@ -1,27 +1,8 @@
-Ble master
 Entered IP_array
 Entered Timer
 Entered Job_queues
-Entered Internal
 Entered IMA
 Entered UDP_listen
-Entered Do_first
+I am master
 => State: Entered master state
-Entered Floor_indicator
-Entered Int_order
-Entered Ext_order
 Entered TCP_master_connect
-Entered Algo
-Entered TCP_master_com
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-INTERNAL: btn -> order -> tcp
-Deleted from queue:  {ip_order 2 int}
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-INTERNAL: btn -> order -> tcp
-Deleted from queue:  {ip_order 3 int}
-	 	 TCP: queues/btn/@floor -> tcp -> tcp
-INTERNAL: btn -> order -> tcp
-INTERNAL: btn -> order -> tcp
-Deleted from queue:  {ip_order 2 int}
-	 	 TCP: queues/btn/@floor -> tcp -> tcp

@@ -3,6 +3,7 @@ package functions
 import (
 	. "fmt"
 	"os"
+	"time"
 )
 
 type Dict struct {
@@ -30,7 +31,20 @@ type Queues struct {
 
 var Fo *os.File
 
-func Dict_array_insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
+func Timer(flush chan bool) {
+
+	Fo.WriteString("Entered Timer\n")
+
+	for {
+		for timer := range time.Tick(1 * time.Second) {
+			_ = timer
+			flush <- true
+		}
+		flush <- false
+	}
+}
+
+func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 
 	if len(this) != 0 {
 		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
@@ -40,27 +54,27 @@ func Dict_array_insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 	return this
 }
 
-func Dict_array_pop_first(this []Dict) []Dict {
+func Pop_first(this []Dict) []Dict {
 
 	return this[1:len(this)]
 }
 
-func Dict_array_read_first(this []Dict) int {
+func Read_first(this []Dict) int {
 
 	return this[len(this)-1].Floor
 }
 
-func Dict_array_remove_from_pos(this []Dict, floor int) []Dict {
+func Remove_from_pos(this []Dict, floor int) []Dict {
 
-	for i, floor := range this {
-		if floor.Floor == floor {
+	for i, order := range this {
+		if order.Floor == floor {
 			this = this[:i+copy(this[i:], this[i+1:])]
 		}
 	}
 	return this
 }
 
-func Jobs_append_if_missing_queue(queues []Jobs, ip string) ([]Jobs, bool) {
+func Append_if_missing_queue(queues []Jobs, ip string) ([]Jobs, bool) {
 
 	for _, yours := range queues {
 		if yours.Ip == ip {
@@ -70,7 +84,7 @@ func Jobs_append_if_missing_queue(queues []Jobs, ip string) ([]Jobs, bool) {
 	return append(queues, Jobs{ip, []Dict{}}), true
 }
 
-func Dict_array_append_if_missing_floor(slice []Dict, floor int) ([]Dict, bool) {
+func Append_if_missing_floor(slice []Dict, floor int) ([]Dict, bool) {
 
 	if len(slice) != 0 {
 		for _, queue := range slice {
@@ -82,7 +96,7 @@ func Dict_array_append_if_missing_floor(slice []Dict, floor int) ([]Dict, bool) 
 	return append(slice, Dict{"ip_order", floor, "int"}), true
 }
 
-func Dict_array_append_if_missing_dict(slice []Dict, last Dict) ([]Dict, bool) {
+func Append_if_missing_dict(slice []Dict, last Dict) ([]Dict, bool) {
 
 	for i, yours := range slice {
 		if yours.Ip_order == last.Ip_order {
@@ -112,7 +126,7 @@ func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 	return append(slice, last), true
 }
 
-func Dict_array_append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
+func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
 
 	for _, yours := range slice {
 		if yours.Floor == floor && yours.Dir == dir {
@@ -157,7 +171,7 @@ func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
 	return true
 }
 
-func Dict_array_remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
+func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 	if len(this) != 0 {
 		for i, orders := range this {
@@ -171,7 +185,7 @@ func Dict_array_remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict
 	return this
 }
 
-func Jobs_remove_int_queue(this Jobs, floor int) Jobs {
+func Remove_int_queue(this Jobs, floor int) Jobs {
 
 	if len(this.Dest) != 0 {
 		for i, orders := range this.Dest {
@@ -205,4 +219,32 @@ func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) b
 		return false
 	}
 
+}
+
+func Append_if_missing_right_queue(queue []Jobs, msg Dict) []Jobs {
+	for i, job := range queue {
+		if job.Ip == msg.Ip_order {
+			queue[i].Dest, _ = Append_if_missing_floor(queue[i].Dest, msg.Floor)
+		}
+	}
+	return queue
+}
+
+func Determine_dir(job_queue []Jobs, last Dict) string {
+	for _, job := range job_queue {
+		if last.Ip_order == job.Ip {
+			if len(job.Dest) != 0 {
+				if job.Dest[0].Floor-last.Floor > 0 {
+					return "up"
+				} else if job.Dest[0].Floor-last.Floor < 0 {
+					return "down"
+				} else {
+					return "standby"
+				}
+			} else {
+				return "standby"
+			}
+		}
+	}
+	return "standby"
 }

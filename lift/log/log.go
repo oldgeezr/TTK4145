@@ -1,10 +1,12 @@
 package log
 
 import (
-	. "../.././formating"
+	// . "../.././formating"
+	. "../.././algorithm"
 	. "../.././functions"
 	. "../.././network"
-	. "fmt"
+	"sort"
+	// . "fmt"
 )
 
 func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queues, slave_queues, do_first chan Queues) {
@@ -16,7 +18,6 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	ext_queue := []Dict{}
 
 	var the_queue Queues
-	var algo_queue Queues
 
 	for {
 		select {
@@ -25,10 +26,10 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 
 			case msg.Dir == "int":
 				//Append to Correct Job_Queue
-				job_queue = ARQ(job_queue, msg)
+				job_queue = Append_if_missing_right_queue(job_queue, msg)
 			case msg.Ip_order == "ext":
 				//Append if missing to Ext_queue
-				ext_queue, _ = AIM_Ext(ext_queue, msg.Floor, msg.Dir)
+				ext_queue, _ = Append_if_missing_ext_queue(ext_queue, msg.Floor, msg.Dir)
 			case msg.Floor >= M:
 				//Update last_queue direction
 				last_queue, _ = Update_Direction(last_queue, msg)
@@ -37,14 +38,14 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 				if len(last_queue) != 0 {
 					for _, last := range last_queue {
 						if last.Ip_order != msg.Ip_order {
-							job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+							job_queue, _ = Append_if_missing_queue(job_queue, msg.Ip_order)
 						}
 					}
 				} else {
-					job_queue, _ = AIM_Jobs(job_queue, msg.Ip_order)
+					job_queue, _ = Append_if_missing_queue(job_queue, msg.Ip_order)
 				}
 				//Update last queue
-				last_queue, _ = AIM_Dict(last_queue, msg)
+				last_queue, _ = Append_if_missing_dict(last_queue, msg)
 			}
 
 			if msg.Dir == "standby" || msg.Dir == "stop" {
@@ -61,30 +62,21 @@ func Job_queues(log_order, get_at_floor chan Dict, queues, get_queues, set_queue
 	}
 }
 
-func ARQ(queue []Jobs, msg Dict) []Jobs {
-	for i, job := range queue {
-		if job.Ip == msg.Ip_order {
-			queue[i].Dest, _ = AIM_Int(queue[i].Dest, msg.Floor)
-		}
-	}
-	return queue
-}
+func IP_array(ip_array_update chan int, get_ip_array chan []int, flush chan bool) {
 
-func Determine_dir(job_queue []Jobs, last Dict) string {
-	for _, job := range job_queue {
-		if last.Ip_order == job.Ip {
-			if len(job.Dest) != 0 {
-				if job.Dest[0].Floor-last.Floor > 0 {
-					return "up"
-				} else if job.Dest[0].Floor-last.Floor < 0 {
-					return "down"
-				} else {
-					return "standby"
-				}
-			} else {
-				return "standby"
-			}
+	Fo.WriteString("Entered IP_array\n")
+
+	IPaddresses := []int{}
+
+	for {
+		select {
+		case ip := <-ip_array_update:
+			IPaddresses = Append_if_missing_ip(IPaddresses, ip)
+			sort.Ints(IPaddresses)
+		case get_ip_array <- IPaddresses:
+		case msg := <-flush:
+			_ = msg
+			IPaddresses = IPaddresses[:0]
 		}
 	}
-	return "standby"
 }

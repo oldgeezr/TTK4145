@@ -1,7 +1,8 @@
 package lift
 
+/*
 import (
-	. ".././driver"
+	// . ".././driver"
 	//. ".././formating"
 	. ".././functions"
 	. ".././network"
@@ -217,3 +218,5 @@ func Lift_init(order chan Dict) {
 	go Internal_btn_order(order)
 	go External_btn_order(order)
 }
+
+*/

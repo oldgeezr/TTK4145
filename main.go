@@ -1,12 +1,10 @@
 package main
 
 import (
-	. "./algorithm"
 	. "./formating"
 	. "./functions"
-	. "./lift"
+	// . "./lift"
 	. "./lift/log"
-	. "./messages"
 	. "./network"
 	. "./network/tcp"
 	. "./network/udp"
@@ -69,10 +67,10 @@ func main() {
 	go IP_array(ip_array_update, get_ip_array, flush)
 	go Timer(flush)
 	go Job_queues(log_order, get_at_floor, queues, get_queues, set_queues, slave_queues, do_first)
-	go Internal(order)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Do_first(do_first, order)
+	// go Internal(order)
+	// go Do_first(do_first, order)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state maching --------------------------------------------
@@ -84,7 +82,6 @@ func main() {
 				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
 				go TCP_master_connect(log_order, slave_queues)
-				go Algo(get_at_floor, get_queues, set_queues)
 				go func() {
 					for {
 						msg := <-order
