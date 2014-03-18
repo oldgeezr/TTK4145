@@ -4,7 +4,7 @@ import (
 	// . "../.././formating"
 	. "../.././algorithm"
 	. "../.././functions"
-	. "../.././network"
+	. "../.././lift"
 	"sort"
 	// . "fmt"
 )
