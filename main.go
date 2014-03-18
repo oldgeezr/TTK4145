@@ -3,7 +3,7 @@ package main
 import (
 	. "./formating"
 	. "./functions"
-	// . "./lift"
+	. "./lift"
 	. "./lift/log"
 	. "./network"
 	. "./network/tcp"
@@ -66,8 +66,8 @@ func main() {
 	go Job_queues(log_order, queues, slave_queues, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	// go Lift_init(order)
-	// go Do_first(do_first, order)
+	go Lift_init(order)
+	go Do_first(do_first, order)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state maching --------------------------------------------

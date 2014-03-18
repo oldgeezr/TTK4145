@@ -3,11 +3,17 @@ Entered Timer
 Entered Job_queues
 Entered IMA
 Entered UDP_listen
+Entered lift
+Entered Do_first
 => State: Entered master state
+Entered Floor_indicator
+Entered Int_order
+Entered Ext_order
 I am master
 Running, IMA
 Running, IMA
 Entered TCP_master_connect
+INTERNAL: btn -> order -> tcp
 Running, IP_array
 Running, IMA
 Running, IP_array
@@ -47,6 +53,26 @@ Running, IP_array
 Running, IMA
 Running, IP_array
 Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
 Running, IP_array
 Running, IMA
 Running, IP_array
@@ -66,6 +92,17 @@ Running, IMA
 Running, IP_array
 Running, IMA
 Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IP_array
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
+Running, IP_array
+Running, IMA
 Running, IP_array
 Running, IMA
 Running, IP_array
