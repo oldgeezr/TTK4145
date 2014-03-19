@@ -1,11 +1,11 @@
 package log
 
 import (
-	// . "../.././formating"
+	 . "../.././formating"
 	. "../.././algorithm"
 	. "../.././functions"
 	. "../.././lift"
-	. "fmt"
+	//. "fmt"
 	"sort"
 )
 
@@ -22,9 +22,6 @@ func Job_queues(log_order chan Dict, queues, slave_queues, do_first chan Queues)
 	for {
 		select {
 		case msg := <-log_order:
-
-			Println("FROM LOG:", msg)
-
 			switch {
 
 			case msg.Dir == "int":
@@ -56,9 +53,8 @@ func Job_queues(log_order chan Dict, queues, slave_queues, do_first chan Queues)
 			} else {
 				the_queue = Queues{job_queue, ext_queue, last_queue}
 			}
-			Println("TRYING TO SEND")
+			Format_queues_term(the_queue)
 			slave_queues <- the_queue //Send the_queue to all slaves
-			Println("SENDT TO SLAVE")
 		case msg := <-queues:
 			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
 		case do_first <- the_queue: // DO FIRST

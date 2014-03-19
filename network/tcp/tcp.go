@@ -32,7 +32,6 @@ func TCP_master_connect(log_order chan Dict, slave_queues chan Queues) {
 					var c Dict
 					json.Unmarshal(b[0:length], &c)
 					log_order <- c
-					Println("MASTER RECIEVED:", c)
 				}
 			}
 		}()
@@ -63,7 +62,6 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 			msg := <-order
 			b, _ := json.Marshal(msg)
 			conn.Write(b)
-			Println("SLAVE SENDT:", b)
 		}
 	}()
 

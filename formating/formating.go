@@ -111,10 +111,9 @@ func Format_last_queue_term(last_queue []Dict) {
 	}
 }
 
-func Format_queues_term(queues Queues, module string) {
+func Format_queues_term(queues Queues) {
 	Print("\n")
-	Print("--Queues----(", module)
-	Print(")------\n")
+	Print("---------Queues--------\n")
 	Format_int_queue_term(queues.Int_queue)
 	Print("\n")
 	Format_ext_queue_term(queues.Ext_queue)
