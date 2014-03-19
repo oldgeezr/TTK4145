@@ -26,7 +26,8 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 
 			case msg.Dir == "int":
 				//Append to Correct Job_Queue
-				Println("LOG: int job received")
+				Print("LOG: int job received on: ")
+				Println(msg.Ip_order)
 				job_queue = Append_if_missing_right_queue(job_queue, msg)
 			case msg.Ip_order == "ext":
 				//Append if missing to Ext_queue

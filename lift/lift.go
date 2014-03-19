@@ -87,6 +87,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 		if Get_floor_sensor() != -1 {
 			floor = Get_floor_sensor()
 		}
+		_ = floor
 		switch {
 
 		case st == "up":
@@ -115,6 +116,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			}
 			Speed(0)
 			Elev_set_door_open_lamp(1)
+			//order <- Dict{myIP, M + 1, "standby"}
 			order <- Dict{myIP, floor, "stop"}
 			time.Sleep(1500 * time.Millisecond)
 			last_dir = "stop"

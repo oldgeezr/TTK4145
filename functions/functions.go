@@ -159,15 +159,17 @@ func Someone_getting_off(job_queue Jobs, floor int) bool {
 }
 
 func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
-
+	Print("Someone_on: ", floor, dir)
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
 			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") {
+				Println("true")
 				return true
 			}
 		}
 
 	}
+	Println("false")
 	return false
 }
 
