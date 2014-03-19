@@ -50,15 +50,12 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							Fprintf(Fo, "JOB:stop:\n")
 						}
 					} else {
-						state <- "standby"
+						state <- "stop"
 
 					}
 				}
 			}
-		} else {
-			state <- "standby"
 		}
-
 	}
 }
 

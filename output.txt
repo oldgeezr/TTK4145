@@ -5,6 +5,7 @@ Entered IMA
 Entered UDP_listen
 Entered lift
 Entered Do_first
+Entered External_lights
 => State: Entered master state
 Entered Floor_indicator
 Entered Int_order
@@ -13,5 +14,34 @@ I am master
 Entered TCP_master_connect
 Entered Algo
 Entered TCP_master_com
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
 Entered Algo
 Entered Algo
