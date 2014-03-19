@@ -49,7 +49,8 @@ func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 	if len(this) != 0 {
 		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
 	} else {
-		this = append(this, Dict{ip, value, "int"})
+		this = []Dict{Dict{ip, value, "int"}}
+		Println("ALGO: WTF?", this, pos)
 	}
 	return this
 }
@@ -127,7 +128,7 @@ func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 }
 
 func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
-
+	Println("AIM_ext: ", slice, floor, dir)
 	for _, yours := range slice {
 		if yours.Floor == floor && yours.Dir == dir {
 			return slice, false
@@ -175,12 +176,15 @@ func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
 
 func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 
-	if len(this) != 0 {
+	var length int = len(this)
+
+	if length != 0 {
 		for i, orders := range this {
-			if orders.Floor == floor {
-				//Println("Deleted from ext_queue", orders)
-				Fprintln(Fo, "Deleted from queue: ", orders)
+			if orders.Floor == floor && length > 1 {
 				this = this[:i+copy(this[i:], this[i+1:])]
+				length = len(this)
+			} else if length == 1 {
+				this = []Dict{}
 			}
 		}
 	}
@@ -194,7 +198,7 @@ func Remove_int_queue(this Jobs, floor int) Jobs {
 			if orders.Floor == floor {
 				Fprintln(Fo, "Deleted from queue: ", orders)
 				if len(this.Dest) != 0 {
-					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])]
+					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])] //Kan være et problem?
 				}
 			}
 		}

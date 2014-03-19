@@ -19,6 +19,8 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 
 	the_queue := Queues{job_queue, ext_queue, last_queue}
 
+	var new_value bool
+
 	for {
 		select {
 		case msg := <-log_order:
@@ -31,8 +33,8 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 				job_queue = Append_if_missing_right_queue(job_queue, msg)
 			case msg.Ip_order == "ext":
 				//Append if missing to Ext_queue
-				Println("LOG: ext job received")
-				ext_queue, _ = Append_if_missing_ext_queue(ext_queue, msg.Floor, msg.Dir)
+				ext_queue, new_value = Append_if_missing_ext_queue(ext_queue, msg.Floor, msg.Dir)
+				Println("LOG: appended ext queue: ", new_value)
 			case msg.Floor >= M:
 				Print("LOG: Elevator: ", msg.Ip_order)
 				Println(" is moving -> updating direction!")
