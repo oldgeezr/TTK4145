@@ -1,7 +1,7 @@
 package functions
 
 import (
-	. ".././lift"
+	// . ".././lift"
 	. "fmt"
 	"os"
 	"time"
@@ -210,7 +210,7 @@ func Remove_int_queue(this Jobs, floor int) Jobs {
 
 func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) bool {
 
-	var best int = M + 1
+	var best int = 100
 	var best_IP string
 
 	for _, last := range Last_queue {
