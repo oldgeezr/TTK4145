@@ -1,6 +1,7 @@
 package functions
 
 import (
+	. ".././lift"
 	. "fmt"
 	"os"
 	"time"
@@ -209,16 +210,19 @@ func Remove_int_queue(this Jobs, floor int) Jobs {
 
 func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) bool {
 
-	var best int = 100
+	var best int = M + 1
 	var best_IP string
+
 	for _, last := range Last_queue {
-		temp := Ext_queue[0].Floor - last.Floor
-		if temp < 0 {
-			temp = temp * (-1)
-		}
-		if temp < best {
-			best = temp
-			best_IP = last.Ip_order
+		if last.Dir == "standby" {
+			temp := Ext_queue[0].Floor - last.Floor
+			if temp < 0 {
+				temp = temp * (-1)
+			}
+			if temp < best {
+				best = temp
+				best_IP = last.Ip_order
+			}
 		}
 	}
 	if best_IP == myIP {
