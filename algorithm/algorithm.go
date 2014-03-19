@@ -12,7 +12,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	var last_dir string
 	var best int = 100
-	var best_IP string
+	var best_IP string = "nobest"
 	// var current_queue Jobs
 
 	int_queue := algo_queues.Int_queue
