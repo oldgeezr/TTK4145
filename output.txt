@@ -17,29 +17,104 @@ Entered TCP_master_com
 Entered Algo
 Entered Algo
 Entered Algo
-INTERNAL: btn -> order -> tcp
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 1 int}
-Entered Algo
-JOB:stop:
 Entered Algo
 Entered Algo
 Entered Algo
-INTERNAL: btn -> order -> tcp
 Entered Algo
 Entered Algo
-JOB:stop:
 Entered Algo
-Deleted from queue:  {ip_order 1 int}
 Entered Algo
-JOB:stop:
+Entered Algo
+Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
 INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
