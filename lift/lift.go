@@ -207,7 +207,6 @@ func External_lights(do_first chan Queues) {
 	var queue Queues
 	for {
 		queue = <-do_first
-		Println("i was here")
 		for _, external := range queue.Ext_queue {
 			if external.Dir == "up" {
 				Set_button_lamp(BUTTON_CALL_UP, external.Floor, 1)
@@ -216,6 +215,14 @@ func External_lights(do_first chan Queues) {
 			}
 		}
 		time.Sleep(100 * time.Millisecond)
+
+		Set_button_lamp(BUTTON_CALL_UP, 0, 0)
+		Set_button_lamp(BUTTON_CALL_UP, 1, 0)
+		Set_button_lamp(BUTTON_CALL_UP, 2, 0)
+
+		Set_button_lamp(BUTTON_CALL_DOWN, 3, 0)
+		Set_button_lamp(BUTTON_CALL_DOWN, 2, 0)
+		Set_button_lamp(BUTTON_CALL_DOWN, 1, 0)
 	}
 }
 
