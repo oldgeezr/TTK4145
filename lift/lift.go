@@ -145,7 +145,6 @@ func External_btn_order(order chan Dict) {
 		if i < 3 {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				Println("LIFT: External call up button nr: " + Itoa(i) + " has been pressed!")
-				Set_button_lamp(BUTTON_CALL_UP, i, 1)
 				order <- Dict{"ext", i, "up"}
 				time.Sleep(300 * time.Millisecond)
 			}
@@ -153,7 +152,6 @@ func External_btn_order(order chan Dict) {
 		if i > 0 {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				Println("LIFT: External call down button nr: " + Itoa(i) + " has been pressed!")
-				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
 				order <- Dict{"ext", i, "down"}
 				time.Sleep(300 * time.Millisecond)
 			}
@@ -199,6 +197,20 @@ func Floor_indicator(order chan Dict) {
 			last_floor = floor
 		}
 		time.Sleep(200 * time.Millisecond)
+	}
+}
+
+func External_lights(do_first chan Queues) {
+	for {
+		external_queue := do_first.Ext_queue
+		for i, external := range external_queue {
+			if external.Dir == "up" {
+				Set_button_lamp(BUTTON_CALL_UP, i, 1)
+			} else {
+				Set_button_lamp(BUTTON_CALL_DOWN, i, 1)
+			}
+		}
+		time.Sleep(50 * time.Millisecond)
 	}
 }
 

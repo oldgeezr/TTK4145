@@ -68,6 +68,7 @@ func main() {
 	go UDP_listen(ip_array_update)
 	go Lift_init(order)
 	go Do_first(do_first, order)
+	go External_lights(do_first)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state maching --------------------------------------------
