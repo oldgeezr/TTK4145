@@ -43,6 +43,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		} else {
 			//Println("Stage: 5")
 			int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+			Println("ALGO: Removed order from ext queue")
 		}
 		//Println("Stage: 6")
 		ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
@@ -53,6 +54,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			if current_queue.Dest[0].Floor == at_floor.Floor {
 				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
 				ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
+				Println("ALGO: Removed from job queue of elevator: ",at_floor.Ip_order)
 			}
 		} else {
 			// Re arrange
@@ -62,6 +64,5 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	}
 
 	algo_queues = Queues{int_queue, ext_queue, last_queue}
-	Println(algo_queues)
 	return algo_queues
 }

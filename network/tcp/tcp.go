@@ -10,14 +10,14 @@ import (
 	"time"
 )
 
-func TCP_master_connect(log_order chan Dict, slave_queues chan Queues) {
+func TCP_master_connect(log_order chan Dict, queues_to_tcp chan Queues) {
 
 	Fo.WriteString("Entered TCP_master_connect\n")
 
 	ln, _ := Listen("tcp", TCP_PORT)
 	for {
 		conn, _ := ln.Accept()
-		go TCP_master_com(conn, slave_queues)
+		go TCP_master_com(conn, queues_to_tcp)
 		go func() {
 			for {
 				b := make([]byte, BUF_LEN)
@@ -38,18 +38,18 @@ func TCP_master_connect(log_order chan Dict, slave_queues chan Queues) {
 	}
 }
 
-func TCP_master_com(conn Conn, slave_queues chan Queues) {
+func TCP_master_com(conn Conn, queues_to_tcp chan Queues) {
 
 	Fo.WriteString("Entered TCP_master_com\n")
 
 	for {
-		msg := <-slave_queues
+		msg := <-queues_to_tcp
 		b, _ := json.Marshal(msg)
 		conn.Write(b)
 	}
 }
 
-func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
+func TCP_slave_com(master_ip string, order chan Dict, slave_queues chan Queues) bool {
 
 	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 	if err != nil {
@@ -79,7 +79,7 @@ func TCP_slave_com(master_ip string, order chan Dict, queues chan Queues) bool {
 		} else {
 			var c Queues
 			json.Unmarshal(b[0:length], &c)
-			queues <- c
+			slave_queues <- c
 		}
 	}
 }

@@ -5,6 +5,8 @@ import (
 	. "fmt"
 )
 
+var print_counter int = 1
+
 func Format_int_queue(int_queue []Jobs) {
 	Fprintf(Fo, "Int queues:\n")
 	if len(int_queue) != 0 {
@@ -113,13 +115,15 @@ func Format_last_queue_term(last_queue []Dict) {
 
 func Format_queues_term(queues Queues) {
 	Print("\n")
-	Print("---------Queues--------\n")
+	Print("#",print_counter)
+	Print("-------Queues--------\n")
 	Format_int_queue_term(queues.Int_queue)
 	Print("\n")
 	Format_ext_queue_term(queues.Ext_queue)
 	Print("\n")
 	Format_last_queue_term(queues.Last_queue)
 	Print("-----------------------\n")
+	print_counter++
 }
 
 func Elevator_art() {

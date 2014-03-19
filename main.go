@@ -54,16 +54,16 @@ func main() {
 	flush := make(chan bool)
 	order := make(chan Dict)
 	log_order := make(chan Dict)
-	queues := make(chan Queues)
-	do_first := make(chan Queues)
 	slave_queues := make(chan Queues)
+	do_first := make(chan Queues)
+	queues_to_tcp := make(chan Queues)
 	kill_IMA_master := make(chan bool)
 	// --------------------------------- End: Create system channels --------------------------------------------
 
 	// --------------------------------- Start: Common program threads ------------------------------------------
 	go IP_array(ip_array_update, get_ip_array, flush)
 	go Timer(flush)
-	go Job_queues(log_order, queues, slave_queues, do_first)
+	go Job_queues(log_order, slave_queues, queues_to_tcp, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
 	go Lift_init(order)
@@ -97,7 +97,7 @@ func main() {
 					if ip[len(ip)-1] > 255 {
 						master_ip := Itoa(ip[len(ip)-1] - 255)
 						if master_ip != GetMyIP() {
-							go func() { new_master <- TCP_slave_com(master_ip, order, queues) }()
+							go func() { new_master <- TCP_slave_com(master_ip, order, slave_queues) }()
 							// Det som er litt unødvendig er at ny master har en TCP med seg selv..
 						} else {
 							kill_IMA_master <- true
