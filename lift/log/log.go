@@ -54,19 +54,15 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 				last_queue, _ = Append_if_missing_dict(last_queue, msg)
 			}
 
-			if msg.Dir == "standby" || msg.Dir == "stop" {
-				Println("LOG: updating the_queue with algo")
-				the_queue = Algo(Queues{job_queue, ext_queue, last_queue}, msg)
-			} else {
-				Println("LOG: updating the_queue")
-				the_queue = Queues{job_queue, ext_queue, last_queue}
-			}
+			Println("LOG: updating the_queue with algo")
+			the_queue = Queues{job_queue, ext_queue, last_queue}
+			the_queue = Algo(the_queue, msg)
+
 			Format_queues_term(the_queue)
 			queues_to_tcp <- the_queue //Send the_queue to all slaves
 
 		case msg := <-slave_queues:
 			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
-			Println("LOG: Slaved received new queues")
 		case do_first <- the_queue: // DO FIRST
 		}
 	}

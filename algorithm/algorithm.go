@@ -31,35 +31,38 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			current_index = i
 		}
 	}
-	//Println("Stage: 1")
-	if !Missing_ext_job(ext_queue, at_floor.Floor, last_dir) { // Noen skal på
-		//Println("Stage: 2")
-		if len(int_queue[current_index].Dest) != 0 {
-			//Println("Stage: 3")
-			if int_queue[current_index].Dest[0].Floor != at_floor.Floor {
-				//Println("Stage: 4")
-				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-			}
-		} else {
-			//Println("Stage: 5")
-			int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
-			Println("ALGO: Removed order from ext queue")
-		}
-		//Println("Stage: 6")
-		ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
-	}
 
-	if !Missing_int_job(current_queue, at_floor.Floor) { // Noen skal av
-		if len(current_queue.Dest) != 0 {
-			if current_queue.Dest[0].Floor == at_floor.Floor {
-				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-				ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
-				Println("ALGO: Removed from job queue of elevator: ",at_floor.Ip_order)
+	if at_floor.Dir == "standby" || at_floor.Dir == "standby" {
+		//Println("Stage: 1")
+		if !Missing_ext_job(ext_queue, at_floor.Floor, last_dir) { // Noen skal på
+			//Println("Stage: 2")
+			if len(int_queue[current_index].Dest) != 0 {
+				//Println("Stage: 3")
+				if int_queue[current_index].Dest[0].Floor != at_floor.Floor {
+					//Println("Stage: 4")
+					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
+				}
+			} else {
+				//Println("Stage: 5")
+				int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+				Println("ALGO: Removed order from ext queue")
 			}
-		} else {
-			// Re arrange
-			int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-			int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+			//Println("Stage: 6")
+			ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
+		}
+
+		if !Missing_int_job(current_queue, at_floor.Floor) { // Noen skal av
+			if len(current_queue.Dest) != 0 {
+				if current_queue.Dest[0].Floor == at_floor.Floor {
+					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
+					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
+					Println("ALGO: Removed from job queue of elevator: ",at_floor.Ip_order)
+				}
+			} else {
+				// Re arrange
+				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
+				int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+			}
 		}
 	}
 
