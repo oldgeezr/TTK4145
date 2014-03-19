@@ -78,7 +78,7 @@ func main() {
 				Println("=> State: Entered master state")
 				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
-				go TCP_master_connect(log_order, slave_queues)
+				go TCP_master_connect(log_order, queues_to_tcp)
 				go func() {
 					for {
 						msg := <-order

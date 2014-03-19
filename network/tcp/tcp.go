@@ -44,6 +44,7 @@ func TCP_master_com(conn Conn, queues_to_tcp chan Queues) {
 
 	for {
 		msg := <-queues_to_tcp
+		Println("I sent this")
 		b, _ := json.Marshal(msg)
 		conn.Write(b)
 	}

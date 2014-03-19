@@ -63,6 +63,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 			}
 			Format_queues_term(the_queue)
 			queues_to_tcp <- the_queue //Send the_queue to all slaves
+			Println("I sent queues")
 
 		case msg := <-slave_queues:
 			the_queue = Queues{msg.Int_queue, msg.Ext_queue, msg.Last_queue}
