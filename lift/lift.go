@@ -46,7 +46,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						} else if yours.Dest[0].Floor < last_floor {
 							state <- "down"
 						} else {
-							state <- "stop"
+							ate <- "stop"
 							Fprintf(Fo, "JOB:stop:\n")
 						}
 					} else {
@@ -103,6 +103,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			}
 			Speed(0)
 			Elev_set_door_open_lamp(1)
+			Set_button_lamp(BUTTON_COMMAND, floor, 0)
 			//order <- Dict{myIP, M + 1, "standby"}
 			order <- Dict{myIP, floor, "stop"}
 			time.Sleep(1500 * time.Millisecond)
