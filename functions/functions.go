@@ -146,29 +146,29 @@ func Append_if_missing_ip(slice []int, i int) []int {
 	return append(slice, i)
 }
 
-func Missing_int_job(job_queue Jobs, floor int) bool {
+func Someone_getting_off(job_queue Jobs, floor int) bool {
 
 	if len(job_queue.Dest) != 0 {
 		for _, orders := range job_queue.Dest {
-			if orders.Floor == floor && orders.Dir == "int" {
-				return false
+			if orders.Floor == floor {
+				return true
 			}
 		}
 	}
-	return true
+	return false
 }
 
-func Missing_ext_job(job_queue []Dict, floor int, dir string) bool {
+func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
 
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
 			if orders.Floor == floor {
-				return false
+				return true
 			}
 		}
 
 	}
-	return true
+	return false
 }
 
 func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {

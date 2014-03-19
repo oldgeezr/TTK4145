@@ -1,7 +1,7 @@
 package log
 
 import (
-	 . "../.././formating"
+	//. "../.././formating"
 	. "../.././algorithm"
 	. "../.././functions"
 	. "../.././lift"
@@ -48,7 +48,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 					}
 				} else {
 					job_queue, _ = Append_if_missing_queue(job_queue, msg.Ip_order)
-					Println("LOG: New elevator detected: ",msg.Ip_order)
+					Println("LOG: New elevator detected: ", msg.Ip_order)
 				}
 				//Update last queue
 				last_queue, _ = Append_if_missing_dict(last_queue, msg)
@@ -58,7 +58,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 			the_queue = Algo(the_queue, msg)
 
-			Format_queues_term(the_queue)
+			//Format_queues_term(the_queue)
 			queues_to_tcp <- the_queue //Send the_queue to all slaves
 
 		case msg := <-slave_queues:
