@@ -7,16 +7,29 @@ Entered lift
 Entered Do_first
 Entered External_lights
 => State: Entered master state
+I am master
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
-I am master
 Entered TCP_master_connect
 Entered Algo
 Entered TCP_master_com
 Entered Algo
 Entered Algo
 Entered Algo
+Entered TCP_master_com
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
 Entered Algo
 JOB:stop:
 Entered Algo
@@ -27,49 +40,11 @@ JOB:stop:
 Entered Algo
 Entered Algo
 Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-Entered Algo
-JOB:stop:
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-JOB:stop:
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-JOB:stop:
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 3 int}
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Entered Algo
 Deleted from queue:  {ip_order 1 int}
 Entered Algo
 Entered Algo
 Entered Algo
-INTERNAL: btn -> order -> tcp
 Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-INTERNAL: btn -> order -> tcp
 Entered Algo
 Entered Algo
 INTERNAL: btn -> order -> tcp
@@ -82,55 +57,132 @@ JOB:stop:
 Entered Algo
 Deleted from queue:  {ip_order 0 int}
 Entered Algo
-JOB:stop:
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 1 int}
-Entered Algo
-JOB:stop:
-Entered Algo
-Entered Algo
-JOB:stop:
 Entered Algo
 Deleted from queue:  {ip_order 2 int}
 Entered Algo
 JOB:stop:
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 0 int}
-Entered Algo
-Entered Algo
-Deleted from queue:  {ip_order 1 int}
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
 Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 0 int}
 Entered Algo
 Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
 JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 3 int}
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 0 int}
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 3 int}
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 2 int}
 Entered Algo
@@ -141,36 +193,25 @@ Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
-Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Deleted from queue:  {ip_order 0 int}
 Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
 Entered Algo
 Deleted from queue:  {ip_order 1 int}
 Entered Algo
+INTERNAL: btn -> order -> tcp
 Entered Algo
 Entered Algo
 JOB:stop:
-Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 3 int}
 Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-Entered Algo
-Entered Algo
-Entered Algo
 JOB:stop:
 Entered Algo
 Entered Algo
@@ -178,14 +219,6 @@ Entered Algo
 Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 1 int}
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
 Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 0 int}
@@ -195,15 +228,74 @@ Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
 JOB:stop:
 Entered Algo
 Deleted from queue:  {ip_order 1 int}
 Entered Algo
 JOB:stop:
 Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 3 int}
+Entered Algo
+Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 2 int}
 Entered Algo
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+JOB:stop:
 Entered Algo
 Entered Algo
 Entered Algo
@@ -212,18 +304,52 @@ Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 3 int}
 Entered Algo
+INTERNAL: btn -> order -> tcp
 Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
 JOB:stop:
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+JOB:stop:
+Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 0 int}
 Entered Algo
 Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+INTERNAL: btn -> order -> tcp
+Entered Algo
+Entered Algo
+Entered Algo
 JOB:stop:
 Entered Algo
+Deleted from queue:  {ip_order 3 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+JOB:stop:
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
 Entered Algo
 Entered Algo
 Entered Algo
@@ -234,29 +360,12 @@ Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 1 int}
 Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-Entered Algo
 Entered Algo
 JOB:stop:
 Entered Algo
-Entered Algo
+Deleted from queue:  {ip_order 0 int}
 Entered Algo
 Entered Algo
 JOB:stop:
 Entered Algo
-Deleted from queue:  {ip_order 2 int}
 Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-JOB:stop:
-Entered Algo
-Deleted from queue:  {ip_order 2 int}
-Deleted from queue:  {ip_order 2 int}
-Deleted from queue:  {ip_order 2 int}
