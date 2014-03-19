@@ -39,11 +39,9 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 
 		if Someone_getting_off(int_queue[current_index], at_floor.Floor) { // Noen skal av
-			if len(int_queue[current_index].Dest) != 0 {
-				if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
-					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
-				}
+			if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
+				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
+				//ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir) //Tror denne kan fjernes
 			} else {
 				// Re arrange
 				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
