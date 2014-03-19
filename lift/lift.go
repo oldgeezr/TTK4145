@@ -19,6 +19,9 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 	Fo.WriteString("Entered Do_first\n")
 
+	// HACK
+	time.Sleep(500 * time.Millisecond)
+
 	var last_floor int
 	var myIP string = GetMyIP()
 
@@ -29,9 +32,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 	for {
 		queues := <-do_first
 		job_queue := queues.Int_queue
-
-		// HACK
-		time.Sleep(100 * time.Millisecond)
 
 		// Format_queues_term(queues, "Do_first")
 		if Get_floor_sensor() != -1 {

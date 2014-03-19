@@ -5,7 +5,6 @@ Entered IMA
 Entered UDP_listen
 Entered lift
 Entered Do_first
-Entered External_lights
 => State: Entered master state
 Entered Floor_indicator
 Entered Int_order
