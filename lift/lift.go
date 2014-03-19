@@ -29,6 +29,10 @@ func Do_first(do_first chan Queues, order chan Dict) {
 	for {
 		queues := <-do_first
 		job_queue := queues.Int_queue
+
+		// HACK
+		time.Sleep(100 * time.Millisecond)
+
 		// Format_queues_term(queues, "Do_first")
 		if Get_floor_sensor() != -1 {
 			last_floor = Get_floor_sensor()
@@ -47,13 +51,12 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						}
 					} else {
 						state <- "standby"
-						Fprintf(Fo, "Ext:standby\n")
+
 					}
 				}
 			}
 		} else {
 			state <- "standby"
-			Fprintf(Fo, "Ext:standby\n")
 		}
 
 	}
