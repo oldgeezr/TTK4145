@@ -52,7 +52,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		for i, yours := range int_queue {
 			if yours.Ip == best_IP {
 				int_queue[i].Dest = Insert_at_pos("ip_order", int_queue[i].Dest, ext_queue[0].Floor, 0)
-				ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
+				// ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
 				break
 			}
 		}
