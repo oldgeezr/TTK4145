@@ -201,9 +201,10 @@ func Floor_indicator(order chan Dict) {
 }
 
 func External_lights(do_first chan Queues) {
+	var queue Queues
 	for {
-		external_queue := do_first.Ext_queue
-		for i, external := range external_queue {
+		queue = <-do_first
+		for i, external := range queue.Ext_queue {
 			if external.Dir == "up" {
 				Set_button_lamp(BUTTON_CALL_UP, i, 1)
 			} else {
