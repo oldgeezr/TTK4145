@@ -21,7 +21,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 	var last_floor int
 	var myIP string = GetMyIP()
-	var executing bool = false
 
 	state := make(chan string)
 
@@ -51,17 +50,13 @@ func Do_first(do_first chan Queues, order chan Dict) {
 					} else {
 						if len(ext_queue) != 0 {
 
-							if !executing {
-								executing = Determine_best_elevator(ext_queue, last_queue, myIP)
-							}
-							if executing {
+							if Determine_best_elevator(ext_queue, last_queue, myIP) {
 								if ext_queue[0].Floor > last_floor {
 									state <- "up"
 								} else if ext_queue[0].Floor < last_floor {
 									state <- "down"
 								} else {
 									state <- "stop"
-									executing = false
 									Fprintf(Fo, "Ext:stop\n")
 								}
 							} else {
@@ -72,7 +67,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							state <- "standby"
 							Fprintf(Fo, "Ext:standby\n")
 						}
-
 					}
 				}
 			}

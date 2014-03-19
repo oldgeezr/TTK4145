@@ -214,15 +214,13 @@ func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) b
 	var best_IP string
 
 	for _, last := range Last_queue {
-		if last.Dir == "standby" {
-			temp := Ext_queue[0].Floor - last.Floor
-			if temp < 0 {
-				temp = temp * (-1)
-			}
-			if temp < best {
-				best = temp
-				best_IP = last.Ip_order
-			}
+		temp := Ext_queue[0].Floor - last.Floor
+		if temp < 0 {
+			temp = temp * (-1)
+		}
+		if temp < best {
+			best = temp
+			best_IP = last.Ip_order
 		}
 	}
 	if best_IP == myIP {
