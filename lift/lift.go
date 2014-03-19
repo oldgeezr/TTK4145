@@ -7,8 +7,8 @@ import (
 	. ".././network"
 	// . "./log"
 	. "fmt"
+	. "strconv"
 	"time"
-	."strconv"
 )
 
 const (
@@ -123,6 +123,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			Speed(0)
 			if last_dir != "standby" {
 				order <- Dict{myIP, M + 1, "standby"}
+				Println("Standby")
 			}
 			last_dir = "standby"
 		}

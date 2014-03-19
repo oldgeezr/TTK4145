@@ -1,8 +1,8 @@
 package log
 
 import (
-	//. "../.././formating"
 	. "../.././algorithm"
+	. "../.././formating"
 	. "../.././functions"
 	. "../.././lift"
 	. "fmt"
@@ -55,10 +55,16 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 			}
 
 			Println("LOG: updating the_queue with algo")
+
+			the_queue = Queues{}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 			the_queue = Algo(the_queue, msg)
 
-			//Format_queues_term(the_queue)
+			job_queue = the_queue.Int_queue
+			ext_queue = the_queue.Ext_queue
+			last_queue = the_queue.Last_queue
+
+			Format_queues_term(the_queue)
 			queues_to_tcp <- the_queue //Send the_queue to all slaves
 
 		case msg := <-slave_queues:
