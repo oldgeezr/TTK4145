@@ -46,7 +46,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 						} else if yours.Dest[0].Floor < last_floor {
 							state <- "down"
 						} else {
-							ate <- "stop"
+							state <- "stop"
 							Fprintf(Fo, "JOB:stop:\n")
 						}
 					} else {
