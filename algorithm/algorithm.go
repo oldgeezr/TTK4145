@@ -11,8 +11,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	Fo.WriteString("Entered Algo\n")
 
 	var last_dir string
-	// var best int = 100
-	// var best_IP string
+	var best int = 100
+	var best_IP string
 	// var current_queue Jobs
 
 	int_queue := algo_queues.Int_queue
