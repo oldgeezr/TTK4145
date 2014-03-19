@@ -199,7 +199,7 @@ func External_lights(do_first chan Queues) {
 				Set_button_lamp(BUTTON_CALL_DOWN, external.Floor, 1)
 			}
 		}
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 
 		Set_button_lamp(BUTTON_CALL_UP, 0, 0)
 		Set_button_lamp(BUTTON_CALL_UP, 1, 0)
