@@ -31,3 +31,8 @@ The elevator algorithm
 ![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/elevator_algorithm.png)
 
 The algorithm is only executed on the master elevator. The algorithm triggers when an elevator reaches a new floor or if a stop signal is sent. The algorithm checks for internal and external orders for the elevator that triggered it. If it finds an external order in the same direction that the elevator is going, it will append it to the job_queue, then remove it.
+
+Project package structure
+------------------------
+
+![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/project_hierarchy.png)
