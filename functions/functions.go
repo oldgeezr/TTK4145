@@ -159,7 +159,7 @@ func Someone_getting_off(job_queue Jobs, floor int) bool {
 }
 
 func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
-	Print("Someone_on: ", floor, dir)
+	//Print("Someone_on: ", floor, dir)
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
 			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") {
@@ -209,13 +209,15 @@ func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) b
 	var best_IP string
 	for _, last := range Last_queue {
 		temp := Ext_queue[0].Floor - last.Floor
+		if temp < 0 {
+			temp = temp * (-1)
+		}
 		if temp < best {
 			best = temp
 			best_IP = last.Ip_order
 		}
 	}
 	if best_IP == myIP {
-		Fprintln(Fo, "I was the best elevator!")
 		return true
 	} else {
 		return false
