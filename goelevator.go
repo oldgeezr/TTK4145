@@ -51,7 +51,7 @@ func main() {
 			switch {
 			case master:
 				go UDP_send()
-				// cmd := exec.Command("mate-terminal", "-x", "go", "run", "pheonix.go")
+				// cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
 				cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
 				cmd.Start()
 			case !master:
