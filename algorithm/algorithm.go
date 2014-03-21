@@ -43,13 +43,13 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				}
 				// ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
 				break
-			} else {
+			} /*else {
 				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
 					elevator = elevator % len(last_queue)
 					job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
 					elevator++
 				}
-			}
+			}*/
 		}
 
 	case at_floor.Dir == "standby" || at_floor.Dir == "stop":
