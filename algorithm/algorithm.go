@@ -33,10 +33,10 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				if temp < best {
 					best = temp
 					best_IP = last.Ip_order
-					Println("BEST IP:", best_IP)
 				}
 			}
 		}
+		Println("BEST IP:", best_IP)
 		for i, yours := range job_queue {
 			if yours.Ip == best_IP {
 				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
@@ -44,6 +44,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order != "taken" {
 							ext_queue[i].Ip_order = "taken"
 							job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+							Println("PUT ORDER: [", at_floor.Floor, "] in job_index:", i)
 							break
 						}
 					}

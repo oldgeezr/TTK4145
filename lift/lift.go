@@ -122,7 +122,7 @@ func External_btn_order(order chan Dict) {
 		if i > 0 {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				order <- Dict{"ext", i, "down"}
-				time.Sleep(300 * time.Millisecond)
+				time.Sleep(500 * time.Millisecond)
 			}
 		}
 		i++
@@ -141,7 +141,7 @@ func Internal_btn_order(order chan Dict) {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
-			time.Sleep(300 * time.Millisecond)
+			time.Sleep(500 * time.Millisecond)
 		}
 		i++
 		i = i % M
