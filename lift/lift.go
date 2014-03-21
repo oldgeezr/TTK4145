@@ -5,8 +5,6 @@ import (
 	. ".././functions"
 	. ".././network"
 	. "./log"
-	. "fmt"
-	. "strconv"
 	"time"
 )
 
@@ -117,14 +115,12 @@ func External_btn_order(order chan Dict) {
 	for {
 		if i < M-1 {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
-				Println("LIFT: External call up button nr: " + Itoa(i) + " has been pressed!")
 				order <- Dict{"ext", i, "up"}
 				time.Sleep(300 * time.Millisecond)
 			}
 		}
 		if i > 0 {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
-				Println("LIFT: External call down button nr: " + Itoa(i) + " has been pressed!")
 				order <- Dict{"ext", i, "down"}
 				time.Sleep(300 * time.Millisecond)
 			}
@@ -143,7 +139,6 @@ func Internal_btn_order(order chan Dict) {
 
 	for {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
-			Println("LIFT: Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
 			time.Sleep(300 * time.Millisecond)

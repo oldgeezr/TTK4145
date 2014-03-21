@@ -127,7 +127,7 @@ func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 }
 
 func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
-	Println("AIM_ext: ", slice, floor, dir)
+
 	for _, yours := range slice {
 		if yours.Floor == floor && yours.Dir == dir {
 			return slice, false

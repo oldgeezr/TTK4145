@@ -12,7 +12,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	var last_dir string
 	var best int = 100
-	// var elevator int = 0
+	var elevator int = 0
 	var best_IP string = "nobest"
 	var current_index int = -1
 
@@ -39,17 +39,31 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		for i, yours := range job_queue {
 			if yours.Ip == best_IP {
 				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
-					job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+					for i, ext := range ext_queue {
+						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order != "taken" {
+							ext_queue[i].Ip_order = "taken"
+							job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+							break
+						}
+					}
 				}
-				// ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
 				break
-			} /*else {
+			} else {
 				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
+
 					elevator = elevator % len(last_queue)
-					job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
+
+					for i, ext := range ext_queue {
+						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order != "taken" {
+							ext_queue[i].Ip_order = "taken"
+							job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
+							break
+						}
+					}
+
 					elevator++
 				}
-			}*/
+			}
 		}
 
 	case at_floor.Dir == "standby" || at_floor.Dir == "stop":
