@@ -9,6 +9,35 @@ import (
 	"time"
 )
 
+func UDP_send_clone() {
+
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	conn, _ := DialUDP("udp", nil, saddr)
+
+	for {
+		conn.Write([]byte("alive"))
+		time.Sleep(50 * time.Millisecond)
+	}
+}
+
+func UDP_listen_clone(state chan bool) {
+
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	ln, _ := ListenUDP("udp", saddr)
+
+	for {
+		b := make([]byte, 1024)
+		ln.SetReadDeadline(time.Now().Add(150 * time.Millisecond))
+		_, _, err := ln.ReadFromUDP(b)
+		if err != nil {
+			Println("MASTER DIED")
+			state <- true
+			Println("INITIATE NEW MASTER")
+			return
+		}
+	}
+}
+
 func UDP_send(conn Conn, msg string) {
 
 	length, _ := Atoi(msg)

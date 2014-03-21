@@ -10,14 +10,69 @@ import (
 	. "./network/udp"
 	. "fmt"
 	. "net"
-	"os"
+	"os/exec"
 	. "strconv"
 	"time"
 )
 
 func main() {
 
-	Elevator_art()
+	Println("PROGRAM STARTED")
+
+	var master bool
+	state := make(chan bool)
+	b := make([]byte, 1024)
+
+	go func() {
+		for {
+			Println("LISTENING FOR STATE")
+			master = <-state
+			Println("DONE LISTENING FOR STATE")
+			switch {
+			case master:
+				Println("STAGE 1")
+				go UDP_send_clone()
+				go Go_elevator()
+				cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
+				Println("STAGE 2")
+			case !master:
+				Println("STAGE 3")
+				go UDP_listen_clone(state)
+			}
+		}
+	}()
+
+	Println("LISTENING FOR NETWORK ACTIVITY")
+
+	// Initiate program
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	ln, _ := ListenUDP("udp", saddr)
+	ln.SetReadDeadline(time.Now().Add(300 * time.Millisecond))
+	_, _, err := ln.ReadFromUDP(b)
+	ln.Close()
+	// Initiate program -- END
+
+	Println("NETWORK ERROR:", err)
+
+	Println("DONE LISTENING")
+
+	if err != nil {
+		Println("EVALUATE ERROR != nil")
+		state <- true
+		Println("BECOME THE MASTER")
+	} else {
+		state <- false
+		Println("BECOME THE SLAVE")
+	}
+
+	Println("PROGRAM ENDED")
+
+	neverQuit := make(chan string)
+	<-neverQuit
+}
+
+func Go_elevator() {
+
 	var err error
 
 	// --------------------------------- Start: Create error log ------------------------------------------------
@@ -32,17 +87,6 @@ func main() {
 		}
 	}()
 	// --------------------------------- End: Create error log --------------------------------------------------
-
-	// --------------------------------- Start: Listen for network activity -------------------------------------
-	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
-	ln, _ := ListenUDP("udp", saddr)
-	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
-
-	b := make([]byte, 16)
-
-	_, _, err2 := ln.ReadFromUDP(b)
-	ln.Close()
-	// --------------------------------- End: Listen for network activity ---------------------------------------
 
 	// --------------------------------- Start: Create system channels ------------------------------------------
 	slave := make(chan bool)
@@ -61,6 +105,35 @@ func main() {
 	lost_conn := make(chan bool)
 	// --------------------------------- End: Create system channels --------------------------------------------
 
+	// --------------------------------- Start: Searching for net connection ------------------------------------
+	go func() {
+		for {
+			select {
+			case connection := <-lost_conn:
+				if !connection {
+					Println("CONNECTION ENABLED")
+					return
+				}
+			}
+		}
+	}()
+
+	Got_net_connection(lost_conn, false)
+	// --------------------------------- End: Searching for net connection --------------------------------------
+
+	Elevator_art()
+
+	// --------------------------------- Start: Listen for network activity -------------------------------------
+	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
+	ln, _ := ListenUDP("udp", saddr)
+	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
+
+	b := make([]byte, 16)
+
+	_, _, err2 := ln.ReadFromUDP(b)
+	ln.Close()
+	// --------------------------------- End: Listen for network activity ---------------------------------------
+
 	// --------------------------------- Start: Common program threads ------------------------------------------
 	go IP_array(ip_array_update, get_ip_array, flush)
 	go Timer(flush)
@@ -68,7 +141,7 @@ func main() {
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
 	// go Lift_init(do_first, order)
-	go Got_net_connection(lost_conn)
+	go Got_net_connection(lost_conn, true)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state machine --------------------------------------------

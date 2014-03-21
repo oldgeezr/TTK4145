@@ -26,32 +26,27 @@ type Queues struct {
 
 var Fo *os.File
 
-func Got_net_connection(lost_conn chan bool) {
-	var alive bool = true
-	saddr, _ := ResolveUDPAddr("udp", "www.google.com:http")
-	for {
+func Got_net_connection(lost_conn chan bool, alive bool) {
 
+	for {
+		saddr, _ := ResolveUDPAddr("udp", "www.google.com:http")
 		conn, err := DialUDP("udp", nil, saddr)
 		time.Sleep(50 * time.Millisecond)
 
 		switch {
 		case err == nil && alive:
-			Println("GOT NO ERROR")
 			time.Sleep(50 * time.Millisecond)
 			conn.Close()
 		case err != nil && alive:
 			lost_conn <- true
 			alive = false
-			Println("GOT ERROR, HAVE NOT SENDT STATE")
 			Println("ERROR:", err)
-			/*case err != nil && !alive:
-				Println("GOT ERROR")
-				time.Sleep(50 * time.Millisecond)
-			case err == nil && !alive:
-				lost_conn <- false
-				alive = true
-				Println("GOT NO ERROR, HAVE NOT SENDT STATE")
-				Println("ERROR:", err)*/
+		case err != nil && !alive:
+			time.Sleep(50 * time.Millisecond)
+		case err == nil && !alive:
+			lost_conn <- false
+			alive = true
+			return
 		}
 	}
 }

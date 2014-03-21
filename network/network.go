@@ -7,16 +7,16 @@ import (
 
 const (
 	UDP_PORT_net string = ":39745"
-	UDP_PORT     string = ":39777"
-	TCP_PORT     string = ":27731"
-	// UDP_PORT string = ":39717"
-	// TCP_PORT string = ":27721"
-	BROADCAST string = "129.241.187.255"
-	IP_BASE   string = "129.241.187."
-	// BROADCAST string = "78.91.9.255"
-	// IP_BASE   string = "78.91.9."
-	BUF_LEN int = 1024
-	IP_LEN  int = 12
+	// UDP_PORT     string = ":39777"
+	// TCP_PORT     string = ":27731"
+	UDP_PORT string = ":39717"
+	TCP_PORT string = ":27721"
+	// BROADCAST string = "129.241.187.255"
+	// IP_BASE   string = "129.241.187."
+	BROADCAST string = "78.91.9.255"
+	IP_BASE   string = "78.91.9."
+	BUF_LEN   int    = 1024
+	IP_LEN    int    = 8
 )
 
 func GetMyIP() string {
