@@ -31,7 +31,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 	for {
 		queues := <-do_first
-		job_queue := queues.Int_queue
+		job_queue := queues.Job_queue
 
 		// Format_queues_term(queues, "Do_first")
 		if Get_floor_sensor() != -1 {

@@ -56,7 +56,7 @@ func Format_last_queue(last_queue []Dict) {
 
 func Format_queues(queues Queues) {
 	Fprintf(Fo, "---------Queues--------\n")
-	Format_int_queue(queues.Int_queue)
+	Format_int_queue(queues.Job_queue)
 	Fprintf(Fo, "\n")
 	Format_ext_queue(queues.Ext_queue)
 	Fprintf(Fo, "\n")
@@ -115,9 +115,9 @@ func Format_last_queue_term(last_queue []Dict) {
 
 func Format_queues_term(queues Queues) {
 	Print("\n")
-	Print("#",print_counter)
+	Print("#", print_counter)
 	Print("-------Queues--------\n")
-	Format_int_queue_term(queues.Int_queue)
+	Format_int_queue_term(queues.Job_queue)
 	Print("\n")
 	Format_ext_queue_term(queues.Ext_queue)
 	Print("\n")
