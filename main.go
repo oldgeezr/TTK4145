@@ -58,6 +58,8 @@ func main() {
 	do_first := make(chan Queues)
 	queues_to_tcp := make(chan Queues)
 	kill_IMA_master := make(chan bool)
+	lost_conn := make(chan bool)
+	kill_net := make(chan bool)
 	// --------------------------------- End: Create system channels --------------------------------------------
 
 	// --------------------------------- Start: Common program threads ------------------------------------------
@@ -67,6 +69,7 @@ func main() {
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
 	// go Lift_init(do_first, order)
+	go Got_net_connection(lost_conn)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state machine --------------------------------------------
@@ -123,6 +126,14 @@ func main() {
 	}
 	// --------------------------------- End: Set state ----------------------------------------------------------
 
-	neverQuit := make(chan string)
-	<-neverQuit
+	for {
+		select {
+		case msg := <-lost_conn:
+			if msg == true {
+
+			} else if msg == false {
+
+			}
+		}
+	}
 }
