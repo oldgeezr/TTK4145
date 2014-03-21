@@ -53,12 +53,10 @@ func Go_elevator() {
 	// --------------------------------- Start: Searching for net connection ------------------------------------
 	go func() {
 		for {
-			select {
-			case connection := <-lost_conn:
-				if !connection {
-					Println("CONNECTION ENABLED")
-					return
-				}
+			connection := <-lost_conn
+			if !connection {
+				Println("CONNECTION ENABLED")
+				return
 			}
 		}
 	}()

@@ -16,7 +16,7 @@ func UDP_send_clone() {
 
 	for {
 		conn.Write([]byte("alive"))
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 

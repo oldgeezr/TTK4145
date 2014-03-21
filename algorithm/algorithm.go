@@ -3,7 +3,7 @@ package algorithm
 import (
 	//. ".././formating"
 	. ".././functions"
-	//. "fmt"
+	. "fmt"
 )
 
 func Algo(algo_queues Queues, at_floor Dict) Queues {
@@ -66,6 +66,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			}
 		}
 
+		algo_queues = Queues{job_queue, ext_queue, last_queue}
+
 	case at_floor.Dir == "standby" || at_floor.Dir == "stop":
 
 		// --------------------------------- Start: Finds the elevator direction -----------------------------------------------------------
@@ -92,18 +94,22 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 		// --------------------------------- Start: Is there a floor in job_queue that is equal to this floor ------------------------------
 		if Someone_getting_off(job_queue[current_index], at_floor.Floor) {
+			Println("SOMEONE IS GETTING OFF!")
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, "standby")
+				} else {
+					// Re arrange
+					Println("REARRANGING!")
+					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 				}
-			} else {
-				// Re arrange
-				job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
-				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 		}
 		// --------------------------------- End: Is there a floor in job_queue that is equal to this floor --------------------------------
+
+		algo_queues = Queues{job_queue, ext_queue, last_queue}
 
 		// --------------------------------- Start: Is there a floor in ext_queue that is equal to this floor ------------------------------
 		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) {
@@ -120,8 +126,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		// --------------------------------- End: Is there a floor in ext_queue that is equal to this floor --------------------------------
 	}
-
-	algo_queues = Queues{job_queue, ext_queue, last_queue}
 
 	return algo_queues
 }

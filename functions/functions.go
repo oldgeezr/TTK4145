@@ -31,7 +31,7 @@ func Got_net_connection(lost_conn chan bool, alive bool) {
 	for {
 		saddr, _ := ResolveUDPAddr("udp", "www.google.com:http")
 		conn, err := DialUDP("udp", nil, saddr)
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(100 * time.Millisecond)
 
 		switch {
 		case err == nil && alive:
@@ -204,7 +204,7 @@ func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
 	//Print("Someone_on: ", floor, dir)
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
-			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") {
+			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") && orders.Ip_order != "taken" {
 				return true
 			}
 		}
