@@ -49,7 +49,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 					}
 				}
 				break
-			} else {
+			} else if best_IP == "nobest" {
 				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
 
 					best_elevator = best_elevator % len(last_queue)
