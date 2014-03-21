@@ -19,6 +19,9 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 	Fo.WriteString("Entered Do_first\n")
 
+	// HACK
+	time.Sleep(500 * time.Millisecond)
+
 	var last_floor int
 	var myIP string = GetMyIP()
 
@@ -29,8 +32,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 	for {
 		queues := <-do_first
 		job_queue := queues.Int_queue
-		ext_queue := queues.Ext_queue
-		last_queue := queues.Last_queue
+
 		// Format_queues_term(queues, "Do_first")
 		if Get_floor_sensor() != -1 {
 			last_floor = Get_floor_sensor()
@@ -48,30 +50,12 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							Fprintf(Fo, "JOB:stop:\n")
 						}
 					} else {
-						if len(ext_queue) != 0 {
+						state <- "standby"
 
-							if Determine_best_elevator(ext_queue, last_queue, myIP) {
-								if ext_queue[0].Floor > last_floor {
-									state <- "up"
-								} else if ext_queue[0].Floor < last_floor {
-									state <- "down"
-								} else {
-									state <- "stop"
-									Fprintf(Fo, "Ext:stop\n")
-								}
-							} else {
-								state <- "standby"
-								Fprintf(Fo, "Ext:standby\n")
-							}
-						} else {
-							state <- "standby"
-							Fprintf(Fo, "Ext:standby\n")
-						}
 					}
 				}
 			}
 		}
-
 	}
 }
 
@@ -119,6 +103,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			}
 			Speed(0)
 			Elev_set_door_open_lamp(1)
+			Set_button_lamp(BUTTON_COMMAND, floor, 0)
 			//order <- Dict{myIP, M + 1, "standby"}
 			order <- Dict{myIP, floor, "stop"}
 			time.Sleep(1500 * time.Millisecond)
@@ -214,7 +199,7 @@ func External_lights(do_first chan Queues) {
 				Set_button_lamp(BUTTON_CALL_DOWN, external.Floor, 1)
 			}
 		}
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 
 		Set_button_lamp(BUTTON_CALL_UP, 0, 0)
 		Set_button_lamp(BUTTON_CALL_UP, 1, 0)
