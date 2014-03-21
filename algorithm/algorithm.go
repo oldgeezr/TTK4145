@@ -77,6 +77,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		// --------------------------------- Start: Finds the elevator direction -----------------------------------------------------------
 
 		// --------------------------------- Start: Finds the correct job_queue index ------------------------------------------------------
+		for i, yours := range job_queue {
 			if yours.Ip == at_floor.Ip_order {
 				current_index = i
 			}
@@ -87,7 +88,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		if len(job_queue[current_index].Dest) == 0 {
 			last_dir = "standby"
 		}
-		// --------------------------------- End: If elevator has no jobs, it must be in standby -----------------------------------------
+		// --------------------------------- End: If elevator has no jobs, it must be in standby -------------------------------------------
 
 		// --------------------------------- Start: Is there a floor in job_queue that is equal to this floor ------------------------------
 		if Someone_getting_off(job_queue[current_index], at_floor.Floor) {
@@ -102,7 +103,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 		}
-		// --------------------------------- End: Is there a floor in job_queue that is equal to this floor ------------------------------
+		// --------------------------------- End: Is there a floor in job_queue that is equal to this floor --------------------------------
 
 		// --------------------------------- Start: Is there a floor in ext_queue that is equal to this floor ------------------------------
 		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) {
@@ -117,7 +118,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
 
 		}
-		// --------------------------------- End: Is there a floor in ext_queue that is equal to this floor ------------------------------
+		// --------------------------------- End: Is there a floor in ext_queue that is equal to this floor --------------------------------
 	}
 
 	algo_queues = Queues{job_queue, ext_queue, last_queue}
