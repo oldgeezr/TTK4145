@@ -54,9 +54,10 @@ func main() {
 				Println("STAGE 1")
 				go UDP_send()
 				cmd := exec.Command("mate-terminal", "-x", "go", "run", "golift.go")
-				cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
+				cmd2 := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
 				// cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
 				cmd.Start()
+				cm2.Start()
 				Println("STAGE 2")
 			case !master:
 				Println("STAGE 3")
