@@ -18,12 +18,6 @@ type Jobs struct {
 	Dest []Dict
 }
 
-type Order struct {
-	Ip    string
-	Pos   int
-	Floor int
-}
-
 type Queues struct {
 	Job_queue  []Jobs
 	Ext_queue  []Dict

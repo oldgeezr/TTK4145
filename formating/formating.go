@@ -116,7 +116,7 @@ func Format_last_queue_term(last_queue []Dict) {
 func Format_queues_term(queues Queues) {
 	Print("\n")
 	Print("#", print_counter)
-	Print("-------Queues--------\n")
+	Print("------Queues--------\n")
 	Format_job_queue_term(queues.Job_queue)
 	Print("\n")
 	Format_ext_queue_term(queues.Ext_queue)
