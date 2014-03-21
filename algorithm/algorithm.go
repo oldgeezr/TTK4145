@@ -15,7 +15,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	var best_IP string = "nobest"
 	// var current_queue Jobs
 
-	int_queue := algo_queues.Int_queue
+	job_queue := algo_queues.Job_queue
 	ext_queue := algo_queues.Ext_queue
 	last_queue := algo_queues.Last_queue
 
@@ -27,7 +27,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	current_index := -1
 
-	for i, yours := range int_queue { // GÃ¥ gjennom alle jobbkÃ¸ene
+	for i, yours := range job_queue { // GÃ¥ gjennom alle jobbkÃ¸ene
 		if yours.Ip == at_floor.Ip_order { // Finn riktig jobbkÃ¸
 			// current_queue = yours
 			current_index = i
@@ -49,48 +49,48 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				}
 			}
 		}
-		for i, yours := range int_queue {
+		for i, yours := range job_queue {
 			if yours.Ip == best_IP {
-				int_queue[i].Dest = Insert_at_pos("ip_order", int_queue[i].Dest, at_floor.Floor, 0)
+				job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
 				// ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
 				break
 			}
 		}
-		algo_queues = Queues{int_queue, ext_queue, last_queue}
+		algo_queues = Queues{job_queue, ext_queue, last_queue}
 
 	} else if at_floor.Dir == "standby" || at_floor.Dir == "stop" {
 
-		if len(int_queue[current_index].Dest) == 0 {
+		if len(job_queue[current_index].Dest) == 0 {
 			last_dir = "standby"
 		}
 
-		if Someone_getting_off(int_queue[current_index], at_floor.Floor) { // Noen skal av
-			if len(int_queue[current_index].Dest) != 0 {
-				if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
-					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
+		if Someone_getting_off(job_queue[current_index], at_floor.Floor) { // Noen skal av
+			if len(job_queue[current_index].Dest) != 0 {
+				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
+					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, "standby")
 				}
 			} else {
 				// Re arrange
-				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-				int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+				job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 		}
-		algo_queues = Queues{int_queue, ext_queue, last_queue}
+		algo_queues = Queues{job_queue, ext_queue, last_queue}
 
 		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) { // Noen skal pÃ¥
 			Println("ALGO: someone is getting on")
-			Println("ALGO: ", current_index, int_queue)
-			if len(int_queue[current_index].Dest) != 0 {
-				Println("ALGO: have int_queue")
-				if int_queue[current_index].Dest[0].Floor != at_floor.Floor {
-					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-					int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
-					Println(int_queue[current_index].Dest)
+			Println("ALGO: ", current_index, job_queue)
+			if len(job_queue[current_index].Dest) != 0 {
+				Println("ALGO: have job_queue")
+				if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
+					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+					Println(job_queue[current_index].Dest)
 				}
 			} else {
 				Println("ALGO: ", current_index)
-				int_queue[current_index].Dest = Insert_at_pos("ip_order", int_queue[current_index].Dest, at_floor.Floor, 0)
+				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 			ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
 

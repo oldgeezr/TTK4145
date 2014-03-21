@@ -25,7 +25,7 @@ type Order struct {
 }
 
 type Queues struct {
-	Int_queue  []Jobs
+	Job_queue  []Jobs
 	Ext_queue  []Dict
 	Last_queue []Dict
 }
@@ -192,7 +192,7 @@ func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 	return this
 }
 
-func Remove_int_queue(this Jobs, floor int) Jobs {
+func Remove_job_queue(this Jobs, floor int) Jobs {
 
 	if len(this.Dest) != 0 {
 		for i, orders := range this.Dest {

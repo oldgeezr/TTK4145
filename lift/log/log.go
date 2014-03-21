@@ -63,7 +63,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 			the_queue = Queues{job_queue, ext_queue, last_queue}
 			the_queue = Algo(the_queue, msg)
 
-			job_queue = the_queue.Int_queue
+			job_queue = the_queue.Job_queue
 			ext_queue = the_queue.Ext_queue
 			last_queue = the_queue.Last_queue
 
@@ -75,7 +75,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 
 		case msg := <-slave_queues:
 			the_queue = Queues{}
-			the_queue.Int_queue = msg.Int_queue
+			the_queue.Job_queue = msg.Job_queue
 			the_queue.Ext_queue = msg.Ext_queue
 			the_queue.Last_queue = msg.Last_queue
 			Format_queues_term(the_queue)
