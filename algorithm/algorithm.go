@@ -27,8 +27,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	current_index := -1
 
-	for i, yours := range int_queue { // Gå gjennom alle jobbkøene
-		if yours.Ip == at_floor.Ip_order { // Finn riktig jobbkø
+	for i, yours := range int_queue { // GÃ¥ gjennom alle jobbkÃ¸ene
+		if yours.Ip == at_floor.Ip_order { // Finn riktig jobbkÃ¸
 			// current_queue = yours
 			current_index = i
 		}
@@ -65,17 +65,11 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 
 		if Someone_getting_off(int_queue[current_index], at_floor.Floor) { // Noen skal av
-
-			if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
-				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
-				//ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir) //Tror denne kan fjernes
-			}
 			if len(int_queue[current_index].Dest) != 0 {
 				if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
 					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
 					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, "standby")
 				}
-
 			} else {
 				// Re arrange
 				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
@@ -84,7 +78,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		algo_queues = Queues{int_queue, ext_queue, last_queue}
 
-		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) { // Noen skal på
+		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) { // Noen skal pÃ¥
 			Println("ALGO: someone is getting on")
 			Println("ALGO: ", current_index, int_queue)
 			if len(int_queue[current_index].Dest) != 0 {
