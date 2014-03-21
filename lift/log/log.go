@@ -25,22 +25,22 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 			switch {
 
 			case msg.Dir == "int":
-				//Append to Correct Job_Queue
 				Print("LOG: int job received on: ")
 				Println(msg.Ip_order)
 				job_queue = Append_if_missing_right_queue(job_queue, msg)
+
 			case msg.Ip_order == "ext":
-				//Append if missing to Ext_queue
 				ext_queue, _ = Append_if_missing_ext_queue(ext_queue, msg.Floor, msg.Dir)
-				Println("LOG: ext job received")
+				Println("LOG: Ext job received")
+
 			case msg.Floor >= M:
 				Print("LOG: Elevator: ", msg.Ip_order)
-				Println(" is moving -> updating direction!")
-				//Update last_queue direction
+				Println(" is moving: ", msg.Dir)
 				last_queue, _ = Update_Direction(last_queue, msg)
+
 			case msg.Dir == "standby":
-				//Creating job-queues
-				Println("LOG: new floor detected!")
+				Print("LOG: Elevator: ", msg.Ip_order)
+				Println(" has arrived at a new floor")
 				if len(last_queue) != 0 {
 					for _, last := range last_queue {
 						if last.Ip_order != msg.Ip_order {
@@ -51,11 +51,8 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 					job_queue, _ = Append_if_missing_queue(job_queue, msg.Ip_order)
 					Println("LOG: New elevator detected: ", msg.Ip_order)
 				}
-				//Update last queue
 				last_queue, _ = Append_if_missing_dict(last_queue, msg)
 			}
-
-			Println("LOG: updating the_queue with algo")
 
 			the_queue = Queues{}
 			the_queue = Queues{job_queue, ext_queue, last_queue}
@@ -77,6 +74,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 			the_queue.Ext_queue = msg.Ext_queue
 			the_queue.Last_queue = msg.Last_queue
 			Format_queues_term(the_queue)
+
 		case do_first <- the_queue: // DO FIRST
 		}
 	}

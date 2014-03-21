@@ -69,7 +69,7 @@ func main() {
 	go Lift_init(do_first, order)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
-	// --------------------------------- Start: System state maching --------------------------------------------
+	// --------------------------------- Start: System state machine --------------------------------------------
 	go func() {
 		for {
 			select {
@@ -97,7 +97,6 @@ func main() {
 						master_ip := Itoa(ip[len(ip)-1] - 255)
 						if master_ip != GetMyIP() {
 							go func() { new_master <- TCP_slave_com(master_ip, order, slave_queues) }()
-							// Det som er litt unødvendig er at ny master har en TCP med seg selv..
 						} else {
 							kill_IMA_master <- true
 							master <- true
@@ -112,7 +111,7 @@ func main() {
 		}
 
 	}()
-	// --------------------------------- End: System state maching -----------------------------------------------
+	// --------------------------------- End: System state machine -----------------------------------------------
 
 	// --------------------------------- Start: Set state --------------------------------------------------------
 	if err2 != nil {

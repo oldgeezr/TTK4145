@@ -33,7 +33,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		queues := <-do_first
 		job_queue := queues.Job_queue
 
-		// Format_queues_term(queues, "Do_first")
 		if Get_floor_sensor() != -1 {
 			last_floor = Get_floor_sensor()
 		}
@@ -47,7 +46,6 @@ func Do_first(do_first chan Queues, order chan Dict) {
 							state <- "down"
 						} else {
 							state <- "stop"
-							Fprintf(Fo, "JOB:stop:\n")
 						}
 					} else {
 						state <- "standby"
@@ -104,7 +102,6 @@ func Send_to_floor(state chan string, order chan Dict) {
 			Speed(0)
 			Elev_set_door_open_lamp(1)
 			Set_button_lamp(BUTTON_COMMAND, floor, 0)
-			//order <- Dict{myIP, M + 1, "standby"}
 			order <- Dict{myIP, floor, "stop"}
 			time.Sleep(1500 * time.Millisecond)
 			last_dir = "stop"
@@ -158,7 +155,6 @@ func Internal_btn_order(order chan Dict) {
 			Println("LIFT: Internal button nr: " + Itoa(i) + " has been pressed!")
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
-			Fprintln(Fo, "INTERNAL: btn -> order -> tcp")
 			time.Sleep(300 * time.Millisecond)
 		}
 		i++

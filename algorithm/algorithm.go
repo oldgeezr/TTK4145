@@ -3,7 +3,7 @@ package algorithm
 import (
 	//. ".././formating"
 	. ".././functions"
-	. "fmt"
+	//. "fmt"
 )
 
 func Algo(algo_queues Queues, at_floor Dict) Queues {
@@ -15,7 +15,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	var elevator int = 0
 	var best_IP string = "nobest"
 	var current_index int = -1
-	// var current_queue Jobs
 
 	job_queue := algo_queues.Job_queue
 	ext_queue := algo_queues.Ext_queue
@@ -55,23 +54,27 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	case at_floor.Dir == "standby" || at_floor.Dir == "stop":
 
+		// --------------------------------- Finds the elevator direction ------------------------------------------------
 		for _, last := range last_queue {
 			if last.Ip_order == at_floor.Ip_order {
 				last_dir = last.Dir
 			}
 		}
 
+		// --------------------------------- Finds the correct job_queue index ------------------------------------------------
 		for i, yours := range job_queue {
 			if yours.Ip == at_floor.Ip_order {
 				current_index = i
 			}
 		}
 
+		// --------------------------------- If elevator has no jobs, it must be in standby ------------------------------------------------
 		if len(job_queue[current_index].Dest) == 0 {
 			last_dir = "standby"
 		}
 
-		if Someone_getting_off(job_queue[current_index], at_floor.Floor) { // Noen skal av
+		// --------------------------------- Is there a floor in job_queue that is equal to this floor ------------------------------------------------
+		if Someone_getting_off(job_queue[current_index], at_floor.Floor) {
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
@@ -83,18 +86,16 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 		}
-		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) { // Noen skal pÃ¥
-			Println("ALGO: someone is getting on")
-			Println("ALGO: ", current_index, job_queue)
+
+		// --------------------------------- Is there a floor in ext_queue that is equal to this floor ------------------------------------------------
+		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) {
 			if len(job_queue[current_index].Dest) != 0 {
-				Println("ALGO: have job_queue")
 				if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 					Println(job_queue[current_index].Dest)
 				}
 			} else {
-				Println("ALGO: ", current_index)
 				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 			ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
