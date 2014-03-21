@@ -4,25 +4,19 @@ Entered Job_queues
 Entered IMA
 Entered UDP_listen
 Entered lift
-=> State: Entered master state
+=> State: Entered slave state
+I am slave
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
 Entered External_lights
 Entered Do_first
-I am master
+Entered IMA_master
+=> State: Entered master state
 Entered TCP_master_connect
 Entered Algo
 Entered Algo
 Entered TCP_master_com
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
-Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
@@ -34,9 +28,58 @@ Entered Algo
 Entered Algo
 Entered Algo
 Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 3 int}
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 0 int}
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
 Entered Algo
 Entered Algo
 Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Deleted from queue:  {ip_order 2 int}
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 1 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 3 int}
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Entered Algo
+Deleted from queue:  {ip_order 0 int}
 Entered Algo
 Entered Algo
 Entered Algo

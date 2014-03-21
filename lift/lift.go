@@ -65,7 +65,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 		if Get_floor_sensor() != -1 {
 			floor = Get_floor_sensor()
 		}
-		_ = floor
+
 		switch {
 
 		case st == "up":
