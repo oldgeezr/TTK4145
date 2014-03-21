@@ -7,10 +7,10 @@ import (
 
 var print_counter int = 1
 
-func Format_int_queue(int_queue []Jobs) {
-	Fprintf(Fo, "Int queues:\n")
-	if len(int_queue) != 0 {
-		for _, job := range int_queue {
+func Format_job_queue(job_queue []Jobs) {
+	Fprintf(Fo, "Job queues:\n")
+	if len(job_queue) != 0 {
+		for _, job := range job_queue {
 			Fprint(Fo, job.Ip)
 			Fprintf(Fo, ":")
 			for j := 0; j < len(job.Dest); j++ {
@@ -56,7 +56,7 @@ func Format_last_queue(last_queue []Dict) {
 
 func Format_queues(queues Queues) {
 	Fprintf(Fo, "---------Queues--------\n")
-	Format_int_queue(queues.Job_queue)
+	Format_job_queue(queues.Job_queue)
 	Fprintf(Fo, "\n")
 	Format_ext_queue(queues.Ext_queue)
 	Fprintf(Fo, "\n")
@@ -66,10 +66,10 @@ func Format_queues(queues Queues) {
 
 ////////////////////////////////////////////////
 
-func Format_int_queue_term(int_queue []Jobs) {
-	Print("Int queues:\n")
-	if len(int_queue) != 0 {
-		for _, job := range int_queue {
+func Format_job_queue_term(job_queue []Jobs) {
+	Print("Job queues:\n")
+	if len(job_queue) != 0 {
+		for _, job := range job_queue {
 			Print(job.Ip)
 			Print(":")
 			for j := 0; j < len(job.Dest); j++ {
@@ -117,7 +117,7 @@ func Format_queues_term(queues Queues) {
 	Print("\n")
 	Print("#", print_counter)
 	Print("-------Queues--------\n")
-	Format_int_queue_term(queues.Job_queue)
+	Format_job_queue_term(queues.Job_queue)
 	Print("\n")
 	Format_ext_queue_term(queues.Ext_queue)
 	Print("\n")

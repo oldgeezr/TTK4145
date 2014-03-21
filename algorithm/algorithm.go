@@ -2,7 +2,7 @@ package algorithm
 
 import (
 	//. ".././formating"
-	. "../functions"
+	. ".././functions"
 	. "fmt"
 )
 
@@ -12,6 +12,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	var last_dir string
 	var best int = 100
+	var elevator int = 0
 	var best_IP string = "nobest"
 	// var current_queue Jobs
 
@@ -35,8 +36,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	}
 	if at_floor.Ip_order == "ext" {
 
-		Println("I WAS HERE")
-
 		for _, last := range last_queue {
 			if last.Dir == "standby" {
 				temp := ext_queue[0].Floor - last.Floor
@@ -54,6 +53,10 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
 				// ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
 				break
+			} else {
+				elevator = elevator % len(last_queue)
+				job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
+				elevator++
 			}
 		}
 		algo_queues = Queues{job_queue, ext_queue, last_queue}
