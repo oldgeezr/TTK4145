@@ -10,6 +10,7 @@ import (
 	. "./network/udp"
 	. "fmt"
 	. "net"
+	"os"
 	"os/exec"
 	. "strconv"
 	"time"
@@ -34,6 +35,7 @@ func main() {
 				go UDP_send_clone()
 				go Go_elevator()
 				cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
+				cmd.Start()
 				Println("STAGE 2")
 			case !master:
 				Println("STAGE 3")
