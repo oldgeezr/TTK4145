@@ -31,7 +31,7 @@ func Got_net_connection(lost_conn chan bool, alive bool) {
 	for {
 		saddr, _ := ResolveUDPAddr("udp", "www.google.com:http")
 		conn, err := DialUDP("udp", nil, saddr)
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 
 		switch {
 		case err == nil && alive:

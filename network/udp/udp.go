@@ -16,7 +16,7 @@ func UDP_send_clone() {
 
 	for {
 		conn.Write([]byte("alive"))
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 	}
 }
 
@@ -27,7 +27,7 @@ func UDP_listen_clone(state chan bool) {
 
 	for {
 		b := make([]byte, 1024)
-		ln.SetReadDeadline(time.Now().Add(150 * time.Millisecond))
+		ln.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 		_, _, err := ln.ReadFromUDP(b)
 		if err != nil {
 			Println("MASTER DIED")
