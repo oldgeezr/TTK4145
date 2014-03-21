@@ -57,7 +57,7 @@ func main() {
 				cmd2 := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
 				// cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
 				cmd.Start()
-				cm2.Start()
+				cmd2.Start()
 				Println("STAGE 2")
 			case !master:
 				Println("STAGE 3")
