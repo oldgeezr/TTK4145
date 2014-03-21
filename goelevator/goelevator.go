@@ -4,6 +4,7 @@ import (
 	. ".././driver"
 	. ".././formatting"
 	. ".././functions"
+	. ".././lift"
 	. ".././lift/log"
 	. ".././network"
 	. ".././network/tcp"
