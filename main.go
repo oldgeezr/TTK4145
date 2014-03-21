@@ -1,7 +1,7 @@
 package main
 
 import (
-	. "./formating"
+	. "./formatting"
 	. "./functions"
 	. "./lift"
 	. "./lift/log"
