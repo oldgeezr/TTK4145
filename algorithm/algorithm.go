@@ -93,7 +93,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
-					Println(job_queue[current_index].Dest)
 				}
 			} else {
 				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
