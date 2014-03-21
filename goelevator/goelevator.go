@@ -84,7 +84,7 @@ func Go_elevator() {
 	go Job_queues(log_order, slave_queues, queues_to_tcp, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	// go Lift_init(do_first, order)
+	go Lift_init(do_first, order)
 	go Got_net_connection(lost_conn, true)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
