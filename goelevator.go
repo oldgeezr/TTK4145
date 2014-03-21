@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-var state chan bool
-
 func UDP_send() {
 
 	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
@@ -16,21 +14,23 @@ func UDP_send() {
 
 	for {
 		conn.Write([]byte("alive"))
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 	}
 }
 
-func UDP_listen() {
+func UDP_listen(state chan bool) {
 
 	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
 	ln, _ := ListenUDP("udp", saddr)
 
 	for {
 		b := make([]byte, 1024)
-		ln.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
+		ln.SetReadDeadline(time.Now().Add(150 * time.Millisecond))
 		_, _, err := ln.ReadFromUDP(b)
 		if err != nil {
+			Println("MASTER DIED")
 			state <- true
+			Println("INITIATE NEW MASTER")
 			break
 		}
 	}
@@ -41,6 +41,7 @@ func main() {
 	Println("PROGRAM STARTED")
 
 	var master bool
+	state := make(chan bool)
 	b := make([]byte, 1024)
 
 	go func() {
@@ -50,12 +51,16 @@ func main() {
 			Println("DONE LISTENING FOR STATE")
 			switch {
 			case master:
+				Println("STAGE 1")
 				go UDP_send()
-				// cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
-				cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
+				cmd := exec.Command("mate-terminal", "-x", "go", "run", "golift.go")
+				cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
+				// cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
 				cmd.Start()
+				Println("STAGE 2")
 			case !master:
-				go UDP_listen()
+				Println("STAGE 3")
+				go UDP_listen(state)
 			}
 		}
 	}()
@@ -75,6 +80,7 @@ func main() {
 	Println("DONE LISTENING")
 
 	if err != nil {
+		Println("EVALUATE ERROR != nil")
 		state <- true
 		Println("BECOME THE MASTER")
 	} else {
@@ -83,4 +89,7 @@ func main() {
 	}
 
 	Println("PROGRAM ENDED")
+
+	neverQuit := make(chan string)
+	<-neverQuit
 }
