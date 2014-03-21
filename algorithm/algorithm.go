@@ -65,17 +65,17 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 
 		if Someone_getting_off(int_queue[current_index], at_floor.Floor) { // Noen skal av
-<<<<<<< HEAD
+
 			if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
 				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
 				//ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir) //Tror denne kan fjernes
-=======
+			}
 			if len(int_queue[current_index].Dest) != 0 {
 				if int_queue[current_index].Dest[0].Floor == at_floor.Floor {
 					int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
 					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, "standby")
 				}
->>>>>>> e60ddac656d00a9c427e6d6da1daee0fde3c3347
+
 			} else {
 				// Re arrange
 				int_queue[current_index] = Remove_int_queue(int_queue[current_index], at_floor.Floor)
