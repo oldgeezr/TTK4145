@@ -110,7 +110,6 @@ func Append_if_missing_dict(slice []Dict, last Dict) ([]Dict, bool) {
 	return append(slice, last), false
 }
 
-/*
 func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 
 	for i, yours := range slice {
@@ -124,7 +123,7 @@ func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
 	}
 	return append(slice, last), true
 }
-*/
+
 func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
 	Println("AIM_ext: ", slice, floor, dir)
 	for _, yours := range slice {
