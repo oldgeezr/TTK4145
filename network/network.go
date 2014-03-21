@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	UDP_PORT_net string = ":39745"
+	UDP_PORT_net string = ":39"
 	UDP_PORT     string = ":39777"
 	TCP_PORT     string = ":27731"
 	// UDP_PORT string = ":39717"

@@ -21,7 +21,7 @@ func main() {
 	Println("LISTENING FOR NETWORK ACTIVITY")
 
 	// Initiate program
-	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())
 	ln, _ := ListenUDP("udp", saddr)
 	ln.SetReadDeadline(time.Now().Add(300 * time.Millisecond))
 	_, _, err := ln.ReadFromUDP(b)

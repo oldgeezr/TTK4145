@@ -11,7 +11,7 @@ import (
 
 func UDP_send_clone() {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())
 	conn, _ := DialUDP("udp", nil, saddr)
 
 	for {
@@ -22,7 +22,7 @@ func UDP_send_clone() {
 
 func UDP_listen_clone(state chan bool) {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())
 	ln, _ := ListenUDP("udp", saddr)
 
 	for {
