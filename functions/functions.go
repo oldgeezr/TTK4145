@@ -44,7 +44,6 @@ func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
 	} else {
 		this = []Dict{Dict{ip, value, "int"}}
-		Println("ALGO: WTF?", this, pos)
 	}
 	return this
 }
@@ -180,12 +179,10 @@ func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
 			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") {
-				Println("true")
 				return true
 			}
 		}
 
 	}
-	Println("false")
 	return false
 }

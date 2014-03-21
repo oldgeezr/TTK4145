@@ -92,13 +92,10 @@ func Send_to_floor(state chan string, order chan Dict) {
 		case st == "stop":
 			if last_dir == "up" {
 				Speed(-150)
-				time.Sleep(25 * time.Millisecond)
-				// Set_button_lamp(BUTTON_CALL_UP, floor, 0)
 			} else if last_dir == "down" {
 				Speed(150)
-				time.Sleep(25 * time.Millisecond)
-				// Set_button_lamp(BUTTON_CALL_DOWN, floor, 0)
 			}
+			time.Sleep(25 * time.Millisecond)
 			Speed(0)
 			Elev_set_door_open_lamp(1)
 			Set_button_lamp(BUTTON_COMMAND, floor, 0)
@@ -110,7 +107,6 @@ func Send_to_floor(state chan string, order chan Dict) {
 			Speed(0)
 			if last_dir != "standby" {
 				order <- Dict{myIP, M + 1, "standby"}
-				Println("Standby")
 			}
 			last_dir = "standby"
 		}

@@ -35,7 +35,7 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 
 			case msg.Floor >= M:
 				Print("LOG: Elevator: ", msg.Ip_order)
-				Println(" is moving: ", msg.Dir)
+				Println("->", msg.Dir)
 				last_queue, _ = Update_Direction(last_queue, msg)
 
 			case msg.Dir == "standby":
