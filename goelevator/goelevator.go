@@ -1,6 +1,7 @@
 package main
 
 import (
+	. ".././goelevator.go"
 	. "fmt"
 	. "net"
 	"os/exec"
@@ -9,7 +10,7 @@ import (
 
 func UDP_send() {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
 	conn, _ := DialUDP("udp", nil, saddr)
 
 	for {
@@ -20,7 +21,7 @@ func UDP_send() {
 
 func UDP_listen(state chan bool) {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
 	ln, _ := ListenUDP("udp", saddr)
 
 	for {
@@ -53,8 +54,8 @@ func main() {
 			case master:
 				Println("STAGE 1")
 				go UDP_send()
-				cmd := exec.Command("mate-terminal", "-x", "go", "run", "golift.go")
-				cmd2 := exec.Command("mate-terminal", "-x", "go", "run", "main.go")
+				cmd := exec.Command("terminal", "-x", "go", "run", "golift.go")
+				cmd2 := exec.Command("terminal", "-x", "go", "run", "main.go")
 				// cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
 				cmd.Start()
 				cmd2.Start()
@@ -69,7 +70,7 @@ func main() {
 	Println("LISTENING FOR NETWORK ACTIVITY")
 
 	// Initiate program
-	saddr, _ := ResolveUDPAddr("udp", "localhost:40000")
+	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
 	ln, _ := ListenUDP("udp", saddr)
 	ln.SetReadDeadline(time.Now().Add(300 * time.Millisecond))
 	_, _, err := ln.ReadFromUDP(b)
