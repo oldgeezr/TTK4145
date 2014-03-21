@@ -2,6 +2,7 @@ package functions
 
 import (
 	. "fmt"
+	. "net"
 	"os"
 	"time"
 )
