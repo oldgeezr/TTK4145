@@ -18,6 +18,7 @@ func TCP_master_connect(log_order chan Dict, queues_to_tcp chan Queues) {
 	for {
 		conn, _ := ln.Accept()
 		go TCP_master_com(conn, queues_to_tcp)
+
 		go func() {
 			for {
 				b := make([]byte, BUF_LEN)

@@ -66,9 +66,7 @@ func main() {
 	go Job_queues(log_order, slave_queues, queues_to_tcp, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
-	go Lift_init(order)
-	go Do_first(do_first, order)
-	go External_lights(do_first)
+	go Lift_init(do_first, order)
 	// --------------------------------- End: Common program threads --------------------------------------------
 
 	// --------------------------------- Start: System state maching --------------------------------------------

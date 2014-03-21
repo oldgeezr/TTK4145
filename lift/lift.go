@@ -211,7 +211,7 @@ func External_lights(do_first chan Queues) {
 	}
 }
 
-func Lift_init(order chan Dict) {
+func Lift_init(do_first chan Queues, order chan Dict) {
 
 	Fo.WriteString("Entered lift\n")
 
@@ -235,4 +235,6 @@ func Lift_init(order chan Dict) {
 	go Floor_indicator(order)
 	go Internal_btn_order(order)
 	go External_btn_order(order)
+	go External_lights(do_first)
+	go Do_first(do_first, order)
 }

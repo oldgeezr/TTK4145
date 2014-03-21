@@ -49,29 +49,6 @@ func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 	return this
 }
 
-/*
-func Pop_first(this []Dict) []Dict {
-
-	return this[1:len(this)]
-}
-
-func Read_first(this []Dict) int {
-
-	return this[len(this)-1].Floor
-}
-
-
-func Remove_from_pos(this []Dict, floor int) []Dict {
-
-	for i, order := range this {
-		if order.Floor == floor {
-			this = this[:i+copy(this[i:], this[i+1:])]
-		}
-	}
-	return this
-}
-*/
-
 func Append_if_missing_queue(queues []Jobs, ip string) ([]Jobs, bool) {
 
 	for _, yours := range queues {
@@ -212,49 +189,3 @@ func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
 	Println("false")
 	return false
 }
-
-/*
-func Determine_best_elevator(Ext_queue []Dict, Last_queue []Dict, myIP string) bool {
-
-	var best int = 100
-	var best_IP string
-
-	for _, last := range Last_queue {
-		temp := Ext_queue[0].Floor - last.Floor
-		if temp < 0 {
-			temp = temp * (-1)
-		}
-		if temp < best {
-			best = temp
-			best_IP = last.Ip_order
-		}
-	}
-	if best_IP == myIP {
-		return true
-	} else {
-		return false
-	}
-
-}
-*/
-
-/*
-func Determine_dir(job_queue []Jobs, last Dict) string {
-	for _, job := range job_queue {
-		if last.Ip_order == job.Ip {
-			if len(job.Dest) != 0 {
-				if job.Dest[0].Floor-last.Floor > 0 {
-					return "up"
-				} else if job.Dest[0].Floor-last.Floor < 0 {
-					return "down"
-				} else {
-					return "standby"
-				}
-			} else {
-				return "standby"
-			}
-		}
-	}
-	return "standby"
-}
-*/
