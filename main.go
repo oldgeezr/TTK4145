@@ -59,7 +59,6 @@ func main() {
 	queues_to_tcp := make(chan Queues)
 	kill_IMA_master := make(chan bool)
 	lost_conn := make(chan bool)
-	kill_net := make(chan bool)
 	// --------------------------------- End: Create system channels --------------------------------------------
 
 	// --------------------------------- Start: Common program threads ------------------------------------------
@@ -129,7 +128,7 @@ func main() {
 	// --------------------------------- Start: Lost net connection => crash program -----------------------------
 	for {
 		select {
-		case msg := <-lost_conn:
+		case <-lost_conn:
 			return
 		}
 	}
