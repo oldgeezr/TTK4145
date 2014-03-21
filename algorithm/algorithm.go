@@ -57,6 +57,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order != "taken" {
 							ext_queue[i].Ip_order = "taken"
 							job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
+							Println("JOB SENDT TO JOB_QUEUE_index:", i)
 							break
 						}
 					}
@@ -65,8 +66,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				}
 			}
 		}
-
-		algo_queues = Queues{job_queue, ext_queue, last_queue}
 
 	case at_floor.Dir == "standby" || at_floor.Dir == "stop":
 
@@ -109,8 +108,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		// --------------------------------- End: Is there a floor in job_queue that is equal to this floor --------------------------------
 
-		algo_queues = Queues{job_queue, ext_queue, last_queue}
-
 		// --------------------------------- Start: Is there a floor in ext_queue that is equal to this floor ------------------------------
 		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) {
 			if len(job_queue[current_index].Dest) != 0 {
@@ -126,6 +123,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		// --------------------------------- End: Is there a floor in ext_queue that is equal to this floor --------------------------------
 	}
+
+	algo_queues = Queues{job_queue, ext_queue, last_queue}
 
 	return algo_queues
 }
