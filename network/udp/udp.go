@@ -30,19 +30,18 @@ func IMA(udp chan bool) {
 		select {
 		case state := <-udp:
 			if state {
-				Println("Ble MASTER..!")
+				Println("Became MASTER..!")
 				temp, _ := Atoi(GetMyIP())
 				temp = temp + 255
 				myIP = Itoa(temp) // master IP
 			} else {
-				Println("Ble SLAVE..!")
+				Println("Became SLAVE..!")
 				myIP = GetMyIP()
 			}
 		default:
 			time.Sleep(100 * time.Millisecond)
 			UDP_send(conn, myIP)
 		}
-		// Fprintln(Fo, "Running, IMA")
 	}
 }
 
@@ -50,7 +49,6 @@ func UDP_listen(ip_array_update chan int) {
 
 	Fo.WriteString("Entered UDP_listen\n")
 
-	// Println("UDP_listen startet..!")
 	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
 
@@ -66,8 +64,8 @@ func IMA_master(get_ip_array chan []int, master, new_master, kill_IMA_master cha
 
 	Fo.WriteString("Entered IMA_master\n")
 
-	count := 0
-	count1 := 0
+	var count int = 0
+	var count1 int = 0
 	for {
 		select {
 		case <-kill_IMA_master:

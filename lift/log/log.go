@@ -2,7 +2,7 @@ package log
 
 import (
 	. "../.././algorithm"
-	. "../.././formating"
+	. "../.././formatting"
 	. "../.././functions"
 	. "../.././lift"
 	. "fmt"

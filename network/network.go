@@ -1,7 +1,6 @@
 package network
 
 import (
-	// . "fmt"
 	. "net"
 	"strings"
 )
@@ -28,10 +27,9 @@ func GetMyIP() string {
 	var myIP string
 	for i := range IPString {
 		if IPString[i][0:3] == BROADCAST[0:3] {
-			// Println("------>", IPString[i][0:3], "=", BROADCAST[0:3])
 			myIP = IPString[i]
 		}
 	}
 
-	return myIP[IP_LEN:] // HUSK OG SETTE DENNE TIL [12:] når du er på LAB !
+	return myIP[IP_LEN:]
 }

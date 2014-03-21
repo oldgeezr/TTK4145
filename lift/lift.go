@@ -124,7 +124,7 @@ func External_btn_order(order chan Dict) {
 	var i int = 0
 
 	for {
-		if i < 3 {
+		if i < M-1 {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				Println("LIFT: External call up button nr: " + Itoa(i) + " has been pressed!")
 				order <- Dict{"ext", i, "up"}
@@ -139,7 +139,7 @@ func External_btn_order(order chan Dict) {
 			}
 		}
 		i++
-		i = i % 4
+		i = i % M
 		time.Sleep(25 * time.Millisecond)
 	}
 }
@@ -158,7 +158,7 @@ func Internal_btn_order(order chan Dict) {
 			time.Sleep(300 * time.Millisecond)
 		}
 		i++
-		i = i % 4
+		i = i % M
 		time.Sleep(25 * time.Millisecond)
 	}
 }
