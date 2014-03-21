@@ -126,14 +126,12 @@ func main() {
 	}
 	// --------------------------------- End: Set state ----------------------------------------------------------
 
+	// --------------------------------- Start: Lost net connection => crash program -----------------------------
 	for {
 		select {
 		case msg := <-lost_conn:
-			if msg == true {
-
-			} else if msg == false {
-
-			}
+			return
 		}
 	}
+	// --------------------------------- End: Lost net connection => crash program -------------------------------
 }

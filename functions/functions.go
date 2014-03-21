@@ -43,14 +43,14 @@ func Got_net_connection(lost_conn chan bool) {
 			alive = false
 			Println("GOT ERROR, HAVE NOT SENDT STATE")
 			Println("ERROR:", err)
-		case err != nil && !alive:
-			Println("GOT ERROR")
-			time.Sleep(50 * time.Millisecond)
-		case err == nil && !alive:
-			lost_conn <- false
-			alive = true
-			Println("GOT NO ERROR, HAVE NOT SENDT STATE")
-			Println("ERROR:", err)
+			/*case err != nil && !alive:
+				Println("GOT ERROR")
+				time.Sleep(50 * time.Millisecond)
+			case err == nil && !alive:
+				lost_conn <- false
+				alive = true
+				Println("GOT NO ERROR, HAVE NOT SENDT STATE")
+				Println("ERROR:", err)*/
 		}
 	}
 }
