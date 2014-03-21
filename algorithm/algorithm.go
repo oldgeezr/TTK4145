@@ -12,7 +12,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	var last_dir string
 	var best int = 100
-	var elevator int = 0
+	// var elevator int = 0
 	var best_IP string = "nobest"
 	var current_index int = -1
 
