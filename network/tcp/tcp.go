@@ -23,6 +23,7 @@ func TCP_master_connect(log_order chan Dict, queues_to_tcp chan Queues) {
 				b := make([]byte, BUF_LEN)
 				conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 				length, err := conn.Read(b)
+				Println("TCP: ", err)
 				if err != nil {
 					if err.Error() == "EOF" {
 						Println("closed connection")
