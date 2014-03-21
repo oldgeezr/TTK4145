@@ -1,7 +1,7 @@
 package main
 
 import (
-	. ".././goelevator.go"
+	. ".././network"
 	. "fmt"
 	. "net"
 	"os/exec"
