@@ -50,13 +50,17 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		for i, yours := range job_queue {
 			if yours.Ip == best_IP {
-				job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
+					job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+				}
 				// ext_queue = Remove_dict_ext_queue(ext_queue, ext_queue[0].Floor, "standby")
 				break
 			} else {
-				elevator = elevator % len(last_queue)
-				job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
-				elevator++
+				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
+					elevator = elevator % len(last_queue)
+					job_queue[elevator].Dest = append(job_queue[elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
+					elevator++
+				}
 			}
 		}
 		algo_queues = Queues{job_queue, ext_queue, last_queue}
