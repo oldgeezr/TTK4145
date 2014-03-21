@@ -1,21 +1,20 @@
 package lift
 
 import (
-/*. ".././driver"
-// . ".././formating"
-. ".././functions"
-. ".././network"
-// . "./log"
-. "fmt"
-. "strconv"
-"time"*/
+	. ".././driver"
+	// . ".././formating"
+	. ".././functions"
+	. ".././network"
+	// . "./log"
+	. "fmt"
+	. "strconv"
+	"time"
 )
 
 const (
 	M int = 4 // Number of floors
 )
 
-/*
 func Do_first(do_first chan Queues, order chan Dict) {
 
 	Fo.WriteString("Entered Do_first\n")
@@ -231,4 +230,3 @@ func Lift_init(do_first chan Queues, order chan Dict) {
 	go External_lights(do_first)
 	go Do_first(do_first, order)
 }
-*/
