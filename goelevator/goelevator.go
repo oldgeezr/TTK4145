@@ -1,97 +1,155 @@
-package main
+package goelevator
 
 import (
+	. ".././driver"
+	. ".././formatting"
+	. ".././functions"
+	. ".././lift/log"
 	. ".././network"
+	. ".././network/tcp"
+	. ".././network/udp"
 	. "fmt"
 	. "net"
-	"os/exec"
+	"os"
+	. "strconv"
 	"time"
 )
 
-func UDP_send() {
+func Go_elevator() {
 
-	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
-	conn, _ := DialUDP("udp", nil, saddr)
+	var err error
 
-	for {
-		conn.Write([]byte("alive"))
-		time.Sleep(50 * time.Millisecond)
+	// --------------------------------- Start: Create error log ------------------------------------------------
+	Fo, err = os.Create("output.txt")
+	if err != nil {
+		panic(err)
 	}
-}
 
-func UDP_listen(state chan bool) {
-
-	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
-	ln, _ := ListenUDP("udp", saddr)
-
-	for {
-		b := make([]byte, 1024)
-		ln.SetReadDeadline(time.Now().Add(150 * time.Millisecond))
-		_, _, err := ln.ReadFromUDP(b)
-		if err != nil {
-			Println("MASTER DIED")
-			state <- true
-			Println("INITIATE NEW MASTER")
-			break
+	defer func() {
+		if err := Fo.Close(); err != nil {
+			panic(err)
 		}
-	}
-}
+	}()
+	// --------------------------------- End: Create error log --------------------------------------------------
 
-func main() {
+	// --------------------------------- Start: Create system channels ------------------------------------------
+	slave := make(chan bool)
+	master := make(chan bool)
+	udp := make(chan bool)
+	ip_array_update := make(chan int)
+	get_ip_array := make(chan []int)
+	new_master := make(chan bool)
+	flush := make(chan bool)
+	order := make(chan Dict)
+	log_order := make(chan Dict)
+	slave_queues := make(chan Queues)
+	do_first := make(chan Queues)
+	queues_to_tcp := make(chan Queues)
+	kill_IMA_master := make(chan bool)
+	lost_conn := make(chan bool)
+	// --------------------------------- End: Create system channels --------------------------------------------
 
-	Println("PROGRAM STARTED")
-
-	var master bool
-	state := make(chan bool)
-	b := make([]byte, 1024)
-
+	// --------------------------------- Start: Searching for net connection ------------------------------------
 	go func() {
 		for {
-			Println("LISTENING FOR STATE")
-			master = <-state
-			Println("DONE LISTENING FOR STATE")
-			switch {
-			case master:
-				Println("STAGE 1")
-				go UDP_send()
-				cmd := exec.Command("mate-terminal", "-x", "go", "run", "golift.go")
-				cmd2 := exec.Command("mate-terminal", "-x", "go", "run", "../main.go")
-				// cmd := exec.Command("osascript", "-e", "tell", "application", "Terminal", "to", "do", "script,", "echo hello")
-				cmd.Start()
-				cmd2.Start()
-				Println("STAGE 2")
-			case !master:
-				Println("STAGE 3")
-				go UDP_listen(state)
+			select {
+			case connection := <-lost_conn:
+				if !connection {
+					Println("CONNECTION ENABLED")
+					return
+				}
 			}
 		}
 	}()
 
-	Println("LISTENING FOR NETWORK ACTIVITY")
+	Got_net_connection(lost_conn, false)
+	// --------------------------------- End: Searching for net connection --------------------------------------
 
-	// Initiate program
-	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net)
+	Elevator_art()
+
+	// --------------------------------- Start: Listen for network activity -------------------------------------
+	saddr, _ := ResolveUDPAddr("udp", UDP_PORT)
 	ln, _ := ListenUDP("udp", saddr)
-	ln.SetReadDeadline(time.Now().Add(300 * time.Millisecond))
-	_, _, err := ln.ReadFromUDP(b)
+	ln.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
+
+	b := make([]byte, 16)
+
+	_, _, err2 := ln.ReadFromUDP(b)
 	ln.Close()
-	// Initiate program -- END
+	// --------------------------------- End: Listen for network activity ---------------------------------------
 
-	Println("NETWORK ERROR:", err)
+	// --------------------------------- Start: Common program threads ------------------------------------------
+	go IP_array(ip_array_update, get_ip_array, flush)
+	go Timer(flush)
+	go Job_queues(log_order, slave_queues, queues_to_tcp, do_first)
+	go IMA(udp)
+	go UDP_listen(ip_array_update)
+	// go Lift_init(do_first, order)
+	go Got_net_connection(lost_conn, true)
+	// --------------------------------- End: Common program threads --------------------------------------------
 
-	Println("DONE LISTENING")
+	// --------------------------------- Start: System state machine --------------------------------------------
+	go func() {
+		for {
+			select {
+			case <-master:
+				Println("=> State: Entered master state")
+				Fo.WriteString("=> State: Entered master state\n")
+				udp <- true
+				go TCP_master_connect(log_order, queues_to_tcp)
+				go func() {
+					for {
+						msg := <-order
+						log_order <- msg
+					}
+				}()
+			case <-slave:
+				Println("=> State: Entered slave state")
+				Fo.WriteString("=> State: Entered slave state\n")
+				udp <- false
+				go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
+				go func() { new_master <- true }()
+			case <-new_master:
+				ip := <-get_ip_array
+				if len(ip) != 0 {
+					if ip[len(ip)-1] > 255 {
+						master_ip := Itoa(ip[len(ip)-1] - 255)
+						if master_ip != GetMyIP() {
+							go func() { new_master <- TCP_slave_com(master_ip, order, slave_queues) }()
+						} else {
+							kill_IMA_master <- true
+							master <- true
+						}
+					} else {
+						go func() { new_master <- true }()
+					}
+				} else {
+					go func() { new_master <- true }()
+				}
+			}
+		}
 
-	if err != nil {
-		Println("EVALUATE ERROR != nil")
-		state <- true
-		Println("BECOME THE MASTER")
+	}()
+	// --------------------------------- End: System state machine -----------------------------------------------
+
+	// --------------------------------- Start: Set state --------------------------------------------------------
+	if err2 != nil {
+		master <- true
+		Fo.WriteString("I am master\n")
 	} else {
-		state <- false
-		Println("BECOME THE SLAVE")
+		slave <- true
+		Fo.WriteString("I am slave\n")
 	}
+	// --------------------------------- End: Set state ----------------------------------------------------------
 
-	Println("PROGRAM ENDED")
-
-	neverQuit := make(chan string)
-	<-neverQuit
+	// --------------------------------- Start: Lost net connection => crash program -----------------------------
+	for {
+		select {
+		case <-lost_conn:
+			Print("LOST CONNECTION")
+			Speed(0)
+			return
+		}
+	}
+	// --------------------------------- End: Lost net connection => crash program -------------------------------
 }

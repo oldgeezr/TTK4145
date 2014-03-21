@@ -4,9 +4,12 @@ import (
 	. "../.././algorithm"
 	. "../.././formatting"
 	. "../.././functions"
-	. "../.././lift"
 	//. "fmt"
 	"sort"
+)
+
+const (
+	M int = 4 // Number of floors
 )
 
 func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan Queues) {

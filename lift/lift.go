@@ -2,17 +2,12 @@ package lift
 
 import (
 	. ".././driver"
-	// . ".././formating"
 	. ".././functions"
 	. ".././network"
-	// . "./log"
+	. "./log"
 	. "fmt"
 	. "strconv"
 	"time"
-)
-
-const (
-	M int = 4 // Number of floors
 )
 
 func Do_first(do_first chan Queues, order chan Dict) {
