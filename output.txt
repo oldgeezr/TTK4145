@@ -1,18 +1,17 @@
+Entered UDP_send_clone
 Entered IP_array
 Entered Timer
 Entered Job_queues
 Entered IMA
 Entered UDP_listen
 Entered lift
-=> State: Entered slave state
+=> State: Entered master state
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
 Entered External_lights
 Entered Do_first
-I am slave
-Entered IMA_master
-CLOSED: TCP_slave_com
-=> State: Entered master state
 Entered TCP_master_connect
-Entered TCP_master_com
+Entered Algo
+Entered Send_to_floor
+Entered Algo

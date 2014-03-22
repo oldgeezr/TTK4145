@@ -63,6 +63,7 @@ func main() {
 			return
 		case !master:
 			go UDP_listen_clone(state)
+			Println("WATCHDOG")
 		}
 	}
 }

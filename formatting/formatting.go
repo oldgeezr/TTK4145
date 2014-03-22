@@ -91,7 +91,7 @@ func Format_queues_term(queues Queues, state string) {
 	Print("\n")
 	Print("#", print_counter)
 	Print("---Queues--")
-	Print("-(", state)
+	Print("(", state)
 	Print(")\n")
 	Format_job_queue_term(queues.Job_queue)
 	Print("\n")
