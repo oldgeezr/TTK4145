@@ -68,14 +68,14 @@ func Send_to_floor(state chan string, order chan Dict) {
 
 		switch {
 
-		case st == "up":
+		case st == "up" && last_dir != "down":
 			Speed(150)
 			if last_dir != "up" {
 				order <- Dict{myIP, M + 1, "up"}
 			}
 			last_dir = "up"
 
-		case st == "down":
+		case st == "down" && last_dir != "up":
 			Speed(-150)
 			if last_dir != "down" {
 				order <- Dict{myIP, M + 1, "down"}
@@ -116,13 +116,13 @@ func External_btn_order(order chan Dict) {
 		if i < M-1 {
 			if Get_button_signal(BUTTON_CALL_UP, i) == 1 {
 				order <- Dict{"ext", i, "up"}
-				time.Sleep(300 * time.Millisecond)
+				time.Sleep(150 * time.Millisecond)
 			}
 		}
 		if i > 0 {
 			if Get_button_signal(BUTTON_CALL_DOWN, i) == 1 {
 				order <- Dict{"ext", i, "down"}
-				time.Sleep(500 * time.Millisecond)
+				time.Sleep(150 * time.Millisecond)
 			}
 		}
 		i++
@@ -141,7 +141,7 @@ func Internal_btn_order(order chan Dict) {
 		if Get_button_signal(BUTTON_COMMAND, i) == 1 {
 			Set_button_lamp(BUTTON_COMMAND, i, 1)
 			order <- Dict{GetMyIP(), i, "int"}
-			time.Sleep(500 * time.Millisecond)
+			time.Sleep(150 * time.Millisecond)
 		}
 		i++
 		i = i % M
