@@ -5,7 +5,7 @@ import (
 	. "./goelevator"
 	. "./network"
 	. "./network/udp"
-	"fmt"
+	. "fmt"
 	. "net"
 	"os/exec"
 	"time"
