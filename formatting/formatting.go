@@ -133,8 +133,8 @@ func Format_ext_queue_term(ext_queue []Dict) {
 	Print("Ext queue:\n")
 	if len(ext_queue) != 0 {
 		for j := 0; j < len(ext_queue); j++ {
-			if ext_queue[j].Ip_order == "taken" {
-				Print("[*]")
+			if ext_queue[j].Ip_order != "ext" {
+				Print("*")
 			}
 			Print(ext_queue[j].Floor)
 			Print("->")
@@ -165,8 +165,9 @@ func Format_last_queue_term(last_queue []Dict) {
 func Format_queues_term(queues Queues, state string) {
 	Print("\n")
 	Print("#", print_counter)
+	Print("----Queues----")
 	Print("-(", state)
-	Print(")-Queues-------\n")
+	Print(")\n")
 	Format_job_queue_term(queues.Job_queue)
 	Print("\n")
 	Format_ext_queue_term(queues.Ext_queue)

@@ -1,6 +1,7 @@
 package functions
 
 import (
+	. ".././network"
 	. "fmt"
 	. "net"
 	"os"
@@ -213,7 +214,7 @@ func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
 	//Print("Someone_on: ", floor, dir)
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
-			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") && orders.Ip_order != "taken" {
+			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") && orders.Ip_order == "ext" && orders.Ip_order == GetMyIP() {
 				return true
 			}
 		}

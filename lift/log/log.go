@@ -59,16 +59,16 @@ func Job_queues(log_order chan Dict, slave_queues, queues_to_tcp, do_first chan 
 
 			Format_queues_term(the_queue, "M")
 
-			if len(last_queue) > 1 {
-				queues_to_tcp <- the_queue //Send the_queue to all slaves
-			}
+			//if len(last_queue) > 1 {
+			//	queues_to_tcp <- the_queue //Send the_queue to all slaves
+			//}
 
 		case msg := <-slave_queues:
 			the_queue.Job_queue = msg.Job_queue
 			the_queue.Ext_queue = msg.Ext_queue
 			the_queue.Last_queue = msg.Last_queue
 			Format_queues_term(the_queue, "S")
-
+		case queues_to_tcp <- the_queue:
 		case do_first <- the_queue: // DO FIRST
 		}
 	}

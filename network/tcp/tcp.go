@@ -48,6 +48,7 @@ func TCP_master_com(conn Conn, queues_to_tcp chan Queues) {
 		msg := <-queues_to_tcp
 		b, _ := json.Marshal(msg)
 		conn.Write(b)
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 
@@ -58,7 +59,6 @@ func TCP_slave_com(master_ip string, order chan Dict, slave_queues chan Queues) 
 		return true
 	}
 
-	// Vi må få fjernet denne goroutinen
 	go func() {
 		for {
 			msg := <-order

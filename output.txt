@@ -5,10 +5,10 @@ Entered IMA
 Entered UDP_listen
 Entered lift
 => State: Entered slave state
-I am slave
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
 Entered External_lights
 Entered Do_first
+I am slave
 Entered IMA_master
