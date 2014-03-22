@@ -12,12 +12,10 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 	Fo.WriteString("Entered Do_first\n")
 
-	// HACK
 	time.Sleep(500 * time.Millisecond)
 
 	var last_floor int
 	var myIP string = GetMyIP()
-
 	state := make(chan string)
 
 	go Send_to_floor(state, order)
@@ -29,6 +27,7 @@ func Do_first(do_first chan Queues, order chan Dict) {
 		if Get_floor_sensor() != -1 {
 			last_floor = Get_floor_sensor()
 		}
+
 		if len(job_queue) != 0 {
 			for _, yours := range job_queue {
 				if yours.Ip == myIP {
@@ -52,22 +51,22 @@ func Do_first(do_first chan Queues, order chan Dict) {
 
 func Send_to_floor(state chan string, order chan Dict) {
 
+	Fo.WriteString("Entered Send_to_floor\n")
+
 	var last_dir string
 	var floor int
 	var myIP string = GetMyIP()
 
-	Elev_set_door_open_lamp(0)
-	Set_stop_lamp(0)
-
 	for {
 		st := <-state
+
 		Elev_set_door_open_lamp(0)
+
 		if Get_floor_sensor() != -1 {
 			floor = Get_floor_sensor()
 		}
 
 		switch {
-
 		case st == "up" && last_dir != "down":
 			Speed(150)
 			if last_dir != "up" {
@@ -88,6 +87,7 @@ func Send_to_floor(state chan string, order chan Dict) {
 			} else if last_dir == "down" {
 				Speed(150)
 			}
+
 			time.Sleep(25 * time.Millisecond)
 			Speed(0)
 			Elev_set_door_open_lamp(1)
@@ -163,7 +163,7 @@ func Floor_indicator(order chan Dict) {
 			order <- Dict{GetMyIP(), floor, "standby"}
 			last_floor = floor
 		}
-		time.Sleep(200 * time.Millisecond)
+		time.Sleep(150 * time.Millisecond)
 	}
 }
 
@@ -200,6 +200,7 @@ func Lift_init(do_first chan Queues, order chan Dict) {
 	var floor int = -1
 
 	Init()
+	Set_stop_lamp(0)
 	Speed(150)
 
 	go func() {

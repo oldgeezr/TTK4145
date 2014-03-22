@@ -65,7 +65,7 @@ func Go_elevator() {
 
 	// --------------------------------- Start: Common program threads ------------------------------------------
 	go IP_array(ip_array_update, get_ip_array, flush)
-	go Timer(flush)
+	go Flush_IP_array(flush)
 	go Job_queues(log_order, slave_queues, queues_to_tcp, do_first)
 	go IMA(udp)
 	go UDP_listen(ip_array_update)
@@ -92,7 +92,7 @@ func Go_elevator() {
 				Println("=> State: Entered slave state")
 				Fo.WriteString("=> State: Entered slave state\n")
 				udp <- false
-				go IMA_master(get_ip_array, master, new_master, kill_IMA_master)
+				go Is_master_alive(get_ip_array, master, new_master, kill_IMA_master)
 				go func() { new_master <- true }()
 			case <-new_master:
 				ip := <-get_ip_array
@@ -120,10 +120,8 @@ func Go_elevator() {
 	// --------------------------------- Start: Set state --------------------------------------------------------
 	if err2 != nil {
 		master <- true
-		Fo.WriteString("I am master\n")
 	} else {
 		slave <- true
-		Fo.WriteString("I am slave\n")
 	}
 	// --------------------------------- End: Set state ----------------------------------------------------------
 

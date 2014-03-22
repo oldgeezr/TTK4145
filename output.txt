@@ -12,3 +12,7 @@ Entered External_lights
 Entered Do_first
 I am slave
 Entered IMA_master
+CLOSED: TCP_slave_com
+=> State: Entered master state
+Entered TCP_master_connect
+Entered TCP_master_com

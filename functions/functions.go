@@ -2,7 +2,6 @@ package functions
 
 import (
 	. ".././network"
-	. "fmt"
 	. "net"
 	"os"
 	"time"
@@ -38,12 +37,14 @@ func Got_net_connection(lost_conn chan bool, alive bool) {
 		case err == nil && alive:
 			time.Sleep(50 * time.Millisecond)
 			conn.Close()
+
 		case err != nil && alive:
 			lost_conn <- true
 			alive = false
-			Println("ERROR:", err)
+
 		case err != nil && !alive:
 			time.Sleep(50 * time.Millisecond)
+
 		case err == nil && !alive:
 			lost_conn <- false
 			alive = true
@@ -52,7 +53,7 @@ func Got_net_connection(lost_conn chan bool, alive bool) {
 	}
 }
 
-func Timer(flush chan bool) {
+func Flush_IP_array(flush chan bool) {
 
 	Fo.WriteString("Entered Timer\n")
 
@@ -65,78 +66,43 @@ func Timer(flush chan bool) {
 	}
 }
 
-func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
-
-	if !Someone_getting_off(this, value) {
-		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
-	} else {
-		if len(this) == 0 {
-			this = []Dict{Dict{ip, value, "int"}}
-		}
-	}
-	return this
-}
-
-func Append_if_missing_queue(queues []Jobs, ip string) ([]Jobs, bool) {
+func Create_job_queue_if_missing(queues []Jobs, ip string) []Jobs {
 
 	for _, yours := range queues {
 		if yours.Ip == ip {
-			return queues, false
+			return queues
 		}
 	}
-	return append(queues, Jobs{ip, []Dict{}}), true
+	return append(queues, Jobs{ip, []Dict{}})
 }
 
-func Append_if_missing_floor(slice []Dict, floor int) ([]Dict, bool) {
-
-	if len(slice) != 0 {
-		for _, queue := range slice {
-			if queue.Floor == floor {
-				return slice, false
-			}
-		}
-	}
-	return append(slice, Dict{"ip_order", floor, "int"}), true
-}
-
-func Append_if_missing_dict(slice []Dict, last Dict) ([]Dict, bool) {
+func Update_last_queue(slice []Dict, last Dict, dir bool) []Dict {
 
 	for i, yours := range slice {
 		if yours.Ip_order == last.Ip_order {
 			if yours.Floor != last.Floor {
-				slice[i].Ip_order = last.Ip_order
-				slice[i].Floor = last.Floor
-				// slice[i].Dir = last.Dir
-				return slice, true
+				if dir {
+					slice[i].Dir = last.Dir
+				} else {
+					slice[i].Ip_order = last.Ip_order
+					slice[i].Floor = last.Floor
+				}
+				return slice
 			}
-			return slice, false
+			return slice
 		}
 	}
-	return append(slice, last), false
+	return append(slice, last)
 }
 
-func Update_Direction(slice []Dict, last Dict) ([]Dict, bool) {
-
-	for i, yours := range slice {
-		if yours.Ip_order == last.Ip_order {
-			if yours.Floor != last.Floor {
-				slice[i].Dir = last.Dir
-				return slice, true
-			}
-			return slice, false
-		}
-	}
-	return append(slice, last), true
-}
-
-func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) ([]Dict, bool) {
+func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) []Dict {
 
 	for _, yours := range slice {
 		if yours.Floor == floor && yours.Dir == dir {
-			return slice, false
+			return slice
 		}
 	}
-	return append(slice, Dict{"ext", floor, dir}), true
+	return append(slice, Dict{"ext", floor, dir})
 }
 
 func Append_if_missing_ip(slice []int, i int) []int {
@@ -149,16 +115,29 @@ func Append_if_missing_ip(slice []int, i int) []int {
 	return append(slice, i)
 }
 
-func Append_if_missing_right_queue(queue []Jobs, msg Dict) []Jobs {
+func Append_to_correct_queue(queue []Jobs, msg Dict) []Jobs {
+
 	for i, job := range queue {
 		if job.Ip == msg.Ip_order {
-			queue[i].Dest, _ = Append_if_missing_floor(queue[i].Dest, msg.Floor)
+			queue[i].Dest = Append_if_missing_order(queue[i].Dest, msg.Floor)
 		}
 	}
 	return queue
 }
 
-func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
+func Append_if_missing_order(slice []Dict, floor int) []Dict {
+
+	if len(slice) != 0 {
+		for _, queue := range slice {
+			if queue.Floor == floor {
+				return slice
+			}
+		}
+	}
+	return append(slice, Dict{"ip_order", floor, "int"})
+}
+
+func Remove_from_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 	var length int = len(this)
 
@@ -175,6 +154,7 @@ func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 			}
 		}
 	}
+
 	return this
 }
 
@@ -185,7 +165,6 @@ func Remove_job_queue(this Jobs, floor int) Jobs {
 	if length != 0 {
 		for i, orders := range this.Dest {
 			if orders.Floor == floor {
-				Fprintln(Fo, "Deleted from queue: ", orders)
 				if length > 1 {
 					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])] //Kan være et problem?
 				} else if length == 1 {
@@ -194,8 +173,21 @@ func Remove_job_queue(this Jobs, floor int) Jobs {
 			}
 		}
 	}
-	return this
 
+	return this
+}
+
+func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
+
+	// DO THIS ORDER APPEAR IN THE JOB_QUEUE. APPEND IF NOT
+	if !Someone_getting_off(this, value) {
+		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
+	} else {
+		if len(this) == 0 {
+			this = []Dict{Dict{ip, value, "int"}}
+		}
+	}
+	return this
 }
 
 func Someone_getting_off(job_queue []Dict, floor int) bool {
@@ -211,14 +203,15 @@ func Someone_getting_off(job_queue []Dict, floor int) bool {
 }
 
 func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
-	//Print("Someone_on: ", floor, dir)
+
 	if len(job_queue) != 0 {
 		for _, orders := range job_queue {
-			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") && orders.Ip_order == "ext" && orders.Ip_order == GetMyIP() {
+			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") && (orders.Ip_order == "ext" || orders.Ip_order == GetMyIP()) {
 				return true
 			}
 		}
 
 	}
+
 	return false
 }

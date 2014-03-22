@@ -11,6 +11,8 @@ import (
 
 func UDP_send_clone() {
 
+	Fo.WriteString("Entered UDP_send_clone\n")
+
 	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())
 	conn, _ := DialUDP("udp", nil, saddr)
 
@@ -22,6 +24,8 @@ func UDP_send_clone() {
 
 func UDP_listen_clone(state chan bool) {
 
+	Fo.WriteString("Entered UDP_listen_clone\n")
+
 	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())
 	ln, _ := ListenUDP("udp", saddr)
 
@@ -30,7 +34,6 @@ func UDP_listen_clone(state chan bool) {
 		ln.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 		_, _, err := ln.ReadFromUDP(b)
 		if err != nil {
-			Println("MASTER DIED")
 			state <- true
 			Println("INITIATE NEW MASTER")
 			return
@@ -41,6 +44,8 @@ func UDP_listen_clone(state chan bool) {
 func UDP_send(conn Conn, msg string) {
 
 	length, _ := Atoi(msg)
+
+	// Extend ip string if shorter than 3 digits
 	if length < 100 {
 		msg = "0" + msg
 	}
@@ -59,12 +64,14 @@ func IMA(udp chan bool) {
 		select {
 		case state := <-udp:
 			if state {
-				Println("Became MASTER..!")
+				Println("BECAME MASTER..!")
+
+				// MASTER IP SHOULD EXCEED RANGE 255
 				temp, _ := Atoi(GetMyIP())
 				temp = temp + 255
-				myIP = Itoa(temp) // master IP
+				myIP = Itoa(temp)
 			} else {
-				Println("Became SLAVE..!")
+				Println("BECAME SLAVE..!")
 				myIP = GetMyIP()
 			}
 		default:
@@ -89,12 +96,13 @@ func UDP_listen(ip_array_update chan int) {
 	}
 }
 
-func IMA_master(get_ip_array chan []int, master, new_master, kill_IMA_master chan bool) {
+func Is_master_alive(get_ip_array chan []int, master, new_master, kill_IMA_master chan bool) {
 
 	Fo.WriteString("Entered IMA_master\n")
 
 	var count int = 0
 	var count1 int = 0
+
 	for {
 		select {
 		case <-kill_IMA_master:
@@ -104,12 +112,18 @@ func IMA_master(get_ip_array chan []int, master, new_master, kill_IMA_master cha
 			time.Sleep(500 * time.Millisecond)
 			array := <-get_ip_array
 			if len(array) != 0 {
+
+				// EXCEEDS THE LAST IP 255
 				if array[len(array)-1] < 255 {
 					temp, _ := Atoi(GetMyIP())
+
+					// DO I HAVE THE LOWEST IP
 					if temp == array[0] {
 						count++
-						if count == 2 { // SIKKERTHETSGRAD!
-							Println("MASTER forsvant..!")
+
+						// DOUBLE CHECK
+						if count == 2 {
+							Println("MASTER DISAPPEARED..!")
 							master <- true
 							time.Sleep(50 * time.Microsecond)
 							return
