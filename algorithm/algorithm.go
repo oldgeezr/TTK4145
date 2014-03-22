@@ -13,6 +13,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	var best_IP string = "nobest"
 	var current_index int = -1
 	var best_elevator int = 0
+	var appended bool
 
 	job_queue := algo_queues.Job_queue
 	ext_queue := algo_queues.Ext_queue
@@ -38,32 +39,39 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 		for i, yours := range job_queue {
 			if yours.Ip == best_IP {
-				for j, ext := range ext_queue {
-					if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
+				for j, _ := range ext_queue {
+					// if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
+					job_queue[i].Dest, appended = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+					if appended {
 						ext_queue[j].Ip_order = best_IP
-						job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
-						break
 					}
+					break
+					// }
 				}
 				break
 				// --------------------------------- End: Determine best standby elevator ------------------------------------------------------
 
 				// --------------------------------- Start: Determine best moving elevator -----------------------------------------------------
 			} else if best_IP == "nobest" {
-				for k, ext := range ext_queue {
-					if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
-						ext_queue[k].Ip_order = best_IP
-						for j, last := range last_queue {
-							if len(job_queue[j].Dest) != 0 {
-								if job_queue[j].Dest[0].Floor > at_floor.Floor && last.Dir == "down" {
-									job_queue[j].Dest = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
-								} else if job_queue[j].Dest[0].Floor < at_floor.Floor && last.Dir == "up" {
-									job_queue[j].Dest = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
-								}
+				//for _, ext := range ext_queue {
+				// if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
+				for j, last := range last_queue {
+					if len(job_queue[j].Dest) != 0 {
+						if job_queue[j].Dest[0].Floor > at_floor.Floor && last.Dir == "down" {
+							job_queue[j].Dest, appended = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+							if appended {
+								ext_queue[j].Ip_order = best_IP
+							}
+						} else if job_queue[j].Dest[0].Floor < at_floor.Floor && last.Dir == "up" {
+							job_queue[j].Dest, appended = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+							if appended {
+								ext_queue[j].Ip_order = best_IP
 							}
 						}
 					}
 				}
+				// }
+				//}
 			}
 			// --------------------------------- Start: Determine best moving elevator ---------------------------------------------------------
 		}
@@ -99,7 +107,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				} else {
 					// REARRANGE
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
-					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+					job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 				}
 			}
 		}
@@ -110,10 +118,10 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
-					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+					job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 				}
 			} else {
-				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+				job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
 			ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, last_dir)
 		}
@@ -137,7 +145,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			}
 		}
 		if all_standby == len(last_queue) && len(ext_queue) != 0 {
-			job_queue[best_elevator].Dest = Insert_at_pos("ip_order", job_queue[best_elevator].Dest, ext_queue[0].Floor, 0)
+			job_queue[best_elevator].Dest, _ = Insert_at_pos("ip_order", job_queue[best_elevator].Dest, ext_queue[0].Floor, 0)
 		}
 		// --------------------------------- End: Send order to best elevator if all standby ---------------------------------------------------
 	}

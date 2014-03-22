@@ -199,17 +199,19 @@ func Remove_job_queue(this Jobs, floor int) Jobs {
 	return this
 }
 
-func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
+func Insert_at_pos(ip string, this []Dict, value, pos int) ([]Dict, bool) {
 
 	// DO THIS ORDER APPEAR IN THE JOB_QUEUE. APPEND IF NOT
 	if !Someone_getting_off(this, value) {
 		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
+		return this, true
 	} else {
 		if len(this) == 0 {
 			this = []Dict{Dict{ip, value, "int"}}
+			return this, true
 		}
 	}
-	return this
+	return this, false
 }
 
 func Someone_getting_off(job_queue []Dict, floor int) bool {

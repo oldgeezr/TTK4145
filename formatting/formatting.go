@@ -75,7 +75,8 @@ func Format_ext_queue_term(ext_queue []Dict) {
 	if len(ext_queue) != 0 {
 		for j := 0; j < len(ext_queue); j++ {
 			if ext_queue[j].Ip_order != "ext" {
-				Print("*")
+				Print(ext_queue[j].Ip_order)
+				Print(":")
 			}
 			Print(ext_queue[j].Floor)
 			Print("->")

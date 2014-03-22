@@ -5,13 +5,17 @@ Entered Job_queues
 Entered IMA
 Entered UDP_listen
 Entered lift
-=> State: Entered master state
+=> State: Entered slave state
 Entered Floor_indicator
 Entered Int_order
 Entered Ext_order
 Entered External_lights
 Entered Do_first
+Entered IMA_master
+Entered Send_to_floor
+=> State: Entered master state
 Entered TCP_master_connect
 Entered Algo
-Entered Send_to_floor
 Entered Algo
+Entered TCP_master_com
+Entered TCP_master_com
