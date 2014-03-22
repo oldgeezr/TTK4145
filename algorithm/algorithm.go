@@ -9,6 +9,7 @@ import (
 func Algo(algo_queues Queues, at_floor Dict) Queues {
 
 	Fo.WriteString("Entered Algo\n")
+	Println("ENTER ALGO")
 
 	var last_dir string
 	var best int = 100
@@ -41,7 +42,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		for i, yours := range job_queue {
 			if yours.Ip == best_IP {
 				Println("THE BEST IP IS STILL:", yours.Ip)
-				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
+				if !Someone_getting_off(job_queue[i].Dest, at_floor.Floor) {
 					Println("INDEX [", i, "] ")
 					for j, ext := range ext_queue {
 						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
@@ -54,15 +55,20 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				}
 				break
 			} else if best_IP == "nobest" {
-				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
-					for i, ext := range ext_queue {
+				if !Someone_getting_off(job_queue[i].Dest, at_floor.Floor) {
+					Println("STAGE -1:", i, job_queue, at_floor)
+					for k, ext := range ext_queue {
+						Println("STAGE -2:", k, ext_queue)
 						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
-							ext_queue[i].Ip_order = best_IP
+							ext_queue[k].Ip_order = best_IP
 							for j, last := range last_queue {
-								if job_queue[j].Dest[0].Floor > at_floor.Floor && last.Dir == "down" {
-									job_queue[j].Dest = append(job_queue[j].Dest, Dict{"ip_order", at_floor.Floor, "int"})
-								} else if job_queue[j].Dest[0].Floor < at_floor.Floor && last.Dir == "up" {
-									job_queue[j].Dest = append(job_queue[j].Dest, Dict{"ip_order", at_floor.Floor, "int"})
+								Println("STAGE -3:", j, job_queue)
+								if len(job_queue[j].Dest) != 0 {
+									if job_queue[j].Dest[0].Floor > at_floor.Floor && last.Dir == "down" {
+										job_queue[j].Dest = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+									} else if job_queue[j].Dest[0].Floor < at_floor.Floor && last.Dir == "up" {
+										job_queue[j].Dest = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+									}
 								}
 							}
 						}
@@ -96,16 +102,24 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		// --------------------------------- End: If best_elevator has no jobs, it must be in standby -------------------------------------------
 
 		// --------------------------------- Start: Is there a floor in job_queue that is equal to this floor ------------------------------
-		if Someone_getting_off(job_queue[current_index], at_floor.Floor) {
+		Println("STAGE 0:", current_index, job_queue, at_floor.Floor)
+		if Someone_getting_off(job_queue[current_index].Dest, at_floor.Floor) {
 			Println("SOMEONE IS GETTING OFF!")
 			if len(job_queue[current_index].Dest) != 0 {
+				Println("STAGE 1")
 				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
+					Println("STAGE 2:", current_index, job_queue, at_floor.Floor)
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+					Println("STAGE 3", current_index, job_queue, at_floor.Floor, ext_queue)
 					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
+					Println("STAGE 4", current_index, job_queue, at_floor.Floor, ext_queue)
 				} else {
 					// Re arrange
+					Println("STAGE 5", current_index, job_queue, at_floor.Floor)
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+					Println("STAGE 6", current_index, job_queue, at_floor.Floor)
 					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+					Println("STAGE 7", current_index, job_queue, at_floor.Floor)
 				}
 			}
 		}

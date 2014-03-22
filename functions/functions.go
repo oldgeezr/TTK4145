@@ -66,10 +66,12 @@ func Timer(flush chan bool) {
 
 func Insert_at_pos(ip string, this []Dict, value, pos int) []Dict {
 
-	if len(this) != 0 {
+	if !Someone_getting_off(this, value) {
 		this = append(this[:pos], append([]Dict{Dict{ip, value, "int"}}, this[pos:]...)...)
 	} else {
-		this = []Dict{Dict{ip, value, "int"}}
+		if len(this) == 0 {
+			this = []Dict{Dict{ip, value, "int"}}
+		}
 	}
 	return this
 }
@@ -164,9 +166,10 @@ func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") {
 				if length > 1 {
 					this = this[:i+copy(this[i:], this[i+1:])]
-					length = len(this)
+					break
 				} else if length == 1 {
 					this = []Dict{}
+					break
 				}
 			}
 		}
@@ -176,12 +179,16 @@ func Remove_dict_ext_queue(this []Dict, floor int, dir string) []Dict {
 
 func Remove_job_queue(this Jobs, floor int) Jobs {
 
-	if len(this.Dest) != 0 {
+	var length int = len(this.Dest)
+
+	if length != 0 {
 		for i, orders := range this.Dest {
 			if orders.Floor == floor {
 				Fprintln(Fo, "Deleted from queue: ", orders)
-				if len(this.Dest) != 0 {
+				if length > 1 {
 					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])] //Kan være et problem?
+				} else if length == 1 {
+					this.Dest = []Dict{}
 				}
 			}
 		}
@@ -190,10 +197,10 @@ func Remove_job_queue(this Jobs, floor int) Jobs {
 
 }
 
-func Someone_getting_off(job_queue Jobs, floor int) bool {
+func Someone_getting_off(job_queue []Dict, floor int) bool {
 
-	if len(job_queue.Dest) != 0 {
-		for _, orders := range job_queue.Dest {
+	if len(job_queue) != 0 {
+		for _, orders := range job_queue {
 			if orders.Floor == floor {
 				return true
 			}
