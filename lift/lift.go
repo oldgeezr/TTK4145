@@ -59,7 +59,6 @@ func Send_to_floor(state chan string, order chan Dict) {
 
 	for {
 		st := <-state
-
 		Elev_set_door_open_lamp(0)
 
 		if Get_floor_sensor() != -1 {

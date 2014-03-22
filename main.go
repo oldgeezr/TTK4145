@@ -3,6 +3,7 @@ package main
 import (
 	. "./functions"
 	. "./goelevator"
+	. "./interrupts"
 	. "./network"
 	. "./network/udp"
 	. "fmt"
@@ -29,6 +30,8 @@ func main() {
 		}
 	}()
 	// --------------------------------- End: Searching for net connection ----------------------------------------------
+
+	go Interrupts()
 
 	// --------------------------------- Start: Listen for network activity ---------------------------------------------
 	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())

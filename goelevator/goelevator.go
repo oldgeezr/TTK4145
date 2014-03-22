@@ -4,6 +4,7 @@ import (
 	. ".././driver"
 	. ".././formatting"
 	. ".././functions"
+	. ".././interrupts"
 	. ".././lift"
 	. ".././lift/log"
 	. ".././network"
@@ -32,6 +33,8 @@ func Go_elevator() {
 		}
 	}()
 	// --------------------------------- End: Create error log --------------------------------------------------
+
+	go Interrupts()
 
 	// --------------------------------- Start: Create system channels ------------------------------------------
 	slave := make(chan bool)
@@ -81,7 +84,7 @@ func Go_elevator() {
 				Println("=> State: Entered master state")
 				Fo.WriteString("=> State: Entered master state\n")
 				udp <- true
-				go TCP_master_connect(log_order, queues_to_tcp)
+				go TCP_master_connect(log_order, queues_to_tcp, get_ip_array)
 				go func() {
 					for {
 						msg := <-order

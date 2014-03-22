@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TCP_master_connect(log_order chan Dict, queues_to_tcp chan Queues) {
+func TCP_master_connect(log_order chan Dict, queues_to_tcp chan Queues, get_ip_array chan []int) {
 
 	Fo.WriteString("Entered TCP_master_connect\n")
 
@@ -27,7 +27,7 @@ func TCP_master_connect(log_order chan Dict, queues_to_tcp chan Queues) {
 				length, err := conn.Read(b)
 
 				if err != nil {
-					if err.Error() == "EOF" {
+					if err.Error() == "EOF" || Ping_PC(get_ip_array, conn.RemoteAddr()) {
 						Println("CLOSED CONNECTION")
 						return
 					}
@@ -73,6 +73,8 @@ func TCP_slave_com(master_ip string, order chan Dict, slave_queues chan Queues) 
 		b := make([]byte, BUF_LEN)
 		conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 		length, err2 := conn.Read(b)
+
+		Println("TCP_SLAVE IS STILL RUNNGING")
 
 		if err2 != nil {
 			if err2.Error() == "EOF" {

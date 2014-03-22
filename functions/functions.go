@@ -4,6 +4,8 @@ import (
 	. ".././network"
 	. "net"
 	"os"
+	. "strconv"
+	"strings"
 	"time"
 )
 
@@ -25,6 +27,27 @@ type Queues struct {
 }
 
 var Fo *os.File
+
+func Ping_PC(get_ip_array chan []int, remoteaddr Addr) bool {
+
+	var counter int = 0
+
+	for i := 0; i < 10; i++ {
+		IPaddresses := <-get_ip_array
+
+		for _, ip := range IPaddresses {
+			if strings.Contains(remoteaddr.String(), Itoa(ip)) {
+				counter++
+			}
+		}
+		time.Sleep(25 * time.Millisecond)
+	}
+	if counter > 5 {
+		return false
+	}
+
+	return true
+}
 
 func Got_net_connection(lost_conn chan bool, alive bool) {
 
@@ -56,7 +79,6 @@ func Got_net_connection(lost_conn chan bool, alive bool) {
 func Flush_IP_array(flush chan bool) {
 
 	Fo.WriteString("Entered Timer\n")
-
 	for {
 		for timer := range time.Tick(1 * time.Second) {
 			_ = timer
