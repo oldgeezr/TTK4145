@@ -44,8 +44,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				if !Someone_getting_off(job_queue[i], at_floor.Floor) {
 					Println("INDEX [", i, "] ")
 					for j, ext := range ext_queue {
-						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order != "taken" {
-							ext_queue[j].Ip_order = "taken"
+						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
+							ext_queue[j].Ip_order = best_IP
 							job_queue[i].Dest = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
 							Println("PUT ORDER: [", at_floor.Floor, "] in job_index:", i)
 							break
@@ -59,15 +59,14 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 					best_elevator = best_elevator % len(last_queue)
 
 					for i, ext := range ext_queue {
-						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order != "taken" {
-							ext_queue[i].Ip_order = "taken"
+						if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
+							ext_queue[i].Ip_order = best_IP
 							job_queue[best_elevator].Dest = append(job_queue[best_elevator].Dest, Dict{"ip_order", at_floor.Floor, "int"})
 							Println("JOB SENDT TO JOB_QUEUE_index:", i)
 							break
 						}
+						// best_elevator++
 					}
-
-					best_elevator++
 				}
 			}
 		}
@@ -102,10 +101,9 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
-					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, "standby")
+					ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
 				} else {
 					// Re arrange
-					Println("REARRANGING!")
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 				}
@@ -123,7 +121,9 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			} else {
 				job_queue[current_index].Dest = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 			}
+			Println("REARRANGING11!", ext_queue, at_floor.Floor, last_dir)
 			ext_queue = Remove_dict_ext_queue(ext_queue, at_floor.Floor, last_dir)
+			Println("REARRANGING12!", ext_queue, at_floor.Floor, last_dir)
 
 		}
 		// --------------------------------- End: Is there a floor in ext_queue that is equal to this floor --------------------------------
