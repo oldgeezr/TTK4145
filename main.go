@@ -1,6 +1,7 @@
 package main
 
 import (
+	. "./functions"
 	. "./goelevator"
 	. "./network"
 	. "./network/udp"
@@ -17,6 +18,7 @@ func main() {
 	var master bool
 	state := make(chan bool)
 	b := make([]byte, 1024)
+	lost_conn := make(chan bool)
 
 	Println("LISTENING FOR NETWORK ACTIVITY")
 
@@ -46,9 +48,23 @@ func main() {
 	for {
 		Println("LISTENING FOR STATE")
 		master = <-state
+		Println("GOT STATE:", master)
 		Println("DONE LISTENING FOR STATE")
 		switch {
 		case master:
+			// --------------------------------- Start: Searching for net connection ------------------------------------
+			go func() {
+				for {
+					connection := <-lost_conn
+					if !connection {
+						Println("CONNECTION ENABLED")
+						return
+					}
+				}
+			}()
+
+			Got_net_connection(lost_conn, false)
+			// --------------------------------- End: Searching for net connection --------------------------------------
 			Println("STAGE 1")
 			go UDP_send_clone()
 			cmd := exec.Command("mate-terminal", "-x", "go", "run", "main.go")

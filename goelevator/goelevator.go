@@ -50,20 +50,6 @@ func Go_elevator() {
 	lost_conn := make(chan bool)
 	// --------------------------------- End: Create system channels --------------------------------------------
 
-	// --------------------------------- Start: Searching for net connection ------------------------------------
-	go func() {
-		for {
-			connection := <-lost_conn
-			if !connection {
-				Println("CONNECTION ENABLED")
-				return
-			}
-		}
-	}()
-
-	Got_net_connection(lost_conn, false)
-	// --------------------------------- End: Searching for net connection --------------------------------------
-
 	Elevator_art()
 
 	// --------------------------------- Start: Listen for network activity -------------------------------------
