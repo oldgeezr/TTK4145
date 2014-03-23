@@ -1,7 +1,7 @@
 package functions
 
 import (
-	. ".././network"
+	//. ".././network"
 	. "net"
 	"os"
 	. "strconv"
@@ -127,6 +127,17 @@ func Append_if_missing_ext_queue(slice []Dict, floor int, dir string) []Dict {
 	return append(slice, Dict{"ext", floor, dir})
 }
 
+func Mark_ext_queue(slice []Dict, floor int, dir string, ip string) []Dict {
+
+	for i, yours := range slice {
+		if yours.Floor == floor && yours.Dir == dir && yours.Ip_order == "ext" {
+			slice[i].Ip_order = ip
+			return slice
+		}
+	}
+	return slice
+}
+
 func Append_if_missing_ip(slice []int, i int) []int {
 
 	for _, yours := range slice {
@@ -188,7 +199,7 @@ func Remove_job_queue(this Jobs, floor int) Jobs {
 		for i, orders := range this.Dest {
 			if orders.Floor == floor {
 				if length > 1 {
-					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])] //Kan være et problem?
+					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])] //Kan vÃ¦re et problem?
 				} else if length == 1 {
 					this.Dest = []Dict{}
 				}
@@ -226,11 +237,11 @@ func Someone_getting_off(job_queue []Dict, floor int) bool {
 	return false
 }
 
-func Someone_getting_on(job_queue []Dict, floor int, dir string) bool {
+func Someone_getting_on(ext_queue []Dict, at_floor Dict) bool {
 
-	if len(job_queue) != 0 {
-		for _, orders := range job_queue {
-			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") && (orders.Ip_order == "ext" || orders.Ip_order == GetMyIP()) {
+	if len(ext_queue) != 0 {
+		for _, ext := range ext_queue {
+			if ext.Floor == at_floor.Floor && ext.Ip_order == at_floor.Ip_order {
 				return true
 			}
 		}

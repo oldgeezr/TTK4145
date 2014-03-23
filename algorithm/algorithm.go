@@ -2,6 +2,7 @@ package algorithm
 
 import (
 	. ".././functions"
+	// . "fmt"
 )
 
 func Algo(algo_queues Queues, at_floor Dict) Queues {
@@ -11,19 +12,16 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	var last_dir string
 	var best int = 100
 	var best_IP string = "nobest"
-	var current_index int = -1
+	var current_index int = 0
 	var best_elevator int = 0
-	var appended bool
 
 	job_queue := algo_queues.Job_queue
 	ext_queue := algo_queues.Ext_queue
 	last_queue := algo_queues.Last_queue
 
-	switch {
 	// --------------------------------- Start: Got external order -----------------------------------------------------------------------------
-	case at_floor.Ip_order == "ext":
-
-		// --------------------------------- Start: Determine best standby elevator  -----------------------------------------------------------
+	if at_floor.Ip_order == "ext" {
+		//Finds which elevator is the closest
 		for _, last := range last_queue {
 			if last.Dir == "standby" {
 				temp := ext_queue[0].Floor - last.Floor
@@ -36,85 +34,75 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				}
 			}
 		}
-
-		for i, yours := range job_queue {
-			if yours.Ip == best_IP {
-				for j, _ := range ext_queue {
-					// if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
-					job_queue[i].Dest, appended = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
-					if appended {
-						ext_queue[j].Ip_order = best_IP
-					}
+		//Found the best elevator in standby
+		if best_IP != "nobest" {
+			for i, yours := range job_queue {
+				if yours.Ip == best_IP {
+					job_queue[i].Dest, _ = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+					ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, best_IP)
 					break
-					// }
 				}
-				break
-				// --------------------------------- End: Determine best standby elevator ------------------------------------------------------
-
-				// --------------------------------- Start: Determine best moving elevator -----------------------------------------------------
-			} else if best_IP == "nobest" {
-				//for _, ext := range ext_queue {
-				// if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && ext.Ip_order == "ext" {
-				for j, last := range last_queue {
-					if len(job_queue[j].Dest) != 0 {
-						if job_queue[j].Dest[0].Floor > at_floor.Floor && last.Dir == "down" {
-							job_queue[j].Dest, appended = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
-							if appended {
-								ext_queue[j].Ip_order = best_IP
-							}
-						} else if job_queue[j].Dest[0].Floor < at_floor.Floor && last.Dir == "up" {
-							job_queue[j].Dest, appended = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
-							if appended {
-								ext_queue[j].Ip_order = best_IP
-							}
-						}
+			}
+		} else {
+			//All elevators are moving, which elevator is passing the floor
+			for j, last := range last_queue {
+				if len(job_queue[j].Dest) != 0 {
+					// Println("ALGO:", job_queue[j].Dest[0].Floor, at_floor.Floor, at_floor.Floor, last.Floor, last.Dir, at_floor.Dir)
+					if job_queue[j].Dest[0].Floor > at_floor.Floor && at_floor.Floor > last.Floor && last.Dir == at_floor.Dir {
+						job_queue[j].Dest, _ = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+						ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last.Ip_order)
+						break
+					} else if job_queue[j].Dest[0].Floor < at_floor.Floor && at_floor.Floor < last.Floor && last.Dir == at_floor.Dir {
+						job_queue[j].Dest, _ = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+						ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last.Ip_order)
+						break
 					}
 				}
-				// }
-				//}
 			}
-			// --------------------------------- Start: Determine best moving elevator ---------------------------------------------------------
 		}
-		// --------------------------------- End: Got external order ---------------------------------------------------------------------------
+		//Algorithm safeguard
+		/* Println("Appended: ", appended)
+		if !appended {
+			Println("Appended: ", appended)
+			job_queue[0].Dest, _ = Insert_at_pos("ip_order", job_queue[0].Dest, ext_queue[0].Floor, len(job_queue[0].Dest)-1)
+		}*/
+	}
+	// --------------------------------- End: Got external order ---------------------------------------------------------------------------
 
-		// --------------------------------- Start: At new floor  ------------------------------------------------------------------------------
-	case at_floor.Dir == "standby" || at_floor.Dir == "stop":
+	// --------------------------------- Start: At new floor  ------------------------------------------------------------------------------
+	if at_floor.Dir == "standby" || at_floor.Dir == "stop" {
 
-		// --------------------------------- Start: Find best_elevator direction and correct index ---------------------------------------------
+		//Finds direction of elevator
 		for _, last := range last_queue {
 			if last.Ip_order == at_floor.Ip_order {
 				last_dir = last.Dir
 			}
 		}
-
+		//Finds correct queue-index
 		for i, yours := range job_queue {
 			if yours.Ip == at_floor.Ip_order {
 				current_index = i
 			}
 		}
-		// --------------------------------- End: Find best_elevator direction and correct index -----------------------------------------------
-
+		//Safeguard
 		if len(job_queue[current_index].Dest) == 0 {
 			last_dir = "standby"
 		}
 
-		// --------------------------------- Start: Someone getting off? (internal order) ------------------------------------------------------
 		if Someone_getting_off(job_queue[current_index].Dest, at_floor.Floor) {
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, last_dir)
 				} else {
-					// REARRANGE
+					// Rearrange
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
 					job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 				}
 			}
 		}
-		// --------------------------------- End: Someone getting off? (internal order) --------------------------------------------------------
 
-		// --------------------------------- Start: Someone getting on? (external order) -------------------------------------------------------
-		if Someone_getting_on(ext_queue, at_floor.Floor, last_dir) {
+		if Someone_getting_on(ext_queue, at_floor) {
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
@@ -125,7 +113,6 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			}
 			ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, last_dir)
 		}
-		// --------------------------------- End: Someone getting on? (external order) ---------------------------------------------------------
 
 		// --------------------------------- Start: Send order to best elevator if all standby -------------------------------------------------
 		var all_standby int = 0
@@ -146,8 +133,10 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		if all_standby == len(last_queue) && len(ext_queue) != 0 {
 			job_queue[best_elevator].Dest, _ = Insert_at_pos("ip_order", job_queue[best_elevator].Dest, ext_queue[0].Floor, 0)
+			ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last.Ip_order)
 		}
 		// --------------------------------- End: Send order to best elevator if all standby ---------------------------------------------------
+
 	}
 	// --------------------------------- End: At new floor  ------------------------------------------------------------------------------------
 
