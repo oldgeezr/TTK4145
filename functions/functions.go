@@ -170,13 +170,13 @@ func Append_if_missing_order(slice []Dict, floor int) []Dict {
 	return append(slice, Dict{"ip_order", floor, "int"})
 }
 
-func Remove_from_ext_queue(this []Dict, floor int, dir string) []Dict {
+func Remove_from_ext_queue(this []Dict, floor int, ip string) []Dict {
 
 	var length int = len(this)
 
 	if length != 0 {
 		for i, orders := range this {
-			if orders.Floor == floor && (dir == orders.Dir || dir == "standby") {
+			if orders.Floor == floor && orders.Ip_order == ip {
 				if length > 1 {
 					this = this[:i+copy(this[i:], this[i+1:])]
 					break
@@ -241,7 +241,7 @@ func Someone_getting_on(ext_queue []Dict, at_floor Dict) bool {
 
 	if len(ext_queue) != 0 {
 		for _, ext := range ext_queue {
-			if ext.Floor == at_floor.Floor && ext.Ip_order == at_floor.Ip_order {
+			if ext.Floor == at_floor.Floor && ext.Dir == at_floor.Dir && (ext.Ip_order == "ext" || ext.Ip_order == at_floor.Ip_order) {
 				return true
 			}
 		}

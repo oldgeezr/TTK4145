@@ -2,7 +2,7 @@ package algorithm
 
 import (
 	. ".././functions"
-	// . "fmt"
+	. "fmt"
 )
 
 func Algo(algo_queues Queues, at_floor Dict) Queues {
@@ -13,7 +13,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 	var best int = 100
 	var best_IP string = "nobest"
 	var current_index int = 0
-	var best_elevator int = 0
+	var appended bool
+	//var best_elevator int = 0
 
 	job_queue := algo_queues.Job_queue
 	ext_queue := algo_queues.Ext_queue
@@ -38,7 +39,8 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		if best_IP != "nobest" {
 			for i, yours := range job_queue {
 				if yours.Ip == best_IP {
-					job_queue[i].Dest, _ = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
+					Println("I WAS HERE")
+					job_queue[i].Dest, appended = Insert_at_pos("ip_order", job_queue[i].Dest, at_floor.Floor, 0)
 					ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, best_IP)
 					break
 				}
@@ -49,11 +51,11 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 				if len(job_queue[j].Dest) != 0 {
 					// Println("ALGO:", job_queue[j].Dest[0].Floor, at_floor.Floor, at_floor.Floor, last.Floor, last.Dir, at_floor.Dir)
 					if job_queue[j].Dest[0].Floor > at_floor.Floor && at_floor.Floor > last.Floor && last.Dir == at_floor.Dir {
-						job_queue[j].Dest, _ = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+						job_queue[j].Dest, appended = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest))
 						ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last.Ip_order)
 						break
 					} else if job_queue[j].Dest[0].Floor < at_floor.Floor && at_floor.Floor < last.Floor && last.Dir == at_floor.Dir {
-						job_queue[j].Dest, _ = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest)-1)
+						job_queue[j].Dest, appended = Insert_at_pos("ip_order", job_queue[j].Dest, at_floor.Floor, len(job_queue[j].Dest))
 						ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last.Ip_order)
 						break
 					}
@@ -61,11 +63,17 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 			}
 		}
 		//Algorithm safeguard
-		/* Println("Appended: ", appended)
 		if !appended {
-			Println("Appended: ", appended)
-			job_queue[0].Dest, _ = Insert_at_pos("ip_order", job_queue[0].Dest, ext_queue[0].Floor, len(job_queue[0].Dest)-1)
-		}*/
+			if len(job_queue[0].Dest) != 0 {
+				Println("APPENDED:", job_queue[0].Dest, at_floor.Floor, len(job_queue[0].Dest)-1)
+				job_queue[0].Dest, _ = Insert_at_pos("ip_order", job_queue[0].Dest, at_floor.Floor, len(job_queue[0].Dest))
+				Println("APPENDED:", appended, job_queue[0].Dest)
+			} else {
+				job_queue[0].Dest, _ = Insert_at_pos("ip_order", job_queue[0].Dest, at_floor.Floor, 0)
+				Println("APPENDED:", appended)
+			}
+			ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last_queue[0].Ip_order)
+		}
 	}
 	// --------------------------------- End: Got external order ---------------------------------------------------------------------------
 
@@ -92,49 +100,59 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		if Someone_getting_off(job_queue[current_index].Dest, at_floor.Floor) {
 			if len(job_queue[current_index].Dest) != 0 {
 				if job_queue[current_index].Dest[0].Floor == at_floor.Floor {
+					Println("STAGE 1")
 					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
-					ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, last_dir)
+					ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, job_queue[current_index].Ip)
+					ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, job_queue[current_index].Ip)
 				} else {
 					// Rearrange
-					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
-					job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+					for _, order := range ext_queue {
+						if job_queue[current_index].Ip == order.Ip_order && last_dir == order.Dir && order.Floor == at_floor.Floor {
+							Println("STAGE 2")
+							job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+							job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+						}
+					}
 				}
 			}
 		}
-
-		if Someone_getting_on(ext_queue, at_floor) {
-			if len(job_queue[current_index].Dest) != 0 {
-				if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
-					job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+		/*
+			if Someone_getting_on(ext_queue, at_floor) {
+				if len(job_queue[current_index].Dest) != 0 {
+					if job_queue[current_index].Dest[0].Floor != at_floor.Floor {
+						job_queue[current_index] = Remove_job_queue(job_queue[current_index], at_floor.Floor)
+						job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+					}
+				} else {
 					job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
 				}
-			} else {
-				job_queue[current_index].Dest, _ = Insert_at_pos("ip_order", job_queue[current_index].Dest, at_floor.Floor, 0)
+				ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, last_dir)
 			}
-			ext_queue = Remove_from_ext_queue(ext_queue, at_floor.Floor, last_dir)
-		}
+		*/
 
 		// --------------------------------- Start: Send order to best elevator if all standby -------------------------------------------------
-		var all_standby int = 0
-		if len(ext_queue) != 0 {
-			for i, last := range last_queue {
-				if last.Dir == "standby" {
-					temp := ext_queue[0].Floor - last.Floor
-					if temp < 0 {
-						temp = temp * (-1)
+		/*
+			var all_standby int = 0
+			if len(ext_queue) != 0 {
+				for i, last := range last_queue {
+					if last.Dir == "standby" {
+						temp := ext_queue[0].Floor - last.Floor
+						if temp < 0 {
+							temp = temp * (-1)
+						}
+						if temp < best {
+							best = temp
+							best_elevator = i
+						}
+						all_standby++
 					}
-					if temp < best {
-						best = temp
-						best_elevator = i
-					}
-					all_standby++
 				}
 			}
-		}
-		if all_standby == len(last_queue) && len(ext_queue) != 0 {
-			job_queue[best_elevator].Dest, _ = Insert_at_pos("ip_order", job_queue[best_elevator].Dest, ext_queue[0].Floor, 0)
-			ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last_queue[best_elevator].Ip_order)
-		}
+			if all_standby == len(last_queue) && len(ext_queue) != 0 {
+				job_queue[best_elevator].Dest, _ = Insert_at_pos("ip_order", job_queue[best_elevator].Dest, ext_queue[0].Floor, 0)
+				ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last_queue[best_elevator].Ip_order)
+			}
+		*/
 		// --------------------------------- End: Send order to best elevator if all standby ---------------------------------------------------
 
 	}
