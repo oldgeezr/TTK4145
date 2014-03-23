@@ -31,7 +31,7 @@ func main() {
 	}()
 	// --------------------------------- End: Searching for net connection ----------------------------------------------
 
-	go Interrupts()
+	go Disable_interrupts(false)
 
 	// --------------------------------- Start: Listen for network activity ---------------------------------------------
 	saddr, _ := ResolveUDPAddr("udp", "localhost"+UDP_PORT_net+GetMyIP())
