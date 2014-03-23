@@ -133,7 +133,7 @@ func Algo(algo_queues Queues, at_floor Dict) Queues {
 		}
 		if all_standby == len(last_queue) && len(ext_queue) != 0 {
 			job_queue[best_elevator].Dest, _ = Insert_at_pos("ip_order", job_queue[best_elevator].Dest, ext_queue[0].Floor, 0)
-			ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last.Ip_order)
+			ext_queue = Mark_ext_queue(ext_queue, at_floor.Floor, at_floor.Dir, last_queue[best_elevator].Ip_order)
 		}
 		// --------------------------------- End: Send order to best elevator if all standby ---------------------------------------------------
 
