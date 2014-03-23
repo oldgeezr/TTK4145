@@ -5,8 +5,6 @@ import "os"
 import "os/signal"
 import "syscall"
 
-//import "time"
-
 func Disable_interrupts(enable bool) {
 	if enable {
 		ctrl_c := make(chan os.Signal, 1)
@@ -24,7 +22,7 @@ func Disable_interrupts(enable bool) {
 			case <-ctrl_z:
 				Println("Got CTRL-Z: SIGTSTP. n00b ...")
 			case <-ctrl_q:
-				Println("Got CTRL-Ø: SIGQUIT. n00b ...")
+				Println("Got CTRL-\\: SIGQUIT. n00b ...")
 			}
 		}
 	}

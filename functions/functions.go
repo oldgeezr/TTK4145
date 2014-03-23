@@ -199,7 +199,7 @@ func Remove_job_queue(this Jobs, floor int) Jobs {
 		for i, orders := range this.Dest {
 			if orders.Floor == floor {
 				if length > 1 {
-					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])] //Kan vÃ¦re et problem?
+					this.Dest = this.Dest[:i+copy(this.Dest[i:], this.Dest[i+1:])]
 				} else if length == 1 {
 					this.Dest = []Dict{}
 				}

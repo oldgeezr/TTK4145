@@ -34,7 +34,7 @@ func Go_elevator() {
 	}()
 	// --------------------------------- End: Create error log --------------------------------------------------
 
-	go Disable_interrupts(false)
+	go Disable_interrupts(true)
 
 	// --------------------------------- Start: Create system channels ------------------------------------------
 	slave := make(chan bool)
