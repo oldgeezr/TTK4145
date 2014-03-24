@@ -2,11 +2,8 @@ Go!Elevator
 ===========
 By Christoffer Ramstad-Evensen & Erlend Hestnes
 
-
 Main.go
 --------
-
-<!-- ![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/elevator_main.png) -->
 
 Main.go creates a phoenix program that listens to the master program. The idea behind this solution is to keep track of the master program and clone a new master from the slave program if master crashes. Main.go initiates goelevator.go
 
