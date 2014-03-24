@@ -3,7 +3,7 @@ Go!Elevator
 By Christoffer Ramstad-Evensen & Erlend Hestnes
 
 
-Main.go
+<!-- Main.go
 --------
 
 ![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/elevator_main.png)
@@ -19,7 +19,7 @@ The elevator queue system
 The queue-system is designed in such a way that every elevator should know what each elevator is doing at all times. So that if one elevator goes down and comes back again, it will continue. This is also the case if master elevator goes down.
 
 The elevator log module
--------------------------
+------------------------- -->
 
 ![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/elevator_log_module.png)
 
@@ -35,4 +35,4 @@ The algorithm is only executed on the master elevator. The algorithm triggers wh
 Project package structure
 ------------------------
 
-![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/project_hierarchy.png)
+![](https://raw.github.com/oldgeezr/sanntid/coffee/figures/project_package_structure.png)
