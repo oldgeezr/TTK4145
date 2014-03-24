@@ -2,7 +2,7 @@ Go!Elevator
 ===========
 By Christoffer Ramstad-Evensen & Erlend Hestnes
 
-This project conserns a realtime system for controlling elevators on a network. The systems is based on N elevators covering M floors communicating over TCP. UDP is used to keep track of which elevators are on the network. Drivers and source code is included. 
+This project conserns a realtime system for controlling elevators on a network. The systems is based on N elevators covering M floors communicating over TCP. UDP is used to keep track of which elevators are on the network. Drivers and source code are included. 
 
 ![](https://raw.github.com/oldgeezr/sanntid/master/figures/lifts.png)
 
