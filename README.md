@@ -2,6 +2,13 @@ Go!Elevator
 ===========
 By Christoffer Ramstad-Evensen & Erlend Hestnes
 
+The System
+------------
+
+![](https://raw.github.com/oldgeezr/sanntid/master/figures/lifts.png)
+
+The systems is based on N elevators covering M floors.
+
 Main.go
 --------
 
