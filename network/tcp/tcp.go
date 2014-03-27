@@ -53,7 +53,7 @@ func TCP_master_com(conn Conn, queues_to_tcp chan Queues) {
 	}
 }
 
-func TCP_slave_com(master_ip string, order chan Dict, slave_queues chan Queues) bool {
+func TCP_slave_com(master_ip string, order chan Dict, slave_queues chan Queues, get_ip_array chan []int) bool {
 
 	conn, err := Dial("tcp", IP_BASE+master_ip+TCP_PORT)
 
