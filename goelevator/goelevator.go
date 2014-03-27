@@ -103,7 +103,7 @@ func Go_elevator() {
 					if ip[len(ip)-1] > 255 {
 						master_ip := Itoa(ip[len(ip)-1] - 255)
 						if master_ip != GetMyIP() {
-							go func() { new_master <- TCP_slave_com(master_ip, order, slave_queues) }()
+							go func() { new_master <- TCP_slave_com(master_ip, order, slave_queues, get_ip_array) }()
 						} else {
 							kill_IMA_master <- true
 							master <- true
