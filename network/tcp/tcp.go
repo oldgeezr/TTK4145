@@ -77,7 +77,7 @@ func TCP_slave_com(master_ip string, order chan Dict, slave_queues chan Queues) 
 		Println("TCP_SLAVE IS STILL RUNNGING")
 
 		if err2 != nil {
-			if err2.Error() == "EOF" {
+			if err2.Error() == "EOF" || Ping_PC(get_ip_array, conn.RemoteAddr()) {
 				Println("CLOSED CONNECTION")
 				return true
 			}
